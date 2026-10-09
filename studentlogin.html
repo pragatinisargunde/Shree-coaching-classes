@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal | EduHostel</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        :root {
+            --bg-body: #faf4f8;
+            --bg-panel: #ffffff;
+            --text-main: #2a2238;
+            --text-muted: #7a6b85;
+            --border-ui: #f3b6c2;
+            --primary-plum: #403D88;
+            --accent-mauve: #8B639B;
+            --neon-blush: #ff9ebb;
+        }
+
+        .dark {
+            --bg-body: #080611;
+            --bg-panel: #1c1635;
+            --text-main: #dfd7ea;
+            --text-muted: #a69bb8;
+            --border-ui: #3b325c;
+            --primary-plum: #8B639B;
+            --accent-mauve: #AF719D;
+            --neon-blush: #ff9ebb;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        html, body { height: 100%; }
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-main);
+            display: flex; 
+            flex-direction: column; 
+            transition: background-color 0.3s ease, color 0.3s ease;
+            background-image: radial-gradient(rgba(139, 99, 155, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .dark body {
+            background-image: radial-gradient(rgba(255, 158, 187, 0.06) 1px, transparent 1px);
+        }
+
+        /* Ambient Grid Motion */
+        @keyframes gridDrift {
+            0% { background-position: 0 0; }
+            100% { background-position: 1.25rem 1.25rem; }
+        }
+        .animate-grid-ambient {
+            animation: gridDrift 20s linear infinite;
+        }
+
+        /* Login UI Screen */
+        #login-screen { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            flex: 1; 
+            padding: 24px; 
+            position: relative;
+            overflow: hidden;
+        }
+        .login-card { 
+            background: var(--bg-panel); 
+            width: 100%; 
+            max-width: 420px; 
+            padding: 42px 36px; 
+            border-radius: 28px; 
+            box-shadow: 0 25px 50px -12px rgba(64, 61, 136, 0.25); 
+            border: 1.5px solid var(--border-ui);
+            animation: cardPopIn 0.38s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            z-index: 10;
+        }
+        .dark .login-card {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        }
+        @keyframes cardPopIn {
+            0% { opacity: 0; transform: scale(0.92) translateY(14px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Form Inputs Focus Glow */
+        .pro-input {
+            transition: all 0.25s ease;
+        }
+        .pro-input:focus {
+            outline: none;
+            border-color: #8B639B;
+            box-shadow: 0 0 0 4px rgba(139, 99, 155, 0.22);
+            transform: translateY(-1px);
+        }
+        .dark .pro-input:focus {
+            border-color: #ff9ebb;
+            box-shadow: 0 0 0 4px rgba(255, 158, 187, 0.25);
+        }
+
+        /* Eye Button Transition */
+        .eye-toggle-btn {
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .eye-toggle-btn:hover {
+            color: #403D88;
+            transform: scale(1.1);
+        }
+        .dark .eye-toggle-btn:hover {
+            color: #ff9ebb;
+        }
+
+        /* Liquid Light Shimmer Button */
+        .btn-liquid {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+        }
+        .btn-liquid::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -120%;
+            width: 70%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: rotate(25deg);
+            transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-liquid:hover::after {
+            left: 140%;
+        }
+        .btn-liquid:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -4px rgba(64, 61, 136, 0.35);
+        }
+        .btn-liquid:active {
+            transform: translateY(0);
+        }
+
+        /* Dashboard App Styles */
+        #portal-app { display: none; flex-direction: column; min-height: 100vh; width: 100%; }
+        
+        .profile-banner { 
+            background: linear-gradient(135deg, #403D88 0%, #8B639B 50%, #AF719D 100%); 
+            color: white; 
+            padding: 44px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: relative;
+            overflow: hidden;
+        }
+        .dark .profile-banner {
+            background: linear-gradient(135deg, #110e24 0%, #1c1638 50%, #2b1f47 100%);
+            border-bottom: 1px solid #3b325c;
+        }
+        .profile-avatar { 
+            width: 86px; 
+            height: 86px; 
+            border-radius: 50%; 
+            border: 4px solid rgba(255, 255, 255, 0.4); 
+            object-fit: cover; 
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .portal-container { max-width: 1200px; margin: -32px auto 40px; padding: 0 20px; flex: 1; width: 100%; z-index: 10; position: relative; }
+        
+        /* Modern Pill Navigation Bar */
+        .dashboard-nav { 
+            display: flex; 
+            background: var(--bg-panel); 
+            border-radius: 20px; 
+            padding: 6px; 
+            margin-bottom: 28px; 
+            box-shadow: 0 12px 30px -8px rgba(139, 99, 155, 0.15); 
+            border: 1.5px solid var(--border-ui);
+            gap: 6px;
+        }
+        .nav-tab-btn { 
+            flex: 1; 
+            padding: 12px 0; 
+            color: var(--text-muted); 
+            font-weight: 700; 
+            font-size: 13px; 
+            border-radius: 14px; 
+            transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .nav-tab-btn:hover {
+            color: #403D88;
+            background: #fce5e9;
+        }
+        .dark .nav-tab-btn:hover {
+            color: #ff9ebb;
+            background: #281f47;
+        }
+        .nav-tab-btn.active { 
+            background: linear-gradient(135deg, #403D88, #8B639B); 
+            color: #ffffff !important; 
+            box-shadow: 0 6px 16px rgba(64, 61, 136, 0.3);
+        }
+        .dark .nav-tab-btn.active {
+            background: linear-gradient(135deg, #2b1f47, #1c1635);
+            border: 1px solid rgba(255, 158, 187, 0.4);
+            color: #ff9ebb !important;
+            box-shadow: 0 0 14px rgba(255, 158, 187, 0.25);
+        }
+        
+        /* Tab Transitions */
+        .tab-view { display: none; }
+        .tab-view.active-view { 
+            display: block; 
+            animation: tabGlide 0.38s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        @keyframes tabGlide { 
+            from { opacity: 0; transform: translateY(12px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        /* Stat Cards */
+        .stat-card { 
+            background: var(--bg-panel); 
+            border-radius: 22px; 
+            padding: 24px; 
+            border: 1.5px solid var(--border-ui); 
+            position: relative; 
+            overflow: hidden; 
+            box-shadow: 0 8px 24px -6px rgba(139, 99, 155, 0.1);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(180deg, #403D88, #ff9ebb);
+            transition: width 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 32px -8px rgba(139, 99, 155, 0.22);
+        }
+        .stat-card:hover::before {
+            width: 7px;
+        }
+
+        .panel-block { 
+            background: var(--bg-panel); 
+            border-radius: 26px; 
+            padding: 32px; 
+            border: 1.5px solid var(--border-ui);
+            box-shadow: 0 10px 30px -8px rgba(139, 99, 155, 0.12); 
+        }
+
+        /* Radar Pulse */
+        @keyframes radarPing {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 158, 187, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 158, 187, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 158, 187, 0); }
+        }
+        .radar-dot {
+            animation: radarPing 2.2s infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. LOGIN SCREEN -->
+    <div id="login-screen">
+        <!-- Floating Grid -->
+        <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#403D88_1px,transparent_1px),linear-gradient(to_bottom,#403D88_1px,transparent_1px)] bg-[size:1.25rem_1.25rem] animate-grid-ambient"></div>
+
+        <div class="login-card">
+            <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-[#fce5e9] dark:bg-[#281f47] text-[#8B639B] dark:text-[#ff9ebb] flex items-center justify-center text-2xl shadow-xs">
+                🎓
+            </div>
+            <h2 class="text-2xl font-black text-[#2a2238] dark:text-white text-center mb-1 tracking-tight">Student Login</h2>
+            <p class="text-xs text-[#7a6b85] dark:text-[#a69bb8] text-center mb-7 font-medium">Access your academic & hostel dashboard</p>
+            
+            <form onsubmit="executePortalAuth(event)">
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-[#4a3e5c] dark:text-[#dfd7ea] uppercase mb-2 tracking-wider">Student ID</label>
+                    <input type="text" id="studentId" class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-[#faf4f8] dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl text-sm font-semibold" placeholder="e.g. STU001" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-xs font-bold text-[#4a3e5c] dark:text-[#dfd7ea] uppercase mb-2 tracking-wider">Password</label>
+                    <div class="relative flex items-center">
+                        <input type="password" id="password" class="pro-input w-full p-3.5 pr-11 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-[#faf4f8] dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl text-sm font-semibold" placeholder="••••••••" required>
+                        <button type="button" onclick="togglePasswordVisibility()" aria-label="Toggle Password Visibility" class="eye-toggle-btn absolute right-3.5 p-1 text-[#7a6b85] dark:text-[#a69bb8] hover:text-[#403D88] dark:hover:text-[#ff9ebb] focus:outline-none cursor-pointer">
+                            <i id="togglePasswordIcon" class="fa-regular fa-eye text-sm"></i>
+                        </button>
+                    </div>
+                    <p id="loginError" class="text-rose-500 text-xs mt-2 hidden font-bold">❌ Invalid ID or Password. Try again.</p>
+                </div>
+                <button type="submit" class="btn-liquid w-full bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] text-white font-bold py-3.5 rounded-xl shadow-md cursor-pointer">Login to Dashboard &rarr;</button>
+                
+                <div class="mt-5 text-center">
+                    <a href="index.html" class="text-xs font-bold text-[#8B639B] dark:text-[#ff9ebb] hover:underline">&larr; Back to Main Website</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. DASHBOARD APPLICATION -->
+    <div id="portal-app">
+        <!-- Profile Banner -->
+        <section class="profile-banner">
+            <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:1.25rem_1.25rem] animate-grid-ambient"></div>
+            
+            <div class="flex items-center gap-5 relative z-10">
+                <img id="banner-avatar" src="" class="profile-avatar bg-white">
+                <div>
+                    <h1 id="dyn-name" class="text-2xl sm:text-3xl font-black tracking-tight text-white">Student Name</h1>
+                    <p id="dyn-meta" class="text-xs sm:text-sm text-[#fbe5e5] dark:text-[#dfd7ea] font-medium mt-1 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-[#ff9ebb] radar-dot"></span> Verified Academic Portal Access
+                    </p>
+                </div>
+            </div>
+            <button onclick="triggerSessionExit()" class="btn-liquid bg-white/15 hover:bg-white/25 border border-white/30 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition backdrop-blur-md shadow-xs relative z-10 cursor-pointer">
+                <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Logout
+            </button>
+        </section>
+
+        <!-- Main Portal Content -->
+        <main class="portal-container">
+            <!-- Security Notice Banner (Login Activity Tracking) -->
+            <div class="bg-[#fce5e9] dark:bg-[#281f47] border border-[#f3b6c2] dark:border-[#3b325c] p-3.5 rounded-2xl mb-6 text-xs font-bold text-[#403D88] dark:text-[#ff9ebb] flex items-center gap-3 shadow-sm">
+                <i class="fa-solid fa-shield-halved text-base"></i>
+                <span>Security Notice: Your last recorded login activity was on: <b id="lastLoginDisplay">--</b></span>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="dashboard-nav">
+                <button class="nav-tab-btn active" onclick="switchPortalTab(event, 'overview-tab')"><i class="fa-solid fa-chart-pie mr-2"></i>Overview</button>
+                <button class="nav-tab-btn" onclick="switchPortalTab(event, 'hostel-fees-tab')"><i class="fa-solid fa-file-invoice-dollar mr-2"></i>Fees & Dues</button>
+                <button class="nav-tab-btn" onclick="switchPortalTab(event, 'profile-tab')"><i class="fa-solid fa-user-circle mr-2"></i>Profile</button>
+            </nav>
+
+            <!-- TAB 1: OVERVIEW -->
+            <div id="overview-tab" class="tab-view active-view">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-award text-[#8B639B] dark:text-[#ff9ebb] text-xl absolute top-5 right-5 z-10"></i>
+                        <div class="text-3xl font-black text-[#2a2238] dark:text-white relative z-10" id="card-gpa">0.0</div>
+                        <div class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mt-1 relative z-10 tracking-wider">Academic CGPA</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-bed text-[#8B639B] dark:text-[#ff9ebb] text-xl absolute top-5 right-5 z-10"></i>
+                        <div class="text-2xl font-black text-[#2a2238] dark:text-white relative z-10 mt-1" id="card-room">N/A</div>
+                        <div class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mt-2 relative z-10 tracking-wider">Hostel Room</div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-money-check-dollar text-emerald-500 text-xl absolute top-5 right-5 z-10"></i>
+                        <div class="text-3xl font-black text-emerald-600 dark:text-emerald-400 relative z-10" id="card-total-paid">₹0</div>
+                        <div class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mt-1 relative z-10 tracking-wider">Total Paid</div>
+                    </div>
+                    <div class="stat-card border-l-4 border-l-rose-500">
+                        <i class="fa-solid fa-indian-rupee-sign text-rose-500 text-xl absolute top-5 right-5 z-10"></i>
+                        <div class="text-3xl font-black text-rose-600 relative z-10" id="card-total-dues">₹0</div>
+                        <div class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mt-1 relative z-10 tracking-wider">Remaining Dues</div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-[#1c1635] rounded-3xl p-7 shadow-xs border border-[#f3b6c2] dark:border-[#3b325c]">
+                    <h3 class="text-base font-extrabold text-[#2a2238] dark:text-white mb-4 flex items-center border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3">
+                        <i class="fa-solid fa-book-open text-[#8B639B] dark:text-[#ff9ebb] mr-3"></i> My Enrolled Courses
+                    </h3>
+                    <div class="flex flex-wrap gap-3" id="separated-course-list"></div>
+                </div>
+            </div>
+
+            <!-- TAB 2: FEES & DUES -->
+            <div id="hostel-fees-tab" class="tab-view">
+                <section class="panel-block">
+                    <div class="max-w-4xl mx-auto">
+                        <h2 class="text-2xl font-extrabold text-[#2a2238] dark:text-white tracking-tight mb-1">Consolidated Financial Summary</h2>
+                        <p class="text-xs text-[#7a6b85] dark:text-[#a69bb8] mb-6">Track your academic and hostel fee structures in real time.</p>
+
+                        <div class="bg-white dark:bg-[#1c1635] p-6 md:p-8 rounded-3xl border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-extrabold text-[#2a2238] dark:text-white mb-6 text-base border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3 flex items-center justify-between">
+                                    <span class="flex items-center"><i class="fa-solid fa-file-invoice-dollar text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i> Ledger Breakdown</span>
+                                    <span class="bg-[#fce5e9] dark:bg-[#281f47] text-[#403D88] dark:text-[#ff9ebb] px-3 py-1 rounded-full text-xs font-bold"><i class="fa-solid fa-lock mr-1"></i> Verified Record</span>
+                                </h3>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="bg-[#faf4f8] dark:bg-[#130f24] p-6 rounded-2xl border border-[#f3b6c2]/70 dark:border-[#3b325c]">
+                                        <p class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-widest mb-4">Course Status: <span id="fee-status-text" class="text-[#403D88] dark:text-[#ff9ebb] ml-1 font-extrabold">--</span></p>
+                                        <div class="flex justify-between items-center mb-2 text-sm"><span class="text-[#5e516d] dark:text-[#dfd7ea] font-medium">Total Paid</span> <span id="fee-paid-text" class="text-[#2a2238] dark:text-white font-black text-base">₹0</span></div>
+                                        <div class="w-full h-px bg-[#f3b6c2]/60 dark:border-[#3b325c] my-2"></div>
+                                        <div class="flex justify-between items-center text-sm"><span class="text-[#5e516d] dark:text-[#dfd7ea] font-medium">Pending Dues</span> <span id="fee-pending-text" class="text-rose-600 font-black text-base">₹0</span></div>
+                                    </div>
+
+                                    <div class="bg-[#faf4f8] dark:bg-[#130f24] p-6 rounded-2xl border border-[#f3b6c2]/70 dark:border-[#3b325c]">
+                                        <p class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-widest mb-4">Hostel Status: <span id="h-status-text" class="text-[#403D88] dark:text-[#ff9ebb] ml-1 font-extrabold">--</span></p>
+                                        <div class="flex justify-between items-center mb-2 text-sm"><span class="text-[#5e516d] dark:text-[#dfd7ea] font-medium">Total Paid</span> <span id="hostel-paid-text" class="text-[#2a2238] dark:text-white font-black text-base">₹0</span></div>
+                                        <div class="w-full h-px bg-[#f3b6c2]/60 dark:border-[#3b325c] my-2"></div>
+                                        <div class="flex justify-between items-center text-sm"><span class="text-[#5e516d] dark:text-[#dfd7ea] font-medium">Pending Dues</span> <span id="hostel-pending-text" class="text-rose-600 font-black text-base">₹0</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DUES BANNER WITH PAY BUTTON -->
+                            <div class="mt-8 pt-5 border-t-2 border-rose-200 dark:border-rose-900/50 bg-rose-50 dark:bg-rose-950/20 -mx-6 md:-mx-8 -mb-6 md:-mb-8 p-6 md:p-8 rounded-b-3xl flex flex-col md:flex-row justify-between items-center gap-4 shadow-inner">
+                                <div class="text-center md:text-left">
+                                    <p class="text-xs font-extrabold text-rose-900 dark:text-rose-300 uppercase tracking-widest mb-1 md:mb-0">Total Payable Dues</p>
+                                    <h2 id="total-remaining-text" class="text-4xl font-black text-rose-600">₹0</h2>
+                                </div>
+                                <!-- Pay Button -->
+                                <button onclick="openPaymentModal()" class="w-full md:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-2 cursor-pointer border border-emerald-500">
+                                    <i class="fa-solid fa-qrcode text-lg"></i> Pay Now via UPI
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- TAB 3: PROFILE -->
+            <div id="profile-tab" class="tab-view">
+                <section class="relative">
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Student Profile</h2>
+                        <p class="text-xs text-[#7a6b85] dark:text-[#a69bb8] mt-1">Your registered institutional identity details.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-1 bg-white dark:bg-[#1c1635] rounded-3xl border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs overflow-hidden flex flex-col items-center p-8 text-center relative">
+                            <div class="absolute top-0 w-full h-24 bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D]"></div>
+                            
+                            <img id="profile-card-avatar" src="" class="w-28 h-28 rounded-full border-4 border-white dark:border-[#1c1635] shadow-md relative z-10 mb-4 object-cover bg-white">
+                            
+                            <h3 class="text-xl font-black text-[#2a2238] dark:text-white" id="p-name-card">Student Name</h3>
+                            <p class="text-xs font-bold text-[#8B639B] dark:text-[#ff9ebb] mb-1" id="p-id-card">STU000</p>
+                            <span class="bg-[#fce5e9] dark:bg-[#281f47] text-[#403D88] dark:text-[#ff9ebb] px-3.5 py-1 rounded-full text-xs font-bold mt-2"><i class="fa-solid fa-check-circle mr-1"></i> Active Student</span>
+                        </div>
+
+                        <div class="lg:col-span-2 flex flex-col gap-6">
+                            <div class="bg-white dark:bg-[#1c1635] p-6 rounded-3xl border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs">
+                                <h3 class="font-extrabold text-[#2a2238] dark:text-white mb-5 text-base flex items-center border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3">
+                                    <i class="fa-solid fa-address-book text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i> Contact Information
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-10 h-10 rounded-xl bg-[#fce5e9] dark:bg-[#281f47] text-[#8B639B] dark:text-[#ff9ebb] flex items-center justify-center shrink-0"><i class="fa-solid fa-envelope"></i></div>
+                                        <div>
+                                            <p class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider mb-0.5">Email Address</p>
+                                            <p class="font-bold text-sm text-[#2a2238] dark:text-white break-all" id="p-email">--</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-10 h-10 rounded-xl bg-[#fce5e9] dark:bg-[#281f47] text-[#8B639B] dark:text-[#ff9ebb] flex items-center justify-center shrink-0"><i class="fa-solid fa-phone"></i></div>
+                                        <div>
+                                            <p class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider mb-0.5">Phone Number</p>
+                                            <p class="font-bold text-sm text-[#2a2238] dark:text-white" id="p-phone">--</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white dark:bg-[#1c1635] p-6 rounded-3xl border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs">
+                                <h3 class="font-extrabold text-[#2a2238] dark:text-white mb-5 text-base flex items-center border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3">
+                                    <i class="fa-solid fa-graduation-cap text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i> Academic Details
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-10 h-10 rounded-xl bg-[#fce5e9] dark:bg-[#281f47] text-[#8B639B] dark:text-[#ff9ebb] flex items-center justify-center shrink-0"><i class="fa-regular fa-calendar-check"></i></div>
+                                        <div>
+                                            <p class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider mb-0.5">Academic Year</p>
+                                            <p class="font-bold text-sm text-[#2a2238] dark:text-white" id="p-year">--</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4 md:col-span-2">
+                                        <div class="w-10 h-10 rounded-xl bg-[#fce5e9] dark:bg-[#281f47] text-[#8B639B] dark:text-[#ff9ebb] flex items-center justify-center shrink-0 mt-1"><i class="fa-solid fa-book-open"></i></div>
+                                        <div class="w-full">
+                                            <p class="text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider mb-2">Enrolled Courses</p>
+                                            <div class="flex flex-wrap gap-2" id="p-course">--</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-[#130f24] border-t border-[#2d254c] text-[#a69bb8] py-6 text-center text-xs mt-auto w-full">
+            <p>&copy; 2026 EduHostel Academy. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <!-- UPI PAYMENT SCANNER MODAL -->
+    <div id="paymentModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4 transition-opacity">
+        <div class="bg-white dark:bg-[#1a172e] max-w-md w-full rounded-[24px] p-6 md:p-8 shadow-2xl border border-[#f3b6c2] dark:border-[#352b59] relative text-center">
+            
+            <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-white text-2xl transition-colors cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center text-2xl mb-4 shadow-sm">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Scan & Pay Dues</h3>
+            <p class="text-xs text-[#7a6b85] dark:text-[#a69bb8] mb-5">Pay securely using GPay, PhonePe, Paytm, etc.</p>
+
+            <div class="bg-white p-3 rounded-2xl border-2 border-dashed border-emerald-400 inline-block shadow-inner mb-5 relative">
+                <!-- Yahan aapka naya QR scanner image lag gaya hai -->
+                <img id="upiQrImage" src="scanner.png" alt="Scan QR Code" class="w-48 h-48 mx-auto object-contain rounded-xl">
+            </div>
+
+            <div class="bg-[#fce5e9]/50 dark:bg-[#080611] p-3.5 rounded-xl border border-[#f3b6c2]/50 dark:border-[#352b59] text-xs mb-5 flex justify-between items-center text-left">
+                <div>
+                    <p class="text-[#7a6b85] dark:text-[#a69bb8] font-semibold mb-0.5">Paying Amount:</p>
+                    <b class="text-emerald-600 dark:text-emerald-400 text-lg" id="payModalAmount">₹0</b>
+                </div>
+                <div class="text-right">
+                    <p class="text-[#7a6b85] dark:text-[#a69bb8] font-semibold mb-0.5">Payment No:</p>
+                    <b class="text-[#2a2238] dark:text-white font-mono text-xs">+91 9359933642</b>
+                </div>
+            </div>
+
+            <form onsubmit="submitPaymentUTR(event)" class="space-y-3 text-left">
+                <div>
+                    <label class="block text-[11px] font-bold text-[#4a3e5c] dark:text-[#dfd7ea] uppercase mb-1.5">Enter 12-Digit UTR / Ref No. *</label>
+                    <input type="text" id="utrNumber" placeholder="e.g. 3241XXXXXXXX" required minlength="12" maxlength="12" class="w-full p-3 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-sm bg-white dark:bg-[#080611] text-gray-800 dark:text-white outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 font-mono transition-all">
+                </div>
+                <button type="submit" id="utrSubmitBtn" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm shadow-md transition-transform hover:-translate-y-0.5 cursor-pointer mt-2">
+                    Submit Payment for Verification
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Logic Controller Scripts -->
+    <script>
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('togglePasswordIcon');
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                pwdInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        function switchPortalTab(event, tabId) {
+            document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active-view'));
+            event.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active-view');
+        }
+
+        function generateSubjectBadgesLarge(courseString) {
+            if (!courseString || courseString.trim() === '' || courseString === 'No Subjects Selected') return `<span class="text-xs text-[#7a6b85] dark:text-[#a69bb8] font-medium italic">No active courses allocated by Admin.</span>`;
+            return courseString.split(',').map(s => `<span class="inline-flex items-center bg-[#fce5e9] dark:bg-[#281f47] text-[#403D88] dark:text-[#ff9ebb] px-3.5 py-2 rounded-xl text-xs font-bold border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs"><i class="fa-solid fa-circle-check text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i>${s.trim()}</span>`).join('');
+        }
+
+        async function executePortalAuth(event) {
+            event.preventDefault();
+            const studentId = document.getElementById('studentId').value.trim();
+            const password = document.getElementById('password').value.trim();
+            document.getElementById('loginError').classList.add('hidden');
+
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/student-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ studentId, password })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    sessionStorage.setItem('portal_auth_token', 'active');
+                    sessionStorage.setItem('active_student_data', JSON.stringify(data.student));
+                    syncPortalSession();
+                } else {
+                    document.getElementById('loginError').classList.remove('hidden');
+                }
+            } catch (err) {
+                alert("❌ Server connection failed!");
+            }
+        }
+
+        function triggerSessionExit() { sessionStorage.clear(); window.location.reload(); }
+
+        async function syncPortalSession() {
+            const sessionActive = sessionStorage.getItem('portal_auth_token');
+            const savedData = sessionStorage.getItem('active_student_data');
+            
+            if (sessionActive === 'active' && savedData) {
+                let student = JSON.parse(savedData);
+                try {
+                    const res = await fetch(`http://127.0.0.1:5000/api/students`);
+                    const data = await res.json();
+                    if (data.success) {
+                        const latest = data.students.find(s => s.studentId === student.studentId);
+                        if (latest) { student = latest; sessionStorage.setItem('active_student_data', JSON.stringify(student)); }
+                    }
+                } catch (err) {}
+
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('portal-app').style.display = 'flex'; 
+
+                const activeStudent = JSON.parse(sessionStorage.getItem('active_student_data') || '{}');
+                if (activeStudent && activeStudent.studentId) {
+                    fetch('http://127.0.0.1:5000/api/student-heartbeat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ studentId: activeStudent.studentId })
+                    }).catch(err => console.log("Initial ping failed"));
+                }
+
+                const lastLoginElem = document.getElementById('lastLoginDisplay');
+                if (lastLoginElem) {
+                    lastLoginElem.innerText = student.lastLogin || 'First Time Login';
+                }
+
+                const fallbackImg = `https://ui-avatars.com/api/?name=${encodeURIComponent(student.fullName)}&background=403D88&color=fff&size=150`;
+                const finalImgUrl = student.profilePhoto && student.profilePhoto !== "" ? student.profilePhoto : fallbackImg;
+                
+                document.getElementById('banner-avatar').src = finalImgUrl;
+                document.getElementById('profile-card-avatar').src = finalImgUrl;
+
+                let coursePaid = parseInt((student.paidAmount || "0").replace(/\D/g, '') || "0");
+                let hostelPaid = parseInt((student.hostelPaidAmount || "0").replace(/\D/g, '') || "0");
+                let totalPaidAmount = coursePaid + hostelPaid;
+                
+                let coursePending = parseInt((student.pendingFees || "0").replace(/\D/g, '') || "0");
+                let hostelPending = parseInt((student.hostelPendingFees || "0").replace(/\D/g, '') || "0");
+                let totalPendingAmount = coursePending + hostelPending;
+
+                document.getElementById('dyn-name').innerText = student.fullName;
+                document.getElementById('card-gpa').innerText = student.gpa || '0.0';
+                document.getElementById('card-room').innerText = student.hostelRoom && student.hostelRoom !== "No Hostel" ? student.hostelRoom : 'N/A';
+                document.getElementById('separated-course-list').innerHTML = generateSubjectBadgesLarge(student.classCourse);
+                document.getElementById('card-total-paid').innerText = '₹' + totalPaidAmount;
+                document.getElementById('card-total-dues').innerText = '₹' + totalPendingAmount;
+
+                document.getElementById('fee-status-text').innerText = student.feesStatus || 'Pending';
+                document.getElementById('h-status-text').innerText = student.hostelRequired === 'Yes' ? 'Enrolled' : 'Not Opted';
+                
+                document.getElementById('fee-paid-text').innerText = student.paidAmount || '₹0';
+                document.getElementById('fee-pending-text').innerText = student.pendingFees || '₹0';
+                document.getElementById('hostel-paid-text').innerText = student.hostelPaidAmount || '₹0';
+                document.getElementById('hostel-pending-text').innerText = student.hostelPendingFees || '₹0';
+                document.getElementById('total-remaining-text').innerText = student.totalRemainingAmount || '₹0';
+
+                document.getElementById('p-id-card').innerText = student.studentId;
+                document.getElementById('p-name-card').innerText = student.fullName;
+                document.getElementById('p-email').innerText = student.email || 'N/A';
+                document.getElementById('p-phone').innerText = student.phone || 'N/A';
+                document.getElementById('p-year').innerText = student.academicYear || '2026-27';
+                document.getElementById('p-course').innerHTML = generateSubjectBadgesLarge(student.classCourse);
+            } else {
+                document.getElementById('login-screen').style.display = 'flex';
+                document.getElementById('portal-app').style.display = 'none';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => { 
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+            }
+            syncPortalSession(); 
+        });
+
+        setInterval(() => {
+            const activeStudent = JSON.parse(sessionStorage.getItem('active_student_data') || '{}');
+            if (activeStudent && activeStudent.studentId) {
+                fetch('http://127.0.0.1:5000/api/student-heartbeat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ studentId: activeStudent.studentId })
+                }).catch(err => console.log("Heartbeat failed"));
+            }
+        }, 60000);
+
+        function openPaymentModal() {
+            const duesText = document.getElementById('total-remaining-text').innerText;
+            const numericAmount = parseInt(duesText.replace(/\D/g, '')) || 0;
+
+            if (numericAmount <= 0) {
+                alert("🎉 Great! You have no pending dues right now.");
+                return;
+            }
+
+            document.getElementById('payModalAmount').innerText = "₹" + numericAmount;
+            const modal = document.getElementById('paymentModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closePaymentModal() {
+            const modal = document.getElementById('paymentModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            document.getElementById('utrNumber').value = '';
+        }
+
+        async function submitPaymentUTR(event) {
+            event.preventDefault();
+            const utr = document.getElementById('utrNumber').value.trim();
+            const btn = document.getElementById('utrSubmitBtn');
+            const originalText = btn.innerText;
+
+            if (utr.length !== 12) {
+                alert("⚠️ Please enter a valid 12-digit UTR or Reference number.");
+                return;
+            }
+
+            btn.innerText = "Submitting...";
+            btn.disabled = true;
+
+            const payingAmount = document.getElementById('payModalAmount').innerText;
+
+            try {
+                setTimeout(() => {
+                    alert(`✅ Payment Reference (${utr}) for ${payingAmount} submitted successfully!\n\nOur admin team will verify the transaction and update your profile shortly.`);
+                    closePaymentModal();
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }, 1000);
+            } catch (err) {
+                alert("❌ Server connection error.");
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

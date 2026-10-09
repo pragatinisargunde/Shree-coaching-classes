@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduHostel Academy - Premium accommodation options with world-class facilities.">
+    <title>Hostel Facilities | EduHostel Academy</title>
+    
+    <!-- Core Tailwind Framework Component Engine Layer -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+
+        /* 1. Micro Blueprint Checks (Exact 18px scale matched to index.html) */
+        .hero-micro-checks {
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+            background-size: 18px 18px;
+        }
+
+        /* 2. Soft Background Gradient Flow */
+        @keyframes heroGradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .hero-color-bg {
+            background: linear-gradient(125deg, #403D88 0%, #684a8c 35%, #8B639B 70%, #AF719D 100%);
+            background-size: 150% 150%;
+            animation: heroGradientFlow 14s ease infinite;
+        }
+        .dark .hero-color-bg {
+            background: linear-gradient(125deg, #110e24 0%, #1c1638 50%, #2b1f47 100%);
+        }
+
+        /* 3. Professional Micro-Sheen on Card Hover */
+        .card-pro {
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-pro::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.65s ease;
+            pointer-events: none;
+        }
+        .card-pro:hover::after {
+            left: 150%;
+        }
+        .card-pro:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 28px -6px rgba(64, 61, 136, 0.12);
+        }
+        .dark .card-pro:hover {
+            box-shadow: 0 16px 30px -6px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Icon Micro Lift */
+        .card-pro .icon-badge {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-pro:hover .icon-badge {
+            transform: scale(1.12) rotate(4deg);
+        }
+
+        /* 4. Button Micro Interactions */
+        .btn-shine {
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-shine:hover {
+            transform: translateY(-2px);
+        }
+        .btn-shine:active {
+            transform: translateY(0);
+        }
+
+        /* 5. Smooth Scroll Reveal */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-1 { transition-delay: 80ms; }
+        .delay-2 { transition-delay: 160ms; }
+        .delay-3 { transition-delay: 240ms; }
+
+        /* 6. Radar Ping Animation for Campus Map */
+        @keyframes radarPulse {
+            0% { transform: scale(0.8); opacity: 0.9; }
+            100% { transform: scale(2.4); opacity: 0; }
+        }
+        .animate-radar {
+            animation: radarPulse 2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+        }
+
+        /* Reading Progress Bar */
+        #scrollProgressBar {
+            transform-origin: left;
+            will-change: transform;
+        }
+
+        /* Back to Top Rocket Hop */
+        @keyframes hopUp {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        #backToTopBtn:hover svg {
+            animation: hopUp 0.6s ease infinite;
+        }
+
+        /* Modal Spring In Bounce */
+        @keyframes springIn {
+            0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+            70% { transform: scale(1.02) translateY(-2px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-spring-in {
+            animation: springIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+    </style>
+</head>
+<body class="bg-white text-[#2a2238] antialiased font-sans transition-colors duration-300 dark:bg-[#0d0b1a] dark:text-[#ffffff] flex flex-col min-h-screen overflow-x-hidden">
+
+    <!-- Top Reading / Scroll Progress Bar -->
+    <div id="scrollProgressBar" class="fixed top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#F8B2B2] via-[#8B639B] to-[#403D88] z-[70] scale-x-0 transition-transform duration-75"></div>
+
+    <!-- Header -->
+    <header class="header sticky top-0 z-50 bg-white/90 dark:bg-[#0d0b1a]/90 backdrop-blur-md border-b border-[#f3b6c2]/40 dark:border-[#2d254c]/60 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                <span class="text-xl">🎓</span>
+                <span class="font-bold text-lg text-[#2a2238] dark:text-white">EduHostel</span>
+            </div>
+
+            <button id="themeToggle" type="button" aria-label="Toggle Theme" class="btn-shine px-3.5 py-1.5 rounded-lg border border-[#f3b6c2] dark:border-[#352b59] bg-[#fce5e9] dark:bg-[#1a172e] text-[#8B639B] dark:text-[#F8B2B2] text-xs font-semibold hover:border-[#8B639B] transition-all">
+                <span id="themeToggleText">🌙 Dark Mode</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="hero-color-bg text-white py-16 md:py-24 text-left px-4 sm:px-6 lg:px-8 transition-colors duration-300 relative overflow-hidden">
+            <div class="absolute inset-0 hero-micro-checks pointer-events-none opacity-35"></div>
+
+            <div class="max-w-7xl mx-auto space-y-4 relative z-10 reveal-on-scroll">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 dark:bg-black/25 backdrop-blur-sm border border-[#F8B2B2]/40 text-xs font-semibold tracking-wide text-white">
+                    <span class="w-2 h-2 rounded-full bg-[#F8B2B2]"></span>
+                    <span>24/7 Supervised Residence &bull; Hygienic Kitchens &bull; Admissions Open 2026-27</span>
+                </div>
+                
+                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">
+                    Hostel &amp; <span class="text-[#F8B2B2]">Mess Facilities</span>
+                </h1>
+                
+                <p class="text-[#fbe5e5] text-base md:text-lg max-w-2xl font-light dark:text-[#e5dcfa] leading-relaxed">
+                    A safe, structured, and healthy living environment designed to save daily travel time and nurture scholastic excellence.
+                </p>
+            </div>
+        </section>
+
+        <!-- LIVE HOSTEL TIMING METRICS & STATUS SECTION -->
+        <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0d0b1a] transition-colors duration-300">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                
+                <!-- 1. Real-Time Dynamic Gate Status -->
+                <div class="reveal-on-scroll">
+                    <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col items-center text-center space-y-3 shadow-sm h-full justify-between">
+                        <div class="space-y-2 flex flex-col items-center w-full">
+                            <div class="icon-badge w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] rounded-xl flex items-center justify-center text-xl shadow-xs">🛡️</div>
+                            <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Campus Gate Access</h4>
+                            
+                            <!-- Dynamic Live Status Pill -->
+                            <div id="gateStatusBadge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold transition-all shadow-xs my-1">
+                                <span id="gateStatusDot" class="w-2.5 h-2.5 rounded-full"></span>
+                                <span id="gateStatusText">Checking Gate...</span>
+                            </div>
+
+                            <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed pt-1">
+                                Main Gate Timings: <strong class="text-[#2a2238] dark:text-white">06:00 AM – 09:30 PM</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Guardian Visiting Hours -->
+                <div class="reveal-on-scroll delay-1">
+                    <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col items-center text-center space-y-3 shadow-sm h-full justify-between">
+                        <div class="space-y-2 flex flex-col items-center w-full">
+                            <div class="icon-badge w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] rounded-xl flex items-center justify-center text-xl shadow-xs">👥</div>
+                            <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Visiting Hours</h4>
+                            
+                            <div class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed py-1 space-y-1">
+                                <p><strong class="text-[#2a2238] dark:text-white">Mon – Sat:</strong> 04:30 PM – 07:00 PM</p>
+                                <p><strong class="text-[#2a2238] dark:text-white">Sunday:</strong> 09:00 AM – 06:00 PM</p>
+                            </div>
+
+                            <span class="text-[11px] text-[#8B639B] dark:text-[#F8B2B2] font-semibold">Entry Registry Required</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Mess & Dining Time Slots -->
+                <div class="reveal-on-scroll delay-2">
+                    <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col items-center text-center space-y-3 shadow-sm h-full justify-between">
+                        <div class="space-y-2 flex flex-col items-center w-full">
+                            <div class="icon-badge w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] rounded-xl flex items-center justify-center text-xl shadow-xs">🍱</div>
+                            <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Daily Meal Schedule</h4>
+                            
+                            <div class="text-[11px] text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed grid grid-cols-2 gap-x-3 gap-y-1 w-full text-left pt-1">
+                                <div><strong class="text-[#2a2238] dark:text-white">Breakfast:</strong> 7:30 - 8:45 AM</div>
+                                <div><strong class="text-[#2a2238] dark:text-white">Lunch:</strong> 12:30 - 2:00 PM</div>
+                                <div><strong class="text-[#2a2238] dark:text-white">Snacks:</strong> 5:00 - 6:00 PM</div>
+                                <div><strong class="text-[#2a2238] dark:text-white">Dinner:</strong> 8:00 - 9:30 PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 1: HOSTEL FACILITIES & ROOM CATEGORIES -->
+        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0d0b1a] transition-colors duration-300" id="hostelFacilities">
+            <div class="text-center max-w-3xl mx-auto mb-14 space-y-3 reveal-on-scroll">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fce5e9] dark:bg-[#1a172e] border border-[#f3b6c2] dark:border-[#352b59] text-xs font-semibold text-[#8B639B] dark:text-[#F8B2B2]">
+                    <span>🏠</span> Section 1 &bull; Residential Boarding
+                </div>
+                <h2 class="text-3xl font-extrabold tracking-tight text-[#2a2238] dark:text-[#ffffff]">
+                    Hostel <span class="text-[#8B639B] dark:text-[#F8B2B2]">Facilities &amp; Living</span>
+                </h2>
+                <p class="text-[#7a6b85] dark:text-[#c4b5e6] text-sm">
+                    Well-ventilated, air-cooled living quarters with separate study blocks, power backups, and strict safety supervision.
+                </p>
+                
+                <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#fce5e9] dark:bg-[#1a172e] border border-[#f3b6c2] dark:border-[#352b59] text-xs font-semibold text-[#8B639B] dark:text-[#F8B2B2] mt-2 shadow-xs">
+                    <span>🔥</span>
+                    <span>Limited Capacity: <strong class="text-[#403D88] dark:text-white">Only 4 Double Sharing &amp; 7 Quad beds</strong> available</span>
+                </div>
+            </div>
+
+            <!-- Room Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+                
+                <!-- Room Card 1: Double Sharing -->
+                <div class="reveal-on-scroll">
+                    <div onclick="openRoomPreviewPopup('double')" class="card-pro flex flex-col rounded-2xl overflow-hidden border border-[#f3b6c2] dark:border-[#352b59] shadow-sm bg-[#fce5e9] dark:bg-[#1a172e] cursor-pointer group h-full justify-between">
+                        <div>
+                            <div class="h-56 overflow-hidden relative">
+                                <span class="absolute top-4 right-4 bg-[#8B639B] dark:bg-[#F8B2B2] text-white dark:text-[#0d0b1a] px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase z-10 shadow-md">Popular Choice</span>
+                                <img src="https://nitc.ac.in/imgserver/uploads/attachments/Ed__4d36a54a-7816-40f4-9748-4d761c534748_.jpg" alt="Double Sharing" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60"></div>
+                                <span class="absolute bottom-3 left-4 text-xs font-semibold text-white/90">2 Person Capacity</span>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-xl font-bold text-[#2a2238] dark:text-white group-hover:text-[#8B639B] dark:group-hover:text-[#F8B2B2] transition-colors">Double Sharing Suite</h3>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2]">Available</span>
+                                </div>
+                                <p class="text-xs text-[#8B639B] dark:text-[#F8B2B2] font-semibold uppercase tracking-wider">Premium Attached Facilities</p>
+                                <ul class="space-y-2.5 text-xs text-[#5e516d] dark:text-[#e5dcfa] list-none p-0">
+                                    <li class="flex items-center gap-2.5"><span class="w-4 h-4 rounded-full bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] text-[9px] flex items-center justify-center font-bold">✔</span> Shared Ergonomic Workspace</li>
+                                    <li class="flex items-center gap-2.5"><span class="w-4 h-4 rounded-full bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] text-[9px] flex items-center justify-center font-bold">✔</span> Attached Modern Washroom</li>
+                                    <li class="flex items-center gap-2.5"><span class="w-4 h-4 rounded-full bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] text-[9px] flex items-center justify-center font-bold">✔</span> Individual Split Cupboards</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-4 border-t border-[#f3b6c2]/60 dark:border-[#352b59] flex items-center justify-between mt-4">
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-2xl font-extrabold text-[#403D88] dark:text-[#F8B2B2]">₹6,000</span>
+                            </div>
+                            <span class="text-xs font-semibold text-[#8B639B] dark:text-[#F8B2B2] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                View Specs &rarr;
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room Card 2: Shared Room (4 Bed) -->
+                <div class="reveal-on-scroll delay-1">
+                    <div onclick="openRoomPreviewPopup('quad')" class="card-pro flex flex-col rounded-2xl overflow-hidden border border-[#f3b6c2] dark:border-[#352b59] shadow-sm bg-[#fce5e9] dark:bg-[#1a172e] cursor-pointer group h-full justify-between">
+                        <div>
+                            <div class="h-56 overflow-hidden relative">
+                                <img src="https://www.nomadicmick.com/wp-content/uploads/2024/04/Jardins-Village-Hostel-Unidade-Brigadeiro-Dorm-Room.webp" alt="Shared Room" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60"></div>
+                                <span class="absolute bottom-3 left-4 text-xs font-semibold text-white/90">4 Person Capacity</span>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-xl font-bold text-[#2a2238] dark:text-white group-hover:text-[#8B639B] dark:group-hover:text-[#F8B2B2] transition-colors">Shared Room (4 Bed)</h3>
+                                    <span class="text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2]">Budget Value</span>
+                                </div>
+                                <p class="text-xs text-[#8B639B] dark:text-[#F8B2B2] font-semibold uppercase tracking-wider">Ergonomic Quad Layout</p>
+                                <ul class="space-y-2.5 text-xs text-[#5e516d] dark:text-[#e5dcfa] list-none p-0">
+                                    <li class="flex items-center gap-2.5"><span class="w-4 h-4 rounded-full bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] text-[9px] flex items-center justify-center font-bold">✔</span> Bunk Bed Design Architecture</li>
+                                    <li class="flex items-center gap-2.5"><span class="w-4 h-4 rounded-full bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] text-[9px] flex items-center justify-center font-bold">✔</span> Spacious Clean Bathrooms</li>
+                                    <li class="flex items-center gap-2.5"><span class="w-4 h-4 rounded-full bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] text-[9px] flex items-center justify-center font-bold">✔</span> Individual Secure Lockers</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-4 border-t border-[#f3b6c2]/60 dark:border-[#352b59] flex items-center justify-between mt-4">
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-2xl font-extrabold text-[#403D88] dark:text-[#F8B2B2]">₹4,000</span>
+                            </div>
+                            <span class="text-xs font-semibold text-[#8B639B] dark:text-[#F8B2B2] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                                View Specs &rarr;
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Specific Key Hostel Infrastructure Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="reveal-on-scroll">
+                    <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col items-center text-center space-y-3 shadow-sm">
+                        <div class="icon-badge w-14 h-14 text-2xl bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] rounded-2xl flex items-center justify-center shadow-xs">📶</div>
+                        <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Fiber Wi-Fi Drop</h4>
+                        <p class="text-[11px] text-[#5e516d] dark:text-[#dfd7ea]">Seamless digital test prep</p>
+                    </div>
+                </div>
+
+                <div class="reveal-on-scroll delay-1">
+                    <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col items-center text-center space-y-3 shadow-sm">
+                        <div class="icon-badge w-14 h-14 text-2xl bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] rounded-2xl flex items-center justify-center shadow-xs">🛡️</div>
+                        <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">24/7 CCTV &amp; Guard</h4>
+                        <p class="text-[11px] text-[#5e516d] dark:text-[#dfd7ea]">Guaranteed student safety</p>
+                    </div>
+                </div>
+
+                <div class="reveal-on-scroll delay-2">
+                    <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col items-center text-center space-y-3 shadow-sm">
+                        <div class="icon-badge w-14 h-14 text-2xl bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] rounded-2xl flex items-center justify-center shadow-xs">💡</div>
+                        <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">100% Power Generator</h4>
+                        <p class="text-[11px] text-[#5e516d] dark:text-[#dfd7ea]">Uninterrupted study hours</p>
+                    </div>
+                </div>
+
+                <div class="reveal-on-scroll delay-3">
+                    <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col items-center text-center space-y-3 shadow-sm">
+                        <div class="icon-badge w-14 h-14 text-2xl bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] rounded-2xl flex items-center justify-center shadow-xs">🧺</div>
+                        <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Laundry Service</h4>
+                        <p class="text-[11px] text-[#5e516d] dark:text-[#dfd7ea]">Weekly clean bedsheets</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MESS FACILITIES & WEEKLY DIET MENU -->
+        <section class="py-16 bg-[#faf4f8] dark:bg-[#0c0919] border-y border-[#f2e2ec] dark:border-[#1c1635] transition-colors duration-300" id="messFacilities">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12 space-y-3 reveal-on-scroll">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#fce5e9] dark:bg-[#1a172e] border border-[#f3b6c2] dark:border-[#352b59] text-xs font-semibold text-[#8B639B] dark:text-[#F8B2B2]">
+                        <span>🥗</span> Section 2 &bull; Hygienic Dining
+                    </div>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-[#2a2238] dark:text-[#ffffff]">
+                        Hygienic Mess &amp; <span class="text-[#8B639B] dark:text-[#F8B2B2]">Diet Schedule</span>
+                    </h2>
+                    <p class="text-[#7a6b85] dark:text-[#c4b5e6] text-sm">
+                        Home-style pure vegetarian meals planned for cognitive stamina and student wellness.
+                    </p>
+                    
+                    <!-- Day Selector Tabs (Mon - Sun) -->
+                    <div class="flex flex-wrap justify-center gap-2 pt-4" id="dayTabsContainer">
+                        <button onclick="displayMenuDay(1)" class="day-tab-btn btn-shine px-4 py-2 rounded-xl text-xs font-bold border transition-all" data-day="1">Mon</button>
+                        <button onclick="displayMenuDay(2)" class="day-tab-btn btn-shine px-4 py-2 rounded-xl text-xs font-bold border transition-all" data-day="2">Tue</button>
+                        <button onclick="displayMenuDay(3)" class="day-tab-btn btn-shine px-4 py-2 rounded-xl text-xs font-bold border transition-all" data-day="3">Wed</button>
+                        <button onclick="displayMenuDay(4)" class="day-tab-btn btn-shine px-4 py-2 rounded-xl text-xs font-bold border transition-all" data-day="4">Thu</button>
+                        <button onclick="displayMenuDay(5)" class="day-tab-btn btn-shine px-4 py-2 rounded-xl text-xs font-bold border transition-all" data-day="5">Fri</button>
+                        <button onclick="displayMenuDay(6)" class="day-tab-btn btn-shine px-4 py-2 rounded-xl text-xs font-bold border transition-all" data-day="6">Sat</button>
+                        <button onclick="displayMenuDay(0)" class="day-tab-btn btn-shine px-4 py-2 rounded-xl text-xs font-bold border transition-all" data-day="0">Sun (Special)</button>
+                    </div>
+                </div>
+
+                <!-- Active Day Menu Card Grid (4 Meals) -->
+                <div class="max-w-5xl mx-auto mb-14">
+                    <div class="flex items-center justify-between mb-4 px-2">
+                        <h3 id="activeDayHeading" class="text-lg font-bold text-[#2a2238] dark:text-white flex items-center gap-2">
+                            <span>🗓️</span> <span id="activeDayTitle">Today's Menu</span>
+                        </h3>
+                        <span id="todayBadge" class="hidden text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700">
+                            Live Today
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="mealCardsContainer">
+                        <!-- 1. Breakfast Card -->
+                        <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col justify-between space-y-4 shadow-sm">
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#F8B2B2]">Breakfast</span>
+                                    <span class="text-[10px] text-[#7a6b85] dark:text-[#c4b5e6]">7:30 - 8:45 AM</span>
+                                </div>
+                                <div class="icon-badge w-10 h-10 rounded-xl bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] flex items-center justify-center text-lg">
+                                    ☕
+                                </div>
+                                <p id="menuBreakfast" class="text-xs font-semibold text-[#2a2238] dark:text-white leading-relaxed pt-1">
+                                    Poha / Upma, Sprouted Moong, Milk &amp; Tea
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 2. Lunch Card -->
+                        <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col justify-between space-y-4 shadow-sm">
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#F8B2B2]">Lunch</span>
+                                    <span class="text-[10px] text-[#7a6b85] dark:text-[#c4b5e6]">12:30 - 2:00 PM</span>
+                                </div>
+                                <div class="icon-badge w-10 h-10 rounded-xl bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] flex items-center justify-center text-lg">
+                                    🍛
+                                </div>
+                                <p id="menuLunch" class="text-xs font-semibold text-[#2a2238] dark:text-white leading-relaxed pt-1">
+                                    Chapati, Green Sabzi, Dal Tadka, Steamed Rice &amp; Salad
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 3. Evening Snacks Card -->
+                        <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col justify-between space-y-4 shadow-sm">
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#F8B2B2]">Evening Snacks</span>
+                                    <span class="text-[10px] text-[#7a6b85] dark:text-[#c4b5e6]">5:00 - 6:00 PM</span>
+                                </div>
+                                <div class="icon-badge w-10 h-10 rounded-xl bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] flex items-center justify-center text-lg">
+                                    🍪
+                                </div>
+                                <p id="menuSnacks" class="text-xs font-semibold text-[#2a2238] dark:text-white leading-relaxed pt-1">
+                                    Biscuits / Samosa / Toast with Warm Milk &amp; Tea
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- 4. Dinner Card -->
+                        <div class="card-pro p-6 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col justify-between space-y-4 shadow-sm">
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#F8B2B2]">Dinner</span>
+                                    <span class="text-[10px] text-[#7a6b85] dark:text-[#c4b5e6]">8:00 - 9:30 PM</span>
+                                </div>
+                                <div class="icon-badge w-10 h-10 rounded-xl bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] flex items-center justify-center text-lg">
+                                    🍲
+                                </div>
+                                <p id="menuDinner" class="text-xs font-semibold text-[#2a2238] dark:text-white leading-relaxed pt-1">
+                                    Roti, Paneer / Chole Masala, Jeera Rice &amp; Sweet Kheer
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kitchen Quality Standards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div class="card-pro p-6 bg-white dark:bg-[#151126] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] space-y-2">
+                        <span class="text-2xl">💧</span>
+                        <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">RO Purified Water</h4>
+                        <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Multi-stage reverse osmosis filtration systems with dedicated water coolers across mess halls.</p>
+                    </div>
+                    <div class="card-pro p-6 bg-white dark:bg-[#151126] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] space-y-2">
+                        <span class="text-2xl">🌱</span>
+                        <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Daily Fresh Produce</h4>
+                        <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Sourced fresh vegetables and unadulterated dairy products prepared without artificial coloring.</p>
+                    </div>
+                    <div class="card-pro p-6 bg-white dark:bg-[#151126] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] space-y-2">
+                        <span class="text-2xl">✨</span>
+                        <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Stainless Sanitized Kitchen</h4>
+                        <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Commercial stainless steel cooking stations with steam-sterilized dinner plates and cutlery.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY SECTION -->
+        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center bg-white dark:bg-[#0d0b1a] transition-colors duration-300">
+            <div class="mb-12 space-y-2 reveal-on-scroll">
+                <h2 class="text-3xl font-extrabold text-[#2a2238] dark:text-[#ffffff] tracking-tight">Hostel &amp; Dining Gallery</h2>
+                <p class="text-[#7a6b85] dark:text-[#c4b5e6] text-sm">Take a tour of our clean, well-lit accommodation facilities and dining spaces</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="overflow-hidden rounded-2xl shadow-sm h-60 relative group reveal-on-scroll border border-[#f3b6c2]/60 dark:border-[#352b59]">
+                    <img src="https://www.nomadicmick.com/wp-content/uploads/2024/04/Jardins-Village-Hostel-Unidade-Brigadeiro-Dorm-Room.webp" alt="Room" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <span class="text-xs font-bold text-white tracking-wide">Modern Residential Rooms</span>
+                    </div>
+                </div>
+                <div class="overflow-hidden rounded-2xl shadow-sm h-60 relative group reveal-on-scroll delay-1 border border-[#f3b6c2]/60 dark:border-[#352b59]">
+                    <img src="https://nitc.ac.in/imgserver/uploads/attachments/Ed__4d36a54a-7816-40f4-9748-4d761c534748_.jpg" alt="Gallery Shared Lounge" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <span class="text-xs font-bold text-white tracking-wide">Common Student Lounge</span>
+                    </div>
+                </div>
+                <div class="overflow-hidden rounded-2xl shadow-sm h-60 relative group reveal-on-scroll delay-2 border border-[#f3b6c2]/60 dark:border-[#352b59]">
+                    <img src="https://d24me24u5hmwp5.cloudfront.net/prod/hostels/816/images/raza-boys-hostel-lahore-8160_1759831893891cad662.jpeg" alt="Gallery Study Zone" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                        <span class="text-xs font-bold text-white tracking-wide">Dedicated Reading Library</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GUIDELINES & LOCATION INFO -->
+        <section class="py-14 bg-[#faf4f8] dark:bg-[#0c0919] border-t border-[#f2e2ec] dark:border-[#1c1635] transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- Guidelines Box -->
+                    <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-8 rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] shadow-sm flex flex-col justify-between reveal-on-scroll">
+                        <div class="space-y-4">
+                            <h3 class="text-xl font-bold text-[#2a2238] dark:text-white tracking-tight flex items-center gap-2">
+                                <span>📜</span> Hostel Guidelines &amp; Conduct
+                            </h3>
+                            <ul class="space-y-3 text-xs text-[#5e516d] dark:text-[#e5dcfa] list-none p-0">
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#8B639B] dark:text-[#F8B2B2]"></i> Maintain cleanliness in rooms and common washrooms</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#8B639B] dark:text-[#F8B2B2]"></i> Silent study hours strictly observed from 10:00 PM onwards</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#8B639B] dark:text-[#F8B2B2]"></i> Mandatory sign-in register for all outside visitors &amp; guardians</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-circle-check text-[#8B639B] dark:text-[#F8B2B2]"></i> 24-Hour warden presence on-campus for student welfare</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CALL TO ACTION BANNER -->
+        <section class="py-16 hero-color-bg text-white text-center px-4 transition-colors duration-300 relative overflow-hidden">
+            <div class="absolute inset-0 hero-micro-checks pointer-events-none opacity-30"></div>
+            
+            <div class="max-w-4xl mx-auto space-y-4 relative z-10 reveal-on-scroll">
+                <h2 class="text-3xl font-extrabold tracking-tight">Ready to Visit or Apply?</h2>
+                <p class="text-[#fbe5e5] dark:text-[#e5dcfa] text-sm max-w-xl mx-auto font-light">
+                    Limited residential slots available for the 2026-27 academic session. Secure your classroom and boarding spot today!
+                </p>
+                <div class="pt-2 flex flex-wrap gap-4 justify-center">
+                    <a href="admission.html?type=hostel" class="btn-shine px-6 py-3 rounded-xl bg-white text-[#403D88] font-bold text-xs shadow-md">Apply for Course + Hostel</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Popup for Room Details Preview -->
+    <div id="hostelDetailsModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-[#fdf2f4] dark:bg-[#1a172e] max-w-xl w-full rounded-2xl p-6 shadow-2xl border border-[#f3b6c2] dark:border-[#352b59] relative animate-spring-in">
+            <button onclick="closeHostelModal()" class="absolute top-4 right-4 text-[#7a6b85] hover:text-[#2a2238] dark:hover:text-white text-xl transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modalContentTarget"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#181636] dark:bg-[#05040a] text-[#e5dcfa] pt-16 pb-8 text-xs transition-colors duration-300 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 border-b border-[#2d295e] dark:border-[#191533] pb-12">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 text-white">
+                    <div class="bg-[#8B639B] text-white p-1.5 rounded font-bold text-sm">🎓</div>
+                    <span class="font-bold text-base tracking-wide">EduHostel</span>
+                </div>
+                <p class="leading-relaxed text-[#c7bdd7] dark:text-[#c4b5e6]">Empowering students with quality education, comfortable living spaces, and healthy meals.</p>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Quick Links</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="hostel.html" class="hover:text-white transition-colors">Hostel &amp; Mess</a></li>
+                    <li><a href="admission.html" class="hover:text-white transition-colors">Admissions</a></li>
+                    <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Popular Courses</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 5 Scholarship Batch</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 8 Scholarship &amp; NMMS</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 10 Board Batch</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Contact Us</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li class="dark:text-[#c4b5e6]">📍 Anna Chowk Andur Tq Tuljapur Dist Osmanabad 413603</li>
+                    <li class="dark:text-[#c4b5e6]">📞 +91 9511228821</li>
+                    <li class="dark:text-[#c4b5e6]">✉️ Shreeclassesandur@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center pt-6 text-[#c4b5e6] text-[11px]">&copy; 2026 EduHostel Academy. All rights reserved.</div>
+    </footer>
+
+    <!-- Floating Back-to-Top Button -->
+    <button id="backToTopBtn" type="button" aria-label="Back to Top" class="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-[#403D88] dark:bg-[#8B639B] text-white shadow-xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-95 hover:bg-[#34316f]">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- Global shared scripts -->
+    <script src="script.js"></script>
+
+    <!-- Interactive Scripts, Gate Status & Mess Schedule Engine -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. DYNAMIC GATE STATUS LOGIC
+            function updateHostelLiveStatus() {
+                const now = new Date();
+                const hour = now.getHours();
+                const minute = now.getMinutes();
+                const timeInMins = hour * 60 + minute;
+                const isGateOpen = (timeInMins >= 360 && timeInMins < 1290);
+
+                const gateBadge = document.getElementById('gateStatusBadge');
+                const gateText = document.getElementById('gateStatusText');
+                const gateDot = document.getElementById('gateStatusDot');
+
+                if (!gateBadge || !gateText || !gateDot) return;
+
+                if (isGateOpen) {
+                    gateBadge.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 shadow-xs my-1';
+                    gateDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse';
+                    gateText.textContent = 'Gate Status: OPEN 🟢';
+                } else {
+                    gateBadge.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-700 shadow-xs my-1';
+                    gateDot.className = 'w-2.5 h-2.5 rounded-full bg-rose-500';
+                    gateText.textContent = 'Gate Status: CLOSED 🔴';
+                }
+            }
+
+            updateHostelLiveStatus();
+            setInterval(updateHostelLiveStatus, 60000);
+
+            // 2. Scroll Reveal Observer
+            const revealItems = document.querySelectorAll('.reveal-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+            revealItems.forEach(item => observer.observe(item));
+
+            // 3. Theme Toggle Logic
+            const themeBtn = document.getElementById('themeToggle');
+            const themeBtnText = document.getElementById('themeToggleText');
+
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                if (themeBtnText) themeBtnText.textContent = '☀️ Light Mode';
+            }
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    if (themeBtnText) {
+                        themeBtnText.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+                    }
+                });
+            }
+
+            // 4. Reading Progress Bar & Back-to-Top Button
+            const progressBar = document.getElementById('scrollProgressBar');
+            const backToTopBtn = document.getElementById('backToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollProgress = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+                
+                if (progressBar) {
+                    progressBar.style.transform = `scaleX(${scrollProgress})`;
+                }
+
+                if (backToTopBtn) {
+                    if (scrollTop > 350) {
+                        backToTopBtn.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                        backToTopBtn.classList.add('opacity-100', 'translate-y-0');
+                    } else {
+                        backToTopBtn.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                        backToTopBtn.classList.remove('opacity-100', 'translate-y-0');
+                    }
+                }
+            }, { passive: true });
+
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            const currentSystemDay = new Date().getDay();
+            displayMenuDay(currentSystemDay);
+        });
+
+        // --- WEEKLY MESS MENU DATA & DAY SWITCHER ---
+        const weeklyMessSchedule = {
+            1: { dayName: "Monday Menu", breakfast: "Kanda Poha, Boiled Sprouted Matki, Tea & Hot Milk", lunch: "Fresh Phulka Roti, Bhindi Masala, Dal Fry, Jeera Rice & Papad", snacks: "Cream Biscuits & Warm Milk / Tea", dinner: "Roti, Mix Veg Curry, Moong Dal Khichdi, Kadhi & Pickle" },
+            2: { dayName: "Tuesday Menu", breakfast: "Rava Upma with Coconut Chutney, Banana, Tea & Milk", lunch: "Roti, Aloo Gobi Matar, Panchmel Dal, Steamed Rice & Onion Salad", snacks: "Veg Puffs / Samosa & Tea / Milk", dinner: "Methi Thepla / Roti, Sev Tamatar Sabzi, Rice & Buttermilk" },
+            3: { dayName: "Wednesday Menu", breakfast: "Misal Pav / Sprouted Usal, Pav, Tea & Fresh Milk", lunch: "Chapati, Rajma Masala, Steamed Basmati Rice, Curd & Salad", snacks: "Sweet Bun / Poha Chivda & Tea / Milk", dinner: "Roti, Baingan Bharta, Gujarati Dal, Steamed Rice & Gulab Jamun" },
+            4: { dayName: "Thursday Menu", breakfast: "Idli Sambar with Fresh Chutney, Tea & Milk", lunch: "Roti, Paneer Butter Masala, Dal Makhani, Pulao & Cucumber Salad", snacks: "Khari / Rusk Toast & Hot Bournvita / Tea", dinner: "Tandoori Roti / Chapati, Sukhi Bhaji, Dal Tadka & Jeera Rice" },
+            5: { dayName: "Friday Menu", breakfast: "Aloo Paratha with Curd & Butter, Tea & Milk", lunch: "Roti, Chana Masala (Chole), Jeera Rice, Bundi Raita & Salad", snacks: "Corn Chaat / Roasted Peanuts & Tea / Milk", dinner: "Roti, Palak Paneer, Masoor Dal, Steamed Rice & Sevaiyan Kheer" },
+            6: { dayName: "Saturday Menu", breakfast: "Uttapam / Dosa with Sambar & Chutney, Tea & Milk", lunch: "Chapati, Green Peas Curry, Dal Kolhapuri, Steamed Rice & Papad", snacks: "Veg Sandwich / Bread Butter & Tea / Milk", dinner: "Pav Bhaji (Double Butter) / Tawa Pulao & Fresh Curd" },
+            0: { dayName: "Sunday Feast (Special)", breakfast: "Puri Bhaji (Aloo Sabzi), Sweet Shrikhand, Tea & Milk", lunch: "Special Veg Biryani with Mirchi Salan, Paneer Tikka Masala, Naan & Ice Cream", snacks: "Hot Pakoda / Samosa & Masala Chai", dinner: "Light Khichdi / Roti with Kadhi & Fresh Seasonal Fruit" }
+        };
+
+        function displayMenuDay(selectedDay) {
+            const menu = weeklyMessSchedule[selectedDay];
+            if (!menu) return;
+
+            document.getElementById('activeDayTitle').innerText = menu.dayName;
+            document.getElementById('menuBreakfast').innerText = menu.breakfast;
+            document.getElementById('menuLunch').innerText = menu.lunch;
+            document.getElementById('menuSnacks').innerText = menu.snacks;
+            document.getElementById('menuDinner').innerText = menu.dinner;
+
+            const currentRealDay = new Date().getDay();
+            const todayBadge = document.getElementById('todayBadge');
+            
+            if (selectedDay === currentRealDay) {
+                todayBadge.classList.remove('hidden');
+            } else {
+                todayBadge.classList.add('hidden');
+            }
+
+            document.querySelectorAll('.day-tab-btn').forEach(btn => {
+                const btnDay = parseInt(btn.getAttribute('data-day'), 10);
+                if (btnDay === selectedDay) {
+                    btn.className = 'day-tab-btn btn-shine px-4 py-2 rounded-xl text-xs font-bold border bg-[#403D88] text-white border-[#403D88] dark:bg-[#8B639B] dark:border-[#8B639B] shadow-md scale-105';
+                } else {
+                    btn.className = 'day-tab-btn btn-shine px-4 py-2 rounded-xl text-xs font-bold border bg-[#fce5e9] dark:bg-[#1a172e] text-[#8B639B] dark:text-[#F8B2B2] border-[#f3b6c2] dark:border-[#352b59] hover:border-[#8B639B]';
+                }
+            });
+        }
+
+        // --- Room Preview Specs Modal Function (Points to admission.html?type=hostel) ---
+        const localRoomsSchema = {
+            double: { 
+                title: "Deluxe Double Sharing Suite", 
+                capacity: "2 Persons Shared", 
+                price: "₹6,000", 
+                image: "https://nitc.ac.in/imgserver/uploads/attachments/Ed__4d36a54a-7816-40f4-9748-4d761c534748_.jpg", 
+                features: ["Twin Shared Modern Ergonomic Workspaces", "Attached Washroom Facility", "Individual Split Cupboards", "High-Speed Fiber WiFi Drop"] 
+            },
+            quad: { 
+                title: "Standard Shared Quad Bed Room", 
+                capacity: "4 Persons Shared", 
+                price: "₹4,000", 
+                image: "https://www.nomadicmick.com/wp-content/uploads/2024/04/Jardins-Village-Hostel-Unidade-Brigadeiro-Dorm-Room.webp", 
+                features: ["Ergonomic Bunk Bed Architecture", "Large Common Privacy Washrooms", "Individual Personal Secure Lockers", "Weekly Sheet Laundry Distribution"] 
+            }
+        };
+
+        function openRoomPreviewPopup(roomKey) {
+            const room = localRoomsSchema[roomKey];
+            if (!room) return;
+
+            const box = document.getElementById('modalContentTarget');
+            let featuresHtmlList = '';
+            room.features.forEach(block => {
+                featuresHtmlList += `<li class="flex items-center gap-2 text-xs font-semibold text-[#5e516d] dark:text-[#e5dcfa]"><span class="w-4 h-4 rounded-full bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] text-[9px] flex items-center justify-center font-bold">✔</span> ${block}</li>`;
+            });
+
+            box.innerHTML = `
+                <div class="space-y-4">
+                    <div class="h-48 rounded-xl overflow-hidden shadow-sm"><img src="${room.image}" class="w-full h-full object-cover"></div>
+                    <div>
+                        <h3 class="text-2xl font-extrabold tracking-tight text-[#2a2238] dark:text-white">${room.title}</h3>
+                        <p class="text-xs font-medium text-[#8B639B] dark:text-[#F8B2B2] mt-0.5">Capacity: ${room.capacity}</p>
+                    </div>
+                    <div class="border-y border-[#f3b6c2] dark:border-[#352b59] py-3.5">
+                        <h4 class="text-xs font-bold text-[#2a2238] dark:text-slate-200 uppercase tracking-wide mb-2.5">Amenities Included:</h4>
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 list-none p-0">${featuresHtmlList}</ul>
+                    </div>
+                    <div class="flex justify-between items-center pt-2">
+                        <div>
+                            <span class="text-[10px] block font-bold text-[#7a6b85] dark:text-[#c4b5e6] uppercase tracking-wider">Tariff Package</span>
+                            <span class="text-2xl font-black text-[#403D88] dark:text-[#F8B2B2]">${room.price}<span class="text-xs font-normal text-[#7a6b85] dark:text-[#c4b5e6]"> / month</span></span>
+                        </div>
+                        <a href="admission.html?type=hostel" class="btn-shine px-6 py-2.5 bg-[#403D88] hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] text-white font-bold text-xs rounded-xl shadow uppercase tracking-wider">APPLY FOR ROOM &rarr;</a>
+                    </div>
+                </div>`;
+            document.getElementById('hostelDetailsModal').classList.remove('hidden');
+        }
+
+        function closeHostelModal() {
+            document.getElementById('hostelDetailsModal').classList.add('hidden');
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('hostelDetailsModal');
+            if (event.target === modal) closeHostelModal();
+        }
+    </script>
+</body>
+</html>

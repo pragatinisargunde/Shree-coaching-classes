@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduHostel Academy Courses - Explore our wide range of industry-focused programs and scholarship batches.">
+    <title>Our Courses | EduHostel Academy</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+
+        @keyframes gridDrift {
+            0% { background-position: 0 0; }
+            100% { background-position: 1.25rem 1.25rem; }
+        }
+        .animate-grid-drift {
+            animation: gridDrift 20s linear infinite;
+        }
+
+        .course-card {
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 30px -10px rgba(139, 99, 155, 0.22);
+        }
+
+        .btn-shine {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+        .btn-shine:hover {
+            transform: translateY(-2px);
+        }
+        .btn-shine:active {
+            transform: translateY(0);
+        }
+
+        .subject-row-item {
+            opacity: 0;
+            transform: translateX(-16px);
+            animation: slideInSubject 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transition: all 0.25s ease;
+        }
+        .subject-row-item:hover {
+            transform: translateX(8px);
+            background-color: rgba(248, 178, 178, 0.35);
+            border-color: #AF719D;
+        }
+        @keyframes slideInSubject {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes metricPop {
+            0% { transform: scale(0.9); opacity: 0; }
+            70% { transform: scale(1.04); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-metric-pop {
+            animation: metricPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-1 { transition-delay: 80ms; }
+        .delay-2 { transition-delay: 160ms; }
+
+        .card-pro {
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-pro:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -6px rgba(64, 61, 136, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-white text-[#2a2238] antialiased font-sans transition-colors duration-300 dark:bg-[#0d0b1a] dark:text-[#ffffff] min-h-screen flex flex-col">
+
+    <header class="header sticky top-0 z-50 bg-white/90 dark:bg-[#0d0b1a]/90 backdrop-blur-md border-b border-[#f3b6c2]/40 dark:border-[#2d254c]/60 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">🎓</span>
+                <span class="font-bold text-lg text-[#2a2238] dark:text-white">EduHostel</span>
+            </div>
+
+            <button id="themeToggle" type="button" aria-label="Toggle Theme" class="px-3 py-1.5 rounded-lg border border-[#f3b6c2] dark:border-[#352b59] bg-[#fce5e9] dark:bg-[#1a172e] text-[#8B639B] dark:text-[#F8B2B2] text-xs font-semibold hover:scale-105 active:scale-95 transition-all duration-200">
+                <span id="themeToggleText">🌙 Dark Mode</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Top Hero Section -->
+        <section class="bg-gradient-to-br from-[#403D88] via-[#8B639B] to-[#AF719D] dark:from-[#110e24] dark:via-[#1c1638] dark:to-[#2b1f47] text-white py-14 md:py-18 text-left px-4 sm:px-6 lg:px-8 transition-colors duration-300 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-15 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:1.25rem_1.25rem] animate-grid-drift"></div>
+            
+            <div class="max-w-7xl mx-auto space-y-3 relative z-10 reveal-on-scroll">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-xs font-medium text-white mb-1">
+                    <span>📖</span> Comprehensive Academic Curriculum &amp; Special Batches
+                </div>
+                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">Our <span class="text-[#F8B2B2]">Courses</span>
+                <p class="text-[#fbe5e5] text-base md:text-lg max-w-2xl font-light dark:text-[#e5dcfa]">
+                    Explore regular academic programs and competitive scholarship batches
+                </p>
+            </div>
+        </section>
+
+        <!-- Search & Filter Controls -->
+        <section class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 mt-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#fce5e9] dark:bg-[#1a172e] p-4 rounded-xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] transition-all reveal-on-scroll delay-1">
+                <div class="flex-1 relative">
+                    <span class="absolute left-3 top-2.5 text-[#8B639B] dark:text-[#c4b5e6] text-sm">🔍</span>
+                    <input type="text" id="courseSearch" placeholder="Search courses or scholarship batches..." class="w-full pl-9 pr-4 py-2 rounded-lg border border-[#f3b6c2] dark:border-[#352b59] bg-white dark:bg-[#0d0b1a] text-[#2a2238] dark:text-white text-xs focus:outline-none focus:ring-2 focus:ring-[#8B639B]">
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <select id="categoryFilter" class="px-3 py-2 bg-white dark:bg-[#0d0b1a] border border-[#f3b6c2] dark:border-[#352b59] rounded-lg text-xs text-[#2a2238] dark:text-[#e5dcfa] focus:outline-none focus:ring-2 focus:ring-[#8B639B]">
+                        <option value="All Categories">All Categories</option>
+                        <option value="Primary Education">Primary Education</option>
+                        <option value="Secondary Education">Secondary Education</option>
+                        <option value="Scholarship Program">Scholarship Programs</option>
+                    </select>
+                    <select id="sortFilter" class="px-3 py-2 bg-white dark:bg-[#0d0b1a] border border-[#f3b6c2] dark:border-[#352b59] rounded-lg text-xs text-[#2a2238] dark:text-[#e5dcfa] focus:outline-none focus:ring-2 focus:ring-[#8B639B]">
+                        <option value="az">Name (A-Z)</option>
+                        <option value="za">Name (Z-A)</option>
+                        <option value="lowHigh">Price: Low to High</option>
+                        <option value="highLow">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+            <p id="resultsCounter" class="text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] mt-2 px-1">Showing 10 of 10 courses</p>
+        </section>
+
+        <!-- ESTIMATED FEE CALCULATOR SECTION -->
+        <section class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 my-8">
+            <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-6 md:p-8 rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] shadow-sm reveal-on-scroll delay-2">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="space-y-1.5 md:w-1/3">
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/70 dark:bg-[#0d0b1a]/70 border border-[#f3b6c2] dark:border-[#352b59] text-[11px] font-bold text-[#8B639B] dark:text-[#F8B2B2]">
+                            <span>🧮</span> Instant Fee Estimator
+                        </div>
+                        <h2 class="text-xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Fee &amp; Installment Preview</h2>
+                        <p class="text-xs text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed">
+                            Select a course and optional hostel room to instantly calculate your total package breakdown.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:w-2/3">
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold uppercase tracking-wider text-[#7a6b85] dark:text-[#c4b5e6]">Select Course / Batch</label>
+                            <select id="calcCourseSelect" onchange="calculateTotalFee()" class="w-full px-3.5 py-2 rounded-xl border border-[#f3b6c2] dark:border-[#352b59] bg-white dark:bg-[#0d0b1a] text-xs text-[#2a2238] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B639B]">
+                                <option value="5000">Class 1 (₹5,000 /yr)</option>
+                                <option value="6000">Class 2 (₹6,000 /yr)</option>
+                                <option value="8000">Class 3 (₹8,000 /yr)</option>
+                                <option value="9000">Class 4 (₹9,000 /yr)</option>
+                                <option value="10000">Class 5 (₹10,000 /yr)</option>
+                                <option value="8500" selected>Class 5 Scholarship Batch (₹8,500 /yr)</option>
+                                <option value="11000">Class 6 (₹11,000 /yr)</option>
+                                <option value="12000">Class 7 (₹12,000 /yr)</option>
+                                <option value="13000">Class 8 (₹13,000 /yr)</option>
+                                <option value="9500">Class 8 Scholarship &amp; NMMS (₹9,500 /yr)</option>
+                                <option value="14000">Class 9 (₹14,000 /yr)</option>
+                                <option value="15000">Class 10 (₹15,000 /yr)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] font-bold uppercase tracking-wider text-[#7a6b85] dark:text-[#c4b5e6]">Select Hostel &amp; Mess Accommodation</label>
+                            <select id="calcHostelSelect" onchange="calculateTotalFee()" class="w-full px-3.5 py-2 rounded-xl border border-[#f3b6c2] dark:border-[#352b59] bg-white dark:bg-[#0d0b1a] text-xs text-[#2a2238] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B639B]">
+                                <option value="0">Day Scholar (No Hostel)</option>
+                                <option value="48000">Quad Room + 4-Time Mess (₹4,000/mo)</option>
+                                <option value="72000" selected>Double Sharing Suite + Mess (₹6,000/mo)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6 pt-6 border-t border-[#f3b6c2]/60 dark:border-[#352b59] text-center">
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-[#0d0b1a] border border-[#f3b6c2]/50 dark:border-[#352b59]">
+                        <p class="text-[10px] uppercase font-bold text-[#7a6b85] dark:text-[#c4b5e6]">Tuition Fee</p>
+                        <p id="calcResTuition" class="text-sm md:text-base font-extrabold text-[#2a2238] dark:text-white mt-1">₹8,500</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-[#0d0b1a] border border-[#f3b6c2]/50 dark:border-[#352b59]">
+                        <p class="text-[10px] uppercase font-bold text-[#7a6b85] dark:text-[#c4b5e6]">Hostel &amp; Mess</p>
+                        <p id="calcResHostel" class="text-sm md:text-base font-extrabold text-[#2a2238] dark:text-white mt-1">₹72,000</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-[#0d0b1a] border border-[#f3b6c2]/50 dark:border-[#352b59]">
+                        <p class="text-[10px] uppercase font-bold text-[#7a6b85] dark:text-[#c4b5e6]">Total Yearly Package</p>
+                        <p id="calcResTotal" class="text-sm md:text-base font-extrabold text-[#403D88] dark:text-[#F8B2B2] mt-1">₹80,500</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-white dark:bg-[#0d0b1a] border border-[#f3b6c2]/50 dark:border-[#352b59]">
+                        <p class="text-[10px] uppercase font-bold text-[#7a6b85] dark:text-[#c4b5e6]">Per Installment (2 Parts)</p>
+                        <p id="calcResInstallment" class="text-sm md:text-base font-extrabold text-[#8B639B] dark:text-[#F8B2B2] mt-1">₹40,250</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Courses Grid -->
+
+        <section class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+            <h2 class="text-3xl font-extrabold text-[#403D88] dark:text-[#ffffff] tracking-tight">Regular Courses</h2>
+            <p class="text-[#7a6b85] dark:text-[#c4b5e6] text-sm mb-6"></p>
+
+
+            <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Class 1 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll" data-title="Class 1" data-category="Primary Education" data-price="5000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Primary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 1</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Primary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Build a strong foundation in basic subjects with fun and interactive learning methods.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 25 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹5000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 1', 'Build a strong foundation in basic subjects with fun and interactive learning methods. Syllabus Includes: English, Mathematics, EVS (Environmental Studies), Drawing', '1 Academic Year', '25 Students', '₹5000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 2 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll delay-1" data-title="Class 2" data-category="Primary Education" data-price="6000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Primary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 2</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Primary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Enhance reading, writing, and numerical skills through engaging classroom activities.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 28 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹6000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 2', 'Enhance reading, writing, and numerical skills through engaging classroom activities. Syllabus Includes: English, Mathematics, General Knowledge, Computer Basics', '1 Academic Year', '28 Students', '₹6000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 3 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll delay-2" data-title="Class 3" data-category="Primary Education" data-price="8000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Primary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 3</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Primary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Develop problem-solving skills and strengthen fundamental concepts in all subjects.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 24 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹8000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 3', 'Develop problem-solving skills and strengthen fundamental concepts in all subjects. Syllabus Includes: English, Mathematics, Hindi / Marathi, Science', '1 Academic Year', '24 Students', '₹8000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 4 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll" data-title="Class 4" data-category="Primary Education" data-price="9000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Primary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 4</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Primary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Focus on academic excellence with practical learning and concept-based education.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 30 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹9000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 4', 'Focus on academic excellence with practical learning and concept-based education. Syllabus Includes: English, Mathematics, Hindi / Marathi, Science, Social Studies', '1 Academic Year', '30 Students', '₹9000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 5 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll delay-1" data-title="Class 5" data-category="Primary Education" data-price="10000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Primary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 5</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Primary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Prepare students for higher classes with strong conceptual understanding.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 35 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹10000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 5', 'Prepare students for higher classes with strong conceptual understanding. Syllabus Includes: English, Mathematics, Science, Social Studies, Basic Computers', '1 Academic Year', '35 Students', '₹10000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 5 Scholarship Batch -->
+                <div class="course-card bg-[#fdf2f4] dark:bg-[#1a172e] rounded-2xl shadow-sm border-2 border-[#AF719D] dark:border-[#8B639B] overflow-hidden flex flex-col group ring-1 ring-[#AF719D]/30 reveal-on-scroll delay-2" data-title="Class 5 Scholarship Batch" data-category="Scholarship Program" data-price="8500">
+                    <div class="bg-gradient-to-r from-[#7a3e75] via-[#8B639B] to-[#403D88] p-6 text-white">
+                        <span class="bg-[#F8B2B2] text-[#0d0b1a] text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full shadow-xs">Special • 5th PUP</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title text-white">Class 5 Scholarship Batch</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Scholarship Program (Govt. PUP)</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed font-medium">Targeted preparation for Pre-Upper Primary (PUP) State Scholarship and Olympiad examinations.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2] dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1 font-semibold text-[#8B639B] dark:text-[#F8B2B2]">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 20 students limit</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#8B639B] dark:text-[#F8B2B2]">₹8500</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 5 Scholarship Batch', 'Intensive coaching for Class 5 State Scholarship & Navodaya entrance. Syllabus Includes: First Language (Marathi/English), Mathematics, Mental Ability Test (MAT), Logical Reasoning, Weekly OMR Mock Tests', '1 Academic Year', '20 Students', '₹8500')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#8B639B] hover:bg-[#785486] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 6 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll" data-title="Class 6" data-category="Secondary Education" data-price="11000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Secondary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 6</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Secondary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Learn advanced concepts in mathematics, science, and social sciences.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 30 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹11000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 6', 'Learn advanced concepts in mathematics, science, and social sciences. Syllabus Includes: English, Mathematics, General Science, Social Science, Sanskrit / Hindi', '1 Academic Year', '30 Students', '₹11000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 7 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll delay-1" data-title="Class 7" data-category="Secondary Education" data-price="12000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Secondary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 7</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Secondary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Strengthen analytical thinking and subject knowledge with interactive learning.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 32 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹12000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 7', 'Strengthen analytical thinking and subject knowledge with interactive learning. Syllabus Includes: English Literature, Mathematics, Science (Physics/Chemistry/Biology), History, Civics, Geography', '1 Academic Year', '32 Students', '₹12000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 8 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll delay-2" data-title="Class 8" data-category="Secondary Education" data-price="13000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Secondary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 8</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Secondary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Prepare students for competitive foundation exams and high school curriculum.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 38 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹13000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 8', 'Prepare students for competitive exams and higher secondary education. Syllabus Includes: Advanced Mathematics, Integrated Science, Social Sciences, Computer Applications, English Grammar', '1 Academic Year', '38 Students', '₹13000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 8 Scholarship & NMMS -->
+                <div class="course-card bg-[#fdf2f4] dark:bg-[#1a172e] rounded-2xl shadow-sm border-2 border-[#AF719D] dark:border-[#8B639B] overflow-hidden flex flex-col group ring-1 ring-[#AF719D]/30 reveal-on-scroll" data-title="Class 8 Scholarship & NMMS Batch" data-category="Scholarship Program" data-price="9500">
+                    <div class="bg-gradient-to-r from-[#7a3e75] via-[#8B639B] to-[#403D88] p-6 text-white">
+                        <span class="bg-[#F8B2B2] text-[#0d0b1a] text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full shadow-xs">Special • 8th PSS / NMMS</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title text-white">Class 8 Scholarship &amp; NMMS</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Scholarship Program (State Merit)</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed font-medium">Comprehensive coaching for Pre-Secondary Scholarship (PSS) &amp; National Merit Scholarship (NMMS).</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2] dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1 font-semibold text-[#8B639B] dark:text-[#F8B2B2]">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 25 students limit</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#8B639B] dark:text-[#F8B2B2]">₹9500</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 8 Scholarship & NMMS', 'Dedicated preparation for State PSS and NMMS merit competitive tests. Syllabus Includes: Mental Ability Test (MAT - Verbal/Non-Verbal), Scholastic Aptitude Test (SAT - Science, Maths, Social Sciences), Weekly Test Series', '1 Academic Year', '25 Students', '₹9500')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#8B639B] hover:bg-[#785486] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 9 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll delay-1" data-title="Class 9" data-category="Secondary Education" data-price="14000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Secondary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 9</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Secondary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">In-depth foundational preparation for board examinations, focusing on core sciences and mathematics.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 28 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹14000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 9', 'In-depth foundational preparation for board examinations, focusing on core sciences and mathematics. Syllabus Includes: Advanced Mathematics, Physics, Chemistry, Biology, Social Science, English Communicative', '1 Academic Year', '28 Students', '₹14000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Class 10 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll delay-2" data-title="Class 10" data-category="Secondary Education" data-price="15000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Secondary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 10</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Secondary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Comprehensive board exam preparation, revision test series, and personalized doubt clearing sessions.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 50 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹15000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 10', 'Comprehensive board exam preparation, revision test series, and personalized doubt clearing sessions. Syllabus Includes: Mathematics, Science (Physics/Chemistry/Biology), Social Science, English Literature, Hindi / Sanskrit', '1 Academic Year', '50 Students', '₹15000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+     <section class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+            <h2 class="text-3xl font-extrabold text-[#403D88] dark:text-[#ffffff] tracking-tight">Vacation Courses</h2>
+            <p class="text-[#7a6b85] dark:text-[#c4b5e6] text-sm mb-6"></p>
+
+
+            <div id="coursesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Class 1 -->
+                <div class="course-card bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl shadow-sm border border-[#f3b6c2] dark:border-[#352b59] overflow-hidden flex flex-col group reveal-on-scroll" data-title="Class 1" data-category="Primary Education" data-price="5000">
+                    <div class="bg-gradient-to-r from-[#403D88] to-[#624b88] dark:from-[#110e24] dark:to-[#2b1f47] p-6 text-white">
+                        <span class="bg-white/20 text-[10px] font-bold tracking-wide uppercase px-2.5 py-1 rounded-full border border-white/20">Primary</span>
+                        <h3 class="text-lg font-bold mt-3 tracking-tight course-card-title">Class 1</h3>
+                        <p class="text-[#F8B2B2] text-xs mt-0.5 font-medium">Primary Education</p>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed">Build a strong foundation in basic subjects with fun and interactive learning methods.</p>
+                        <div>
+                            <div class="flex justify-between items-center text-[11px] text-[#7a6b85] dark:text-[#c4b5e6] border-b border-[#f3b6c2]/60 dark:border-[#352b59] pb-3 mb-3">
+                                <span class="flex items-center gap-1">⏱️ 1 Academic Year</span>
+                                <span class="flex items-center gap-1">👥 25 students</span>
+                            </div>
+                            <div class="text-xl font-extrabold text-[#2a2238] dark:text-white flex items-baseline gap-0.5 mb-4">
+                                <span class="text-[#403D88] dark:text-[#F8B2B2]">₹5000</span><span class="text-[10px] font-medium text-[#7a6b85] dark:text-[#c4b5e6]">/year</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="openDetailsModal('Class 1', 'Build a strong foundation in basic subjects with fun and interactive learning methods. Syllabus Includes: English, Mathematics, EVS (Environmental Studies), Drawing', '1 Academic Year', '25 Students', '₹5000')" class="btn-shine flex-1 py-2.5 px-3 border border-[#8B639B] dark:border-[#F8B2B2] text-[#403D88] dark:text-[#F8B2B2] text-xs font-semibold rounded-lg bg-white/70 dark:bg-[#0d0b1a]/70 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#F8B2B2] dark:hover:text-[#0d0b1a] transition-colors">Details</button>
+                                <a href="admission.html?type=course" class="btn-shine flex-1 py-2.5 px-3 bg-[#403D88] hover:bg-[#34316f] text-white text-xs font-bold rounded-lg shadow-xs text-center transition-colors flex items-center justify-center">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+    
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#181636] dark:bg-[#05040a] text-[#e5dcfa] pt-16 pb-8 text-xs transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 border-b border-[#2d295e] dark:border-[#191533] pb-12">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 text-white">
+                    <div class="bg-[#8B639B] text-white p-1.5 rounded font-bold text-sm">🎓</div>
+                    <span class="font-bold text-base tracking-wide">EduHostel</span>
+                </div>
+                <p class="leading-relaxed text-[#c7bdd7] dark:text-[#c4b5e6]">Empowering students with quality education, comfortable living spaces, and healthy meals.</p>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Quick Links</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="hostel.html" class="hover:text-white transition-colors">Hostel &amp; Mess</a></li>
+                    <li><a href="admission.html" class="hover:text-white transition-colors">Admissions</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Popular Courses</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 5 Scholarship Batch</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 8 Scholarship &amp; NMMS</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 10</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Contact Us</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li class="dark:text-[#c4b5e6]">📍 Anna Chowk Andur Tq Tuljapur Dist Osmanabad 413603</li>
+                    <li class="dark:text-[#c4b5e6]">📞 +91 9511228821</li>
+                    <li class="dark:text-[#c4b5e6]">✉️ Shreeclassesandur@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center pt-6 text-[#c4b5e6] text-[11px]">&copy; 2026 Hostel With Accadamy. All rights reserved.</div>
+    </footer>
+
+    <!-- Details Modal -->
+    <div id="detailsModal" class="fixed inset-0 bg-black/65 hidden z-50 items-center justify-center p-4 backdrop-blur-sm transition-opacity duration-300">
+        <div class="bg-[#fdf2f4] dark:bg-[#1a172e] rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl border border-[#f3b6c2] dark:border-[#352b59] transition-all transform scale-95 opacity-0 duration-300" id="detailsModalCard">
+            <div class="bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] p-5 text-white flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">📋</span>
+                    <h3 id="modalCourseTitle" class="text-base md:text-lg font-bold tracking-tight">Course Specifications</h3>
+                </div>
+                <button onclick="closeDetailsModal()" class="text-white/80 hover:text-white text-2xl font-bold leading-none focus:outline-none">&times;</button>
+            </div>
+            <div class="p-6 md:p-8 space-y-6">
+                <p id="modalCourseDesc" class="text-[#5e516d] dark:text-[#e5dcfa] text-xs md:text-sm leading-relaxed"></p>
+                
+                <div class="rounded-xl overflow-hidden border border-[#f3b6c2] dark:border-[#352b59] bg-white dark:bg-[#0d0b1a]">
+                    <div class="grid grid-cols-3 divide-x divide-[#f3b6c2]/70 dark:divide-[#352b59] text-center">
+                        <div class="p-3.5 animate-metric-pop" style="animation-delay: 100ms;">
+                            <p class="text-[10px] text-[#7a6b85] dark:text-[#c4b5e6] font-bold uppercase tracking-wider">Duration</p>
+                            <p id="modalCourseDuration" class="text-xs md:text-sm font-bold text-[#2a2238] dark:text-white mt-1"></p>
+                        </div>
+                        <div class="p-3.5 animate-metric-pop" style="animation-delay: 180ms;">
+                            <p class="text-[10px] text-[#7a6b85] dark:text-[#c4b5e6] font-bold uppercase tracking-wider">Batch Size</p>
+                            <p id="modalCourseStudents" class="text-xs md:text-sm font-bold text-[#2a2238] dark:text-white mt-1"></p>
+                        </div>
+                        <div class="p-3.5 animate-metric-pop" style="animation-delay: 260ms;">
+                            <p class="text-[10px] text-[#7a6b85] dark:text-[#c4b5e6] font-bold uppercase tracking-wider">Tuition Fees</p>
+                            <p id="modalCoursePrice" class="text-xs md:text-sm font-extrabold text-[#403D88] dark:text-[#F8B2B2] mt-1"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="modalSyllabusSection" class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs">📚</span>
+                        <span class="text-[11px] md:text-xs font-bold text-[#2a2238] dark:text-[#ffffff] uppercase tracking-wider block">
+                            Included Subjects &amp; Syllabus Curriculum:
+                        </span>
+                    </div>
+                    <div id="modalSyllabusBadges" class="flex flex-col gap-2 rounded-xl bg-white dark:bg-[#0d0b1a] p-3 border border-[#f3b6c2] dark:border-[#352b59]"></div>
+                </div>
+            </div>
+            <div class="bg-[#fce5e9]/60 dark:bg-[#0d0b1a]/60 px-6 py-4 flex justify-end gap-3 border-t border-[#f3b6c2] dark:border-[#352b59]">
+                <button onclick="closeDetailsModal()" class="px-5 py-2 text-xs font-semibold text-[#7a6b85] border border-[#f3b6c2] dark:border-[#352b59] dark:text-[#c4b5e6] rounded-lg hover:bg-white dark:hover:bg-[#1a172e] transition-colors">Close</button>
+                <a href="admission.html?type=course" class="btn-shine px-5 py-2 text-xs font-semibold text-white bg-[#403D88] hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] rounded-lg shadow transition-colors inline-block text-center">Apply Registration &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealItems = document.querySelectorAll('.reveal-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+            revealItems.forEach(item => observer.observe(item));
+
+            const themeBtn = document.getElementById('themeToggle');
+            const themeBtnText = document.getElementById('themeToggleText');
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                if (themeBtnText) themeBtnText.textContent = '☀️ Light Mode';
+            }
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    if (themeBtnText) {
+                        themeBtnText.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+                    }
+                });
+            }
+        });
+
+        function calculateTotalFee() {
+            const tuition = parseFloat(document.getElementById('calcCourseSelect').value) || 0;
+            const hostel = parseFloat(document.getElementById('calcHostelSelect').value) || 0;
+            const total = tuition + hostel;
+            const installment = total / 2;
+
+            document.getElementById('calcResTuition').textContent = '₹' + tuition.toLocaleString('en-IN');
+            document.getElementById('calcResHostel').textContent = '₹' + hostel.toLocaleString('en-IN');
+            document.getElementById('calcResTotal').textContent = '₹' + total.toLocaleString('en-IN');
+            document.getElementById('calcResInstallment').textContent = '₹' + Math.round(installment).toLocaleString('en-IN');
+        }
+
+        document.addEventListener('DOMContentLoaded', calculateTotalFee);
+
+        const searchInput = document.getElementById('courseSearch');
+        const categorySelect = document.getElementById('categoryFilter');
+        const sortSelect = document.getElementById('sortFilter');
+        const coursesGrid = document.getElementById('coursesGrid');
+        const resultsCounter = document.getElementById('resultsCounter');
+
+        function filterAndSortCourses() {
+            const query = searchInput.value.toLowerCase().trim();
+            const selectedCategory = categorySelect.value;
+            const activeSort = sortSelect.value;
+            
+            const cards = Array.from(document.querySelectorAll('.course-card'));
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                const category = card.getAttribute('data-category');
+                
+                const matchesSearch = title.includes(query);
+                const matchesCategory = (selectedCategory === 'All Categories' || category === selectedCategory);
+
+                if (matchesSearch && matchesCategory) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            const sortedCards = cards.sort((a, b) => {
+                if (activeSort === 'az') {
+                    return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title'), undefined, { numeric: true });
+                } else if (activeSort === 'za') {
+                    return b.getAttribute('data-title').localeCompare(a.getAttribute('data-title'), undefined, { numeric: true });
+                } else if (activeSort === 'lowHigh') {
+                    return parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price'));
+                } else if (activeSort === 'highLow') {
+                    return parseFloat(b.getAttribute('data-price')) - parseFloat(a.getAttribute('data-price'));
+                }
+                return 0;
+            });
+
+            sortedCards.forEach(card => coursesGrid.appendChild(card));
+            resultsCounter.innerText = `Showing ${visibleCount} of ${cards.length} courses`;
+        }
+
+        searchInput.addEventListener('input', filterAndSortCourses);
+        categorySelect.addEventListener('change', filterAndSortCourses);
+        sortSelect.addEventListener('change', filterAndSortCourses);
+
+        function openDetailsModal(title, rawDescription, duration, students, price) {
+            document.getElementById('modalCourseTitle').innerText = title;
+            document.getElementById('modalCourseDuration').innerText = duration;
+            document.getElementById('modalCourseStudents').innerText = students;
+            document.getElementById('modalCoursePrice').innerText = price;
+            
+            const descElem = document.getElementById('modalCourseDesc');
+            const badgesContainer = document.getElementById('modalSyllabusBadges');
+            const syllabusSection = document.getElementById('modalSyllabusSection');
+            
+            badgesContainer.innerHTML = '';
+
+            const splitPattern = /syllabus includes:\s*/i;
+            if (splitPattern.test(rawDescription)) {
+                const parts = rawDescription.split(splitPattern);
+                descElem.innerText = parts[0].trim();
+                
+                const subjects = parts[1].split(',').map(s => s.trim()).filter(Boolean);
+                subjects.forEach((sub, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'subject-row-item flex items-center gap-3 py-2 px-3.5 rounded-lg bg-[#fce5e9]/50 dark:bg-[#1a172e]/80 border border-[#f3b6c2]/60 dark:border-[#352b59] text-xs text-[#2a2238] dark:text-[#e5dcfa] font-medium cursor-default shadow-xs';
+                    row.style.animationDelay = `${idx * 60}ms`;
+                    row.innerHTML = `
+                        <span class="w-2 h-2 rounded-full bg-[#8B639B] dark:bg-[#F8B2B2] flex-shrink-0"></span>
+                        <span class="tracking-wide">${sub}</span>
+                    `;
+                    badgesContainer.appendChild(row);
+                });
+                syllabusSection.classList.remove('hidden');
+            } else {
+                descElem.innerText = rawDescription;
+                syllabusSection.classList.add('hidden');
+            }
+
+            const modal = document.getElementById('detailsModal');
+            const card = document.getElementById('detailsModalCard');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                card.classList.remove('scale-95', 'opacity-0');
+                card.classList.add('scale-100', 'opacity-100');
+            }, 30);
+        }
+
+        function closeDetailsModal() {
+            const modal = document.getElementById('detailsModal');
+            const card = document.getElementById('detailsModalCard');
+            card.classList.remove('scale-100', 'opacity-100');
+            card.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        window.onclick = function(event) {
+            const details = document.getElementById('detailsModal');
+            if (event.target === details) closeDetailsModal();
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

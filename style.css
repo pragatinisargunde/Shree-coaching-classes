@@ -1,0 +1,35 @@
+/* Active Page Highlight Pill */
+.nav-item {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    color: #4a3e5c;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+.dark .nav-item {
+    color: #d1c8de;
+}
+.nav-item:hover {
+    color: #8B639B;
+}
+.dark .nav-item:hover {
+    color: #ff9ebb;
+}
+
+/* Jab page active hoga toh ye highlight hoga */
+.nav-item.active-page {
+    background: #ffffff !important;
+    color: #403D88 !important;
+    box-shadow: 0 2px 8px rgba(139, 99, 155, 0.25);
+}
+.dark .nav-item.active-page {
+    background: #2b1f47 !important;
+    color: #ff9ebb !important;
+    border: 1px solid rgba(255, 158, 187, 0.4);
+    box-shadow: 0 0 12px rgba(255, 158, 187, 0.2);
+}

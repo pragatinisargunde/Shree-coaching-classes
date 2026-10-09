@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduHostel Academy - Online Seat & Admission Registration with Instant Verification Pass.">
+    <title>Seat Reservation | EduHostel Academy</title>
+    
+    <!-- Core Tailwind Framework Component Engine Layer -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Offline In-Browser QR Code Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+
+        @keyframes gridDrift {
+            0% { background-position: 0 0; }
+            100% { background-position: 1.25rem 1.25rem; }
+        }
+        .animate-grid-drift {
+            animation: gridDrift 20s linear infinite;
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 100ms; }
+        .delay-2 { transition-delay: 200ms; }
+        .delay-3 { transition-delay: 300ms; }
+
+        .pro-card {
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+        .pro-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px -10px rgba(139, 99, 155, 0.25);
+        }
+
+        .liquid-btn {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease;
+        }
+        .liquid-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -110%;
+            width: 60%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: rotate(25deg);
+            transition: left 0.75s ease;
+        }
+        .liquid-btn:hover::after {
+            left: 140%;
+        }
+        .liquid-btn:hover {
+            transform: translateY(-2px);
+        }
+        .liquid-btn:active {
+            transform: translateY(0);
+        }
+
+        .pro-input {
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+        }
+        .pro-input:focus {
+            outline: none;
+            border-color: #8B639B;
+            box-shadow: 0 0 0 3px rgba(139, 99, 155, 0.25);
+        }
+        .dark .pro-input:focus {
+            border-color: #ff9ebb;
+            box-shadow: 0 0 0 3px rgba(255, 158, 187, 0.25);
+        }
+
+        @keyframes modalBounce {
+            0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+            70% { transform: scale(1.02) translateY(-2px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-modal-bounce {
+            animation: modalBounce 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @media print {
+            header, .header, main, footer, #paymentModal {
+                display: none !important;
+            }
+
+            #admissionModal {
+                display: block !important;
+                position: static !important;
+                background: transparent !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                overflow: visible !important;
+                width: 100% !important;
+            }
+
+            #admissionModal > div {
+                box-shadow: none !important;
+                border: none !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: transparent !important;
+            }
+
+            #printableSlip {
+                display: block !important;
+                width: 100% !important;
+                max-width: 650px !important;
+                margin: 0 auto !important;
+                padding: 24px !important;
+                border: 2px solid #403D88 !important;
+                border-radius: 12px !important;
+                background: #ffffff !important;
+                color: #0f172a !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            #printableSlip h2, 
+            #printableSlip strong, 
+            #printableSlip span, 
+            #printableSlip p {
+                color: #0f172a !important;
+            }
+
+            #slipToken {
+                color: #403D88 !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-[#2a2238] antialiased font-sans transition-colors duration-300 dark:bg-[#080611] dark:text-[#ffffff] flex flex-col min-h-screen">
+
+    <header class="header"></header>
+
+    <main class="flex-grow">
+        <section class="bg-gradient-to-br from-[#403D88] via-[#8B639B] to-[#AF719D] dark:from-[#110e24] dark:via-[#1c1638] dark:to-[#2b1f47] text-white py-16 md:py-20 text-left px-4 sm:px-6 lg:px-8 transition-colors duration-300 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-15 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:1.25rem_1.25rem] animate-grid-drift"></div>
+
+            <div class="max-w-7xl mx-auto space-y-3 relative z-10 reveal-on-scroll">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-xs font-medium text-white mb-1">
+                    <span>⚡</span> 2026-27 Academic Admissions • Fast Provisional Booking
+                </div>
+                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Seat <span class="text-[#F8B2B2] dark:text-[#ff9ebb]">Reservation</span></h1>
+                <p class="text-[#fbe5e5] text-base md:text-lg max-w-2xl font-light dark:text-[#dfd7ea]">
+                    Lock in your classroom coaching batch and optional hostel boarding with an instant verification pass.
+                </p>
+            </div>
+        </section>
+
+        <!-- PROCESS STEPS ROADMAP -->
+        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#080611] transition-colors duration-300">
+            <div class="text-center max-w-3xl mx-auto mb-14 space-y-2 reveal-on-scroll">
+                <h2 class="text-3xl font-extrabold tracking-tight text-[#2a2238] dark:text-white">Admission Roadmap</h2>
+                <p class="text-[#7a6b85] dark:text-[#dfd7ea] text-sm">Four simple, transparent steps for parents and students to secure admission</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] flex flex-col items-center text-center space-y-3 shadow-sm reveal-on-scroll">
+                    <div class="w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#ff9ebb] rounded-2xl flex items-center justify-center font-extrabold text-sm shadow-xs">1</div>
+                    <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Select Enrollment Type</h4>
+                    <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Choose whether you need classes only or classes with hostel &amp; mess.</p>
+                </div>
+
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] flex flex-col items-center text-center space-y-3 shadow-sm reveal-on-scroll delay-1">
+                    <div class="w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#ff9ebb] rounded-2xl flex items-center justify-center font-extrabold text-sm shadow-xs">2</div>
+                    <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Fill Complete Profile</h4>
+                    <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Enter verified student details, Aadhaar, and parent contact numbers.</p>
+                </div>
+
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] flex flex-col items-center text-center space-y-3 shadow-sm reveal-on-scroll delay-2">
+                    <div class="w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#ff9ebb] rounded-2xl flex items-center justify-center font-extrabold text-sm shadow-xs">3</div>
+                    <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Pay Token Fee</h4>
+                    <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Pay ₹500 seat confirmation fee via dynamic QR and enter the 12-digit UTR.</p>
+                </div>
+
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] flex flex-col items-center text-center space-y-3 shadow-sm reveal-on-scroll delay-3">
+                    <div class="w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#ff9ebb] rounded-2xl flex items-center justify-center font-extrabold text-sm shadow-xs">4</div>
+                    <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Instant Slip with QR</h4>
+                    <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Get a generated registration token with verifiable security pass for admission.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORM CONTAINER -->
+        <section class="py-14 bg-[#faf4f8] dark:bg-[#0c0919] border-y border-[#f2e2ec] dark:border-[#1c1635] transition-colors duration-300">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <form id="admissionForm" class="pro-card bg-[#fce5e9] dark:bg-[#1c1635] rounded-3xl border border-[#f3b6c2] dark:border-[#3b325c] p-6 sm:p-10 space-y-8 shadow-sm reveal-on-scroll">
+                    
+                    <div class="text-center space-y-2 border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-6">
+                        <span class="text-[10px] font-bold tracking-wider uppercase text-[#8B639B] dark:text-[#ff9ebb]">Admissions Registry</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Seat Reservation Form</h2>
+                        <p class="text-xs text-[#7a6b85] dark:text-[#dfd7ea]">Select your enrollment requirement below to adjust the form options</p>
+
+                        <!-- DYNAMIC SWITCHER -->
+                        <div class="inline-flex p-1.5 rounded-2xl bg-white dark:bg-[#080611] border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs mt-3">
+                            <button type="button" id="tabOnlyCoaching" onclick="setAdmissionType('coaching')" class="px-5 py-2 rounded-xl text-xs font-bold transition-all bg-[#403D88] text-white shadow-sm cursor-pointer">
+                                📚 Only Coaching Classes
+                            </button>
+                            <button type="button" id="tabWithHostel" onclick="setAdmissionType('hostel')" class="px-5 py-2 rounded-xl text-xs font-bold transition-all text-[#7a6b85] dark:text-[#dfd7ea] hover:text-[#403D88] dark:hover:text-white cursor-pointer">
+                                🏢 Coaching + Hostel &amp; Mess
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 1. Course Selection -->
+                    <div class="space-y-4">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#ff9ebb] flex items-center gap-2">
+                            <span>🎯</span> 1. Academic Program
+                        </h3>
+                        <div>
+                            <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Target Course / Stream *</label>
+                            <select id="fieldCourse" required class="pro-input w-full mt-1.5 px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                                <option value="" disabled selected>Select course stream</option>
+                                <option value="Class 5 Scholarship Batch">Class 5 Scholarship Batch (Govt. PUP)</option>
+                                <option value="Class 8 Scholarship & NMMS Batch">Class 8 Scholarship & NMMS Batch (PSS)</option>
+                                <option value="Class 10 Board Foundation">Class 10 Regular Academic</option>
+                                <option value="Class 9 Science & Maths Prep">Class 9 Regular Academic</option>
+                                <option value="Class 8 Foundation">Class 8 Regular Academic</option>
+                                <option value="Class 7 Foundation">Class 7 Regular Academic</option>
+                                <option value="Class 6 Foundation">Class 6 Regular Academic</option>
+                                <option value="Class 5 Foundation">Class 5 Regular Academic</option>
+                                <option value="Class 4 Foundation">Class 4 Regular Academic</option>
+                                <option value="Class 3 Foundation">Class 3 Regular Academic</option>
+                                <option value="Class 2 Foundation">Class 2 Regular Academic</option>
+                                <option value="Class 1 Foundation">Class 1 Regular Academic</option>
+                                
+                                
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- DYNAMIC HOSTEL & MESS SECTION -->
+                    <div id="hostelMessWrapper" class="hidden space-y-4 pt-4 border-t border-[#f3b6c2]/60 dark:border-[#3b325c]">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#ff9ebb] flex items-center gap-2">
+                            <span>🏢</span> 2. Hostel &amp; Mess Preferences
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Select Room Category *</label>
+                                <select id="fieldRoom" class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                                    <option value="Double Sharing (Air Conditioned)">Double Sharing (Attached Bath)</option>
+                                    <option value="Shared Room (4 Bed Bunk)">Shared Room (4 Bed Bunk)</option>
+                                </select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Select Mess Meal Plan *</label>
+                                <select id="fieldMess" class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                                    <option value="Pure Vegetarian (4 Daily Meals)">Pure Vegetarian (4 Daily Meals)</option>
+                                    <option value="Jain Special Diet">Jain Special Diet</option>
+                                    <option value="Veg + Egg Special">Veg + Egg Special</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Student Personal Information -->
+                    <div class="space-y-4 pt-4 border-t border-[#f3b6c2]/60 dark:border-[#3b325c]">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#ff9ebb] flex items-center gap-2">
+                            <span>👤</span> 3. Student Personal Information
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Student First Name *</label>
+                                <input type="text" id="fieldFirstName" placeholder="e.g. Rahul" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Student Last Name *</label>
+                                <input type="text" id="fieldLastName" placeholder="e.g. Sharma" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Student Aadhaar Number *</label>
+                                <input type="text" id="fieldAadhar" placeholder="12-digit Aadhaar Number" maxlength="12" pattern="[0-9]{12}" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Date of Birth *</label>
+                                <input type="date" id="fieldDob" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Place of Birth *</label>
+                                <input type="text" id="fieldBirthPlace" placeholder="City / Town / Village" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Caste / Category *</label>
+                                <input type="text" id="fieldCaste" placeholder="e.g. General, OBC, SC, ST, NT" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                            </div>
+                            <div class="space-y-1.5 sm:col-span-2">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Blood Group *</label>
+                                <select id="fieldBloodGroup" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                                    <option value="" disabled selected>Select blood group</option>
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Parents / Guardians Information -->
+                    <div class="space-y-4 pt-4 border-t border-[#f3b6c2]/60 dark:border-[#3b325c]">
+                        <h3 class="text-xs font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#ff9ebb] flex items-center gap-2">
+                            <span>👨‍👩‍👦</span> 4. Parents / Guardians Information
+                        </h3>
+                        
+                        <div class="p-4 rounded-2xl bg-white/70 dark:bg-[#080611]/60 border border-[#f3b6c2]/60 dark:border-[#3b325c] space-y-3">
+                            <h4 class="text-xs font-bold text-[#403D88] dark:text-[#ff9ebb] uppercase tracking-wide">Father's Details</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                <div>
+                                    <label class="text-[11px] font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Father Full Name *</label>
+                                    <input type="text" id="fieldFatherName" placeholder="Full name" required class="pro-input w-full mt-1 px-3 py-2 border border-[#f3b6c2] dark:border-[#3b325c] rounded-lg text-xs bg-white dark:bg-[#1a172e] text-[#2a2238] dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[11px] font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Father Mobile Number (+91 locked) *</label>
+                                    <div class="flex mt-1">
+                                        <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-[#f3b6c2] dark:border-[#3b325c] bg-gray-100 dark:bg-slate-800 text-xs font-bold text-gray-600 dark:text-gray-300 select-none">+91</span>
+                                        <input type="tel" id="fieldFatherPhone" placeholder="10-digit number" maxlength="10" pattern="[0-9]{10}" required class="pro-input w-full px-3 py-2 border border-[#f3b6c2] dark:border-[#3b325c] rounded-r-lg text-xs bg-white dark:bg-[#1a172e] text-[#2a2238] dark:text-white" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-[11px] font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Father Occupation *</label>
+                                    <input type="text" id="fieldFatherOcc" placeholder="e.g. Farmer, Business, Teacher, Service" required class="pro-input w-full mt-1 px-3 py-2 border border-[#f3b6c2] dark:border-[#3b325c] rounded-lg text-xs bg-white dark:bg-[#1a172e] text-[#2a2238] dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[11px] font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Father Email Address *</label>
+                                    <input type="email" id="fieldFatherEmail" placeholder="father.email@example.com" required class="pro-input w-full mt-1 px-3 py-2 border border-[#f3b6c2] dark:border-[#3b325c] rounded-lg text-xs bg-white dark:bg-[#1a172e] text-[#2a2238] dark:text-white">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-white/70 dark:bg-[#080611]/60 border border-[#f3b6c2]/60 dark:border-[#3b325c] space-y-3">
+                            <h4 class="text-xs font-bold text-[#8B639B] dark:text-[#ff9ebb] uppercase tracking-wide">Mother's Details</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                                <div>
+                                    <label class="text-[11px] font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Mother Full Name *</label>
+                                    <input type="text" id="fieldMotherName" placeholder="Full name" required class="pro-input w-full mt-1 px-3 py-2 border border-[#f3b6c2] dark:border-[#3b325c] rounded-lg text-xs bg-white dark:bg-[#1a172e] text-[#2a2238] dark:text-white">
+                                </div>
+                                <div>
+                                    <label class="text-[11px] font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Mother Mobile Number (+91 locked) *</label>
+                                    <div class="flex mt-1">
+                                        <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-[#f3b6c2] dark:border-[#3b325c] bg-gray-100 dark:bg-slate-800 text-xs font-bold text-gray-600 dark:text-gray-300 select-none">+91</span>
+                                        <input type="tel" id="fieldMotherPhone" placeholder="10-digit number" maxlength="10" pattern="[0-9]{10}" required class="pro-input w-full px-3 py-2 border border-[#f3b6c2] dark:border-[#3b325c] rounded-r-lg text-xs bg-white dark:bg-[#1a172e] text-[#2a2238] dark:text-white" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-[11px] font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Mother Occupation *</label>
+                                    <input type="text" id="fieldMotherOcc" placeholder="e.g. Homemaker, Teacher, Doctor" required class="pro-input w-full mt-1 px-3 py-2 border border-[#f3b6c2] dark:border-[#3b325c] rounded-lg text-xs bg-white dark:bg-[#1a172e] text-[#2a2238] dark:text-white">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1.5 pt-2">
+                            <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Residential Permanent Address *</label>
+                            <textarea id="fieldAddress" rows="2" placeholder="Street address, At Post, Taluka, District, State and Pincode" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4 items-center justify-between pt-4 border-t border-[#f3b6c2]/60 dark:border-[#3b325c]">
+                        <span class="text-xs text-[#7a6b85] dark:text-[#dfd7ea]">🔒 Requires ₹500 Registration Token Fee.</span>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <button type="reset" class="px-5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea] hover:bg-white dark:hover:bg-[#080611] transition-colors">Reset</button>
+                            <button type="submit" class="liquid-btn px-6 py-2.5 bg-[#403D88] hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] text-white font-bold rounded-xl text-xs shadow-md transition-colors cursor-pointer">Proceed to Pay ₹500 &rarr;</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- PAYMENT MODAL -->
+    <div id="paymentModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9999] hidden items-center justify-center p-4 transition-opacity overflow-y-auto">
+        <div class="bg-white dark:bg-[#1a172e] max-w-md w-full rounded-[24px] p-6 md:p-8 shadow-2xl border border-[#f3b6c2] dark:border-[#352b59] relative text-center animate-modal-bounce my-auto">
+            
+            <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-[#7a6b85] hover:text-[#2a2238] dark:text-[#a69bb8] dark:hover:text-white text-2xl transition-colors cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center text-2xl mb-4 shadow-sm">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+            </div>
+            <h3 class="text-xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Registration Token Fee</h3>
+            <p class="text-xs text-[#7a6b85] dark:text-[#a69bb8] mb-5">Scan with GPay, PhonePe or Paytm to pay ₹500 securely.</p>
+
+            <div class="bg-white p-3 rounded-2xl border-2 border-dashed border-emerald-400 inline-block shadow-inner mb-5 relative">
+                <div id="dynamicUpiQr" class="w-48 h-48 mx-auto flex items-center justify-center"></div>
+            </div>
+
+            <!-- UPI Intent Button (sirf mobile par dikhega) -->
+            <a id="upiPayBtn" href="#"
+               class="liquid-btn md:hidden block w-full py-3 mb-2 bg-[#403D88] hover:bg-[#34316f] text-white font-bold rounded-xl text-sm shadow-md text-center">
+                📱 Pay via UPI App (GPay / PhonePe / Paytm)
+            </a>
+            <p class="md:hidden text-[11px] text-[#7a6b85] dark:text-[#a69bb8] mb-4">
+                Payment ke baad neeche 12-digit UTR number zaroor daalein.
+            </p>
+
+            <div class="bg-[#faf4f8] dark:bg-[#080611] p-3.5 rounded-xl border border-[#f3b6c2]/50 dark:border-[#352b59] text-xs mb-5 flex justify-between items-center text-left">
+                <div>
+                    <p class="text-[#7a6b85] dark:text-[#a69bb8] font-semibold mb-0.5">Paying Amount:</p>
+                    <b class="text-emerald-600 dark:text-emerald-400 text-lg">₹500</b>
+                </div>
+                <div class="text-right">
+                    <p class="text-[#7a6b85] dark:text-[#a69bb8] font-semibold mb-0.5">Verified UPI ID:</p>
+                    <b class="text-[#2a2238] dark:text-white font-mono text-xs">9359933642@ybl</b>
+                </div>
+            </div>
+
+            <form onsubmit="submitAdmissionPayment(event)" class="space-y-3 text-left">
+                <div>
+                    <label class="block text-[11px] font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-1.5">Enter 12-Digit UTR / Ref No. *</label>
+                    <input type="text" id="utrNumber" placeholder="e.g. 3241XXXXXXXX" required minlength="12" maxlength="12" inputmode="numeric" class="pro-input w-full p-3 border-2 border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-sm bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white outline-none font-mono transition-all">
+                </div>
+                <button type="submit" id="utrSubmitBtn" class="liquid-btn w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm shadow-md transition-transform hover:-translate-y-0.5 cursor-pointer mt-2">
+                    Submit &amp; Generate Allotment Slip &rarr;
+                </button>
+            </form>
+
+            <!-- Test Mode Bypass Button
+            <div class="mt-4 pt-3 border-t border-gray-200 text-center">
+                <button type="button" onclick="bypassPaymentForTesting()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow cursor-pointer">
+                    🧪 Test Mode: Skip Payment & Submit
+                </button>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- PROVISIONAL VERIFICATION SLIP MODAL -->
+    <div id="admissionModal" class="hidden fixed inset-0 z-[10000] bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="w-full max-w-xl bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden my-6 animate-modal-bounce">
+            
+            <div id="printableSlip" class="p-6 sm:p-8 space-y-5 bg-white text-slate-900">
+                <div class="flex items-start justify-between border-b pb-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">🎓</span>
+                            <div>
+                                <h2 class="text-lg font-black text-[#403D88] leading-tight">EduHostel Academy</h2>
+                                <p class="text-[11px] text-gray-500 font-medium">Shree Coaching Classes &amp; Student Residence</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-block px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-full uppercase">
+                            Seat Reserved
+                        </span>
+                        <p class="text-[10px] text-gray-400 mt-1" id="slipDate">Date</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#fce5e9] p-4 rounded-2xl border border-[#f3b6c2] flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-[#8B639B] block">Registration Token</span>
+                        <span id="slipToken" class="text-xl sm:text-2xl font-black font-mono tracking-wider text-[#403D88]">EDU-XXXX-XXXX</span>
+                        <p class="text-[10px] text-gray-500 mt-0.5">Present this pass at campus desk for document verification</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] uppercase font-bold text-gray-400 block">Validity</span>
+                        <span class="text-xs font-bold text-amber-600">48 Hours</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-y-2.5 gap-x-4 text-xs border-b pb-4">
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Student Name</span>
+                        <strong id="slipName" class="text-sm font-bold text-gray-900">Full Name</strong>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Target Course</span>
+                        <span id="slipCourse" class="font-semibold text-[#8B639B]">Course Name</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Aadhaar Number</span>
+                        <span id="slipAadhar" class="font-semibold text-gray-800">[Aadhaar Redacted]</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Blood Group</span>
+                        <span id="slipBlood" class="font-semibold text-gray-800">O+</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Date &amp; Place of Birth</span>
+                        <span id="slipDobPlace" class="font-medium text-gray-800">01/01/2012 (City)</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Caste / Category</span>
+                        <span id="slipCaste" class="font-semibold text-gray-800">General</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Father (Phone &amp; Occ)</span>
+                        <span id="slipFather" class="font-medium text-gray-800">Father Name</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Mother (Phone &amp; Occ)</span>
+                        <span id="slipMother" class="font-medium text-gray-800">Mother Name</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Enrollment Type</span>
+                        <span id="slipEnrollType" class="font-semibold text-gray-800">Coaching Only</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Token Amount</span>
+                        <span class="font-bold text-emerald-600">₹500 (Confirmed)</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Registration UTR</span>
+                        <span id="slipUTR" class="font-mono text-xs font-bold text-emerald-600">XXXXXXXXXXXX</span>
+                    </div>
+                    <div class="col-span-2">
+                        <span class="text-gray-400 block text-[10px] uppercase font-bold">Permanent Address</span>
+                        <span id="slipAddress" class="font-medium text-gray-800">Full residential address</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-4 bg-gray-50 p-3.5 rounded-2xl border border-gray-100">
+                    <div id="slipQrcode" class="p-1 bg-white border rounded shrink-0"></div>
+                    <div class="text-[11px] text-gray-600 space-y-1">
+                        <p class="font-bold text-gray-900">Security Verification QR</p>
+                        <p class="leading-relaxed">Scan to verify token validity. Bring this receipt with 2 passport photos for document verification.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-2 text-[10px] text-gray-400">
+                    <div>
+                        <span>EduHostel Academy Admissions Desk</span><br>
+                        <span>Anna Chowk, Andur Campus</span>
+                    </div>
+                    <div class="text-right border-t border-dashed border-gray-300 pt-1 px-4">
+                        <span class="font-serif italic text-gray-700 text-xs font-bold">A. S. Kulkarni</span>
+                        <span class="block text-[9px] uppercase tracking-wider text-gray-400">Authorized Seal</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-print bg-gray-50 px-6 py-4 border-t flex flex-col sm:flex-row items-center justify-between gap-3">
+                <button type="button" onclick="document.getElementById('admissionModal').classList.add('hidden')" class="w-full sm:w-auto px-4 py-2 border rounded-xl text-xs font-semibold text-gray-600 hover:bg-gray-200 transition-colors cursor-pointer">
+                    Close
+                </button>
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <!-- WhatsApp Quick Send Button -->
+                    <a id="whatsappShareBtn" href="#" target="_blank" class="liquid-btn flex-1 sm:flex-none px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                        💬 Send on WhatsApp
+                    </a>
+                    <button type="button" onclick="window.print()" class="liquid-btn flex-1 sm:flex-none px-5 py-2.5 bg-[#403D88] hover:bg-[#34316f] text-white font-bold text-xs rounded-xl shadow flex items-center justify-center gap-1.5 transition-colors cursor-pointer">
+                        🖨️ Print / Save as PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-[#181636] dark:bg-[#05040a] text-[#e5dcfa] pt-16 pb-8 text-xs transition-colors duration-300 mt-auto">
+        <div class="text-center pt-6 text-[#c4b5e6] text-[11px]">© 2026 EduHostel Academy. All rights reserved.</div>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+        let cachedFormData = null;
+        let currentAdmissionType = 'coaching';
+
+        function setAdmissionType(type) {
+            currentAdmissionType = type;
+            const tabOnlyCoaching = document.getElementById('tabOnlyCoaching');
+            const tabWithHostel = document.getElementById('tabWithHostel');
+            const hostelWrapper = document.getElementById('hostelMessWrapper');
+
+            if (!tabOnlyCoaching || !tabWithHostel || !hostelWrapper) return;
+
+            if (type === 'coaching') {
+                tabOnlyCoaching.className = "px-5 py-2 rounded-xl text-xs font-bold transition-all bg-[#403D88] text-white shadow-sm cursor-pointer";
+                tabWithHostel.className = "px-5 py-2 rounded-xl text-xs font-bold transition-all text-[#7a6b85] dark:text-[#dfd7ea] hover:text-[#403D88] dark:hover:text-white cursor-pointer";
+                hostelWrapper.classList.add('hidden');
+            } else {
+                tabWithHostel.className = "px-5 py-2 rounded-xl text-xs font-bold transition-all bg-[#403D88] text-white shadow-sm cursor-pointer";
+                tabOnlyCoaching.className = "px-5 py-2 rounded-xl text-xs font-bold transition-all text-[#7a6b85] dark:text-[#dfd7ea] hover:text-[#403D88] dark:hover:text-white cursor-pointer";
+                hostelWrapper.classList.remove('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealItems = document.querySelectorAll('.reveal-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('active');
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+            revealItems.forEach(item => observer.observe(item));
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const admissionType = urlParams.get('type');
+            if (admissionType === 'hostel') {
+                setAdmissionType('hostel');
+            }
+
+            const selectedCourse = urlParams.get('course');
+            if (selectedCourse) {
+                const courseSelect = document.getElementById('fieldCourse');
+                for (let option of courseSelect.options) {
+                    if (option.value.toLowerCase().includes(selectedCourse.toLowerCase()) || selectedCourse.toLowerCase().includes(option.value.toLowerCase())) {
+                        option.selected = true;
+                        break;
+                    }
+                }
+            }
+
+            const admissionForm = document.getElementById('admissionForm');
+            admissionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const fPhone = document.getElementById('fieldFatherPhone').value.trim();
+                const mPhone = document.getElementById('fieldMotherPhone').value.trim();
+                const aadhar = document.getElementById('fieldAadhar').value.trim();
+
+                if (fPhone.length !== 10) {
+                    alert("⚠️ Father's mobile number must be exactly 10 digits!");
+                    return;
+                }
+                if (mPhone.length !== 10) {
+                    alert("⚠️ Mother's mobile number must be exactly 10 digits!");
+                    return;
+                }
+                if (aadhar.length !== 12) {
+                    alert("⚠️ Student Aadhaar number must be exactly 12 digits!");
+                    return;
+                }
+
+                let hostelChoice = "Day Scholar Only (No Room Required)";
+                let messChoice = "Not Opted";
+
+                if (currentAdmissionType === 'hostel') {
+                    hostelChoice = document.getElementById('fieldRoom').value;
+                    messChoice = document.getElementById('fieldMess').value;
+                }
+
+                cachedFormData = {
+                    course: document.getElementById('fieldCourse').value,
+                    firstName: document.getElementById('fieldFirstName').value.trim(),
+                    lastName: document.getElementById('fieldLastName').value.trim(),
+                    aadhar: aadhar,
+                    dob: document.getElementById('fieldDob').value,
+                    birthPlace: document.getElementById('fieldBirthPlace').value.trim(),
+                    caste: document.getElementById('fieldCaste').value.trim(),
+                    bloodGroup: document.getElementById('fieldBloodGroup').value,
+                    fatherName: document.getElementById('fieldFatherName').value.trim(),
+                    fatherPhone: fPhone,
+                    fatherOcc: document.getElementById('fieldFatherOcc').value.trim(),
+                    fatherEmail: document.getElementById('fieldFatherEmail').value.trim(),
+                    motherName: document.getElementById('fieldMotherName').value.trim(),
+                    motherPhone: mPhone,
+                    motherOcc: document.getElementById('fieldMotherOcc').value.trim(),
+                    address: document.getElementById('fieldAddress').value.trim(),
+                    hostelChoice: hostelChoice,
+                    messChoice: messChoice,
+                    enrollmentType: currentAdmissionType === 'hostel' ? 'hostel-mess' : 'coaching',
+                    token: "EDU-2026-" + Math.random().toString(36).substring(2, 6).toUpperCase() + "-" + Math.floor(1000 + Math.random() * 9000),
+                    today: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+                };
+
+                generateDynamicUpiQr();
+
+                document.getElementById('paymentModal').classList.remove('hidden');
+                document.getElementById('paymentModal').classList.add('flex');
+            });
+        });
+
+        function generateDynamicUpiQr() {
+            const upiId = "9359933642@ybl";
+            const name = "EduHostel Academy";
+            const amount = "500";
+            const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent('Seat Reservation')}`;
+
+            // NEW: UPI app button ka link set karein (mobile par app direct khulega)
+            const upiBtn = document.getElementById('upiPayBtn');
+            if (upiBtn) upiBtn.setAttribute('href', upiLink);
+
+            const qrBox = document.getElementById('dynamicUpiQr');
+            qrBox.innerHTML = "";
+            new QRCode(qrBox, {
+                text: upiLink,
+                width: 175,
+                height: 175,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+            document.getElementById('paymentModal').classList.remove('flex');
+            document.getElementById('utrNumber').value = '';
+        }
+
+        function bypassPaymentForTesting() {
+            const fakeUtr = "TEST" + Math.floor(10000000 + Math.random() * 90000000);
+            document.getElementById('utrNumber').value = fakeUtr;
+            
+            if (cachedFormData) {
+                cachedFormData.token = "EDU-2026-" + Math.random().toString(36).substring(2, 6).toUpperCase() + "-" + Math.floor(1000 + Math.random() * 9000);
+            }
+            
+            submitAdmissionPayment(new Event('submit'));
+        }
+
+        async function submitAdmissionPayment(e) {
+            e.preventDefault();
+            const utr = document.getElementById('utrNumber').value.trim();
+            const btn = document.getElementById('utrSubmitBtn');
+            const originalText = btn.innerText;
+
+            if (utr.length !== 12) {
+                alert("⚠️ Please enter a valid 12-digit UTR or Reference number.");
+                return;
+            }
+
+            btn.innerText = "Verifying & Saving...";
+            btn.disabled = true;
+
+            const fullName = `${cachedFormData.firstName} ${cachedFormData.lastName}`;
+
+            try {
+                const response = await fetch('http://localhost:5000/api/admissions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        applicationId: cachedFormData.token,
+                        fullName: fullName,
+                        email: cachedFormData.fatherEmail,
+                        phone: cachedFormData.fatherPhone,
+                        course: cachedFormData.course,
+                        hostelRequired: cachedFormData.enrollmentType === 'hostel-mess' ? 'yes' : 'no',
+                        mess: cachedFormData.messChoice,
+                        address: cachedFormData.address,
+                        registrationUtr: utr,
+                        enrollmentType: cachedFormData.enrollmentType 
+                    })
+                });
+
+                const result = await response.json();
+                if (!result.success) {
+                    alert("Database Error: " + (result.message || "Save failed"));
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+
+                closePaymentModal();
+
+                alert("🎉 Admission Registered Successfully! Confirmation email has been sent to your registered email ID.");
+
+                document.getElementById('slipToken').innerText = cachedFormData.token;
+                document.getElementById('slipDate').innerText = cachedFormData.today;
+                document.getElementById('slipName').innerText = fullName;
+                document.getElementById('slipCourse').innerText = cachedFormData.course;
+                document.getElementById('slipAadhar').innerText = cachedFormData.aadhar.replace(/(\d{4})(\d{4})(\d{4})/, '$1 $2 $3');
+                document.getElementById('slipBlood').innerText = cachedFormData.bloodGroup;
+                document.getElementById('slipDobPlace').innerText = `${cachedFormData.dob} (${cachedFormData.birthPlace})`;
+                document.getElementById('slipCaste').innerText = cachedFormData.caste;
+                document.getElementById('slipFather').innerText = `${cachedFormData.fatherName} (+91 ${cachedFormData.fatherPhone}) - ${cachedFormData.fatherOcc}`;
+                document.getElementById('slipMother').innerText = `${cachedFormData.motherName} (+91 ${cachedFormData.motherPhone}) - ${cachedFormData.motherOcc}`;
+                document.getElementById('slipEnrollType').innerText = cachedFormData.hostelChoice.includes("Day Scholar") ? "Coaching Only" : "Coaching + Hostel & Mess";
+                document.getElementById('slipUTR').innerText = utr;
+                document.getElementById('slipAddress').innerText = cachedFormData.address;
+
+                // WhatsApp Share Link Setup
+                const waPhone = cachedFormData.fatherPhone;
+                const waMessage = `Hello ${cachedFormData.firstName}, your admission at EduHostel Academy is successful! 🎓\n\n📌 Token ID: ${cachedFormData.token}\n🎯 Course: ${cachedFormData.course}\n💰 Reg. UTR: ${utr}\n\nPlease present this token at the campus desk within 48 hours for document verification.`;
+                const waEncodedUrl = `https://wa.me/91${waPhone}?text=${encodeURIComponent(waMessage)}`;
+                document.getElementById('whatsappShareBtn').setAttribute('href', waEncodedUrl);
+
+                const qrBox = document.getElementById('slipQrcode');
+                qrBox.innerHTML = "";
+                new QRCode(qrBox, {
+                    text: `Token: ${cachedFormData.token}\nStudent: ${fullName}\nCourse: ${cachedFormData.course}\nFather: ${cachedFormData.fatherName}\nPhone: +91${cachedFormData.fatherPhone}\nUTR: ${utr}`,
+                    width: 70,
+                    height: 70,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+
+                document.getElementById('admissionModal').classList.remove('hidden');
+
+            } catch (err) {
+                console.error("Submission Error:", err);
+                alert("Server connection failed! Please check if your backend is running.");
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

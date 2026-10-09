@@ -1,0 +1,32 @@
+[
+  {
+    "applicationId": "EDU-2026-2BND-2507",
+    "fullName": "Pragati Nisargunde",
+    "dob": "2026-09-03",
+    "gender": "Female",
+    "email": "pragatinisargunde@gmail.com",
+    "phone": "43537687784",
+    "parentName": "Pragati Nisargunde (333333333333333)",
+    "course": "NEET-UG Medical Prep",
+    "shift": "Morning Batch (07:30 AM - 01:00 PM)",
+    "hostelRequired": "yes",
+    "mess": "Veg + Non-Veg Alternate Days",
+    "address": "maharashtra",
+    "appliedAt": "2026-09-02T15:00:55.975Z"
+  },
+  {
+    "applicationId": "EDU-2026-BFB9-2259",
+    "fullName": "Pragati Nisargunde",
+    "dob": "2026-09-19",
+    "gender": "Female",
+    "email": "pragatinisargunde@gmail.com",
+    "phone": "43537687784",
+    "parentName": "Pragati Nisargunde (333333333333333)",
+    "course": "JEE Main & Advanced (2-Year)",
+    "shift": "Afternoon Batch (01:30 PM - 07:00 PM)",
+    "hostelRequired": "yes",
+    "mess": "Jain Food Special",
+    "address": "maharashtra",
+    "appliedAt": "2026-09-02T15:11:28.802Z"
+  }
+]

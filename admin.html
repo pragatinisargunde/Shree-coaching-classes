@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduHostel - Admin Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    
+    <!-- DARK MODE SYNC SCRIPT (PREVENTS FLASHING) -->
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        :root {
+            --bg-body: #faf4f8;
+            --bg-sidebar: #ffffff;
+            --bg-panel: #ffffff;
+            --text-main: #2a2238;
+            --text-heading: #1c1635;
+            --text-muted: #7a6b85;
+            --border-ui: #f3b6c2;
+            --primary-plum: #403D88;
+            --accent-mauve: #8B639B;
+            --neon-blush: #ff9ebb;
+        }
+
+        .dark {
+            --bg-body: #080611;
+            --bg-sidebar: #130f24;
+            --bg-panel: #1c1635;
+            --text-main: #dfd7ea;
+            --text-heading: #ffffff;
+            --text-muted: #a69bb8;
+            --border-ui: #3b325c;
+            --primary-plum: #8B639B;
+            --accent-mauve: #AF719D;
+            --neon-blush: #ff9ebb;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
+            background-image: radial-gradient(rgba(139, 99, 155, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .dark body {
+            background-image: radial-gradient(rgba(255, 158, 187, 0.06) 1px, transparent 1px);
+        }
+
+        /* Ambient Grid */
+        @keyframes gridMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 20px; }
+        }
+        .animate-grid-ambient { animation: gridMove 22s linear infinite; }
+
+        /* Fluid Interactive Cards */
+        .stat-card {
+            background: var(--bg-panel); border: 1.5px solid var(--border-ui); border-radius: 20px;
+            padding: 22px; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative; overflow: hidden;
+        }
+        .stat-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(180deg, #403D88, #ff9ebb); transition: width 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-6px) scale(1.015); box-shadow: 0 20px 35px -10px rgba(139, 99, 155, 0.28);
+        }
+        .stat-card:hover::before { width: 8px; }
+
+        /* Liquid Sweep Light Button */
+        .btn-liquid {
+            position: relative; overflow: hidden; border-radius: 14px; font-weight: 700;
+            letter-spacing: 0.03em; transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+        }
+        .btn-liquid::after {
+            content: ''; position: absolute; top: -50%; left: -120%; width: 70%; height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transform: rotate(25deg); transition: left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-liquid:hover::after { left: 140%; }
+        .btn-liquid:hover { transform: translateY(-3px); box-shadow: 0 10px 24px -4px rgba(64, 61, 136, 0.4); }
+        .btn-liquid:active { transform: translateY(0); }
+
+        /* Inputs Glow */
+        .pro-input { transition: all 0.25s ease; }
+        .pro-input:focus {
+            outline: none; border-color: var(--accent-mauve); box-shadow: 0 0 0 4px rgba(139, 99, 155, 0.22); transform: translateY(-1px);
+        }
+        .dark .pro-input:focus { border-color: var(--neon-blush); box-shadow: 0 0 0 4px rgba(255, 158, 187, 0.25); }
+
+        /* Radar Pulse */
+        @keyframes radarPing {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 158, 187, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 7px rgba(255, 158, 187, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 158, 187, 0); }
+        }
+        .radar-dot { animation: radarPing 2.2s infinite; }
+
+        /* Sidebar & Layout Fixes for Mobile Responsiveness */
+        .admin-layout { display: flex; flex: 1; position: relative; overflow-x: hidden; }
+        
+        .sidebar { 
+            background-color: var(--bg-sidebar); border-right: 1px solid var(--border-ui); 
+            padding: 30px 20px; display: flex; flex-direction: column; gap: 25px; 
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed; width: 260px; height: 100vh; left: -260px; top: 0; z-index: 100;
+            overflow-y: auto;
+        }
+        .sidebar.open { left: 0; }
+        
+        .sidebar-overlay {
+            position: fixed; inset: 0; background: rgba(8, 6, 17, 0.6); backdrop-filter: blur(4px);
+            z-index: 90; display: none; transition: opacity 0.3s;
+        }
+        .sidebar-overlay.open { display: block; }
+
+        @media (min-width: 1024px) {
+            .sidebar { position: sticky; left: 0; flex-shrink: 0; }
+            .sidebar-overlay.open { display: none; }
+        }
+
+        .sidebar-brand h2 { font-size: 20px; font-weight: 800; color: var(--text-heading); }
+        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 8px; flex: 1;}
+        .menu-item button {
+            width: 100%; display: flex; align-items: center; gap: 14px; padding: 12px 16px;
+            color: var(--text-main); background: transparent; border: none; text-align: left;
+            font-weight: 600; font-size: 13px; border-radius: 12px; cursor: pointer; transition: all 0.25s ease;
+        }
+        .menu-item button:hover { background-color: #fce5e9; color: #403D88; transform: translateX(3px); }
+        .dark .menu-item button:hover { background-color: #281f47; color: #ff9ebb; }
+        .menu-item.active button { 
+            background: linear-gradient(135deg, #403D88, #8B639B); color: #ffffff !important; 
+            font-weight: 700; box-shadow: 0 4px 14px rgba(64, 61, 136, 0.3);
+        }
+        .dark .menu-item.active button {
+            background: linear-gradient(135deg, #2b1f47, #1c1635); border: 1px solid rgba(255, 158, 187, 0.35);
+            color: #ff9ebb !important; box-shadow: 0 0 14px rgba(255, 158, 187, 0.25);
+        }
+        
+        .dashboard-content { flex: 1; padding: 20px; width: 100%; max-width: 100vw; display: flex; flex-direction: column; }
+        @media (min-width: 1024px) { .dashboard-content { padding: 40px; } }
+
+        /* Mobile Header Top Bar */
+        .mobile-admin-header {
+            display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;
+            background: var(--bg-panel); border: 1px solid var(--border-ui); border-radius: 20px;
+            margin-bottom: 24px; box-shadow: 0 4px 12px rgba(139, 99, 155, 0.08);
+        }
+        @media (min-width: 1024px) { .mobile-admin-header { display: none; } }
+
+        .tab-view { display: none; flex: 1; }
+        .tab-view.active-view { display: block; animation: tabFadeIn 0.35s ease-out; }
+        @keyframes tabFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .panel-block { background-color: var(--bg-panel); border: 1px solid var(--border-ui); border-radius: 24px; padding: 24px; box-shadow: 0 8px 24px -6px rgba(139, 99, 155, 0.12); }
+        @media (min-width: 768px) { .panel-block { padding: 30px; } }
+
+        .btn-primary-blue { background: linear-gradient(135deg, #403D88, #8B639B) !important; color: #ffffff !important; border: none !important; padding: 0.65rem 1.25rem; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.25s; box-shadow: 0 4px 12px rgba(64, 61, 136, 0.25); }
+        .btn-primary-blue:hover { opacity: 0.95; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(64, 61, 136, 0.35); }
+        .btn-faint-blue { background-color: #fce5e9 !important; color: #403D88 !important; border: 1px solid #f3b6c2 !important; padding: 0.45rem 0.9rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .dark .btn-faint-blue { background-color: #281f47 !important; color: #ff9ebb !important; border-color: #4b3d75 !important; }
+        .btn-delete { background-color: #fee2e2 !important; color: #b91c1c !important; border: 1px solid #fecaca !important; padding: 0.45rem 0.9rem; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-delete:hover { background-color: #fca5a5 !important; }
+        
+        /* Table responsive scroll */
+        .table-container { width: 100%; overflow-x: auto; }
+        .data-table { width: 100%; border-collapse: collapse; text-align: left; min-width: 600px; }
+        .data-table th, .data-table td { padding: 16px 20px; font-size: 13px; border-bottom: 1px solid var(--border-ui); }
+        .data-table th { background-color: #fce5e9; font-weight: 700; color: #403D88; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; }
+        .dark .data-table th { background-color: #130f24; color: #ff9ebb; }
+        .data-table tbody tr { transition: background-color 0.2s; }
+        .data-table tbody tr:hover { background-color: rgba(252, 229, 233, 0.35); }
+        .dark .data-table tbody tr:hover { background-color: rgba(43, 31, 71, 0.35); }
+
+        .subject-category-title { font-size: 12px; font-weight: 800; color: var(--accent-mauve); text-transform: uppercase; letter-spacing: 1px; margin: 25px 0 10px; border-bottom: 2px solid var(--border-ui); padding-bottom: 5px;}
+        .subject-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
+        .subject-card { border: 1.5px solid var(--border-ui); border-radius: 16px; padding: 16px; cursor: pointer; transition: all 0.25s ease; position: relative; background: var(--bg-panel);}
+        .subject-card:hover { border-color: var(--accent-mauve); transform: translateY(-3px); box-shadow: 0 10px 20px -5px rgba(139, 99, 155, 0.2); }
+        .subject-card.selected { border-color: #8B639B; background: #fdf2f4; border: 2px solid #8B639B; }
+        .dark .subject-card.selected { background: #281f47; border-color: #ff9ebb; }
+        .subject-card input[type="checkbox"] { position: absolute; right: 16px; top: 16px; transform: scale(1.2); accent-color: #8B639B; cursor: pointer; }
+        
+        dialog::backdrop { background: rgba(8, 6, 17, 0.7); backdrop-filter: blur(6px); }
+        #student-form-dialog { animation: modalSpring 0.38s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes modalSpring {
+            0% { opacity: 0; transform: scale(0.9) translateY(16px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .admin-portal-footer { background-color: #130f24; border-top: 1px solid #2d254c; color: #a69bb8; padding: 20px; text-align: center; font-size: 12px; margin-top: auto; }
+        
+        #admin-auth-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(8, 6, 17, 0.88); backdrop-filter: blur(10px);
+            z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px;
+        }
+        .auth-card {
+            background: var(--bg-panel); border: 1px solid var(--border-ui); border-radius: 24px; padding: 2.5rem 2rem;
+            width: 100%; max-width: 400px; box-shadow: 0 25px 50px -12px rgba(64, 61, 136, 0.35); text-align: center;
+            animation: modalPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300">
+
+    <!-- Admin Authentication Overlay (Email + OTP System) -->
+    <div id="admin-auth-overlay">
+        <div class="auth-card">
+            <div style="font-size: 2.2rem; color: #8B639B; margin-bottom: 0.75rem;"><i class="fa-solid fa-shield-halved"></i></div>
+            <h2 class="text-2xl font-extrabold text-[#2a2238] dark:text-white">Secure Admin Login</h2>
+            <p class="text-xs text-[#7a6b85] dark:text-[#a69bb8] mb-6">Verify via Email OTP to unlock panel</p>
+            
+            <!-- Step 1: Email Input -->
+            <div id="email-step">
+                <input type="email" id="admin-email-input" placeholder="Enter Admin Email..." class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-[#faf4f8] dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl text-sm mb-4 font-semibold" required>
+                <button type="button" onclick="requestAdminOTP()" class="btn-liquid w-full bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] text-white font-bold py-3.5 rounded-xl shadow-md cursor-pointer mb-4">Send OTP &rarr;</button>
+            </div>
+
+            <!-- Step 2: OTP Input (Initially Hidden) -->
+            <div id="otp-step" class="hidden">
+                <input type="text" id="admin-otp-input" placeholder="Enter 6-digit OTP..." maxlength="6" class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-[#faf4f8] dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl text-sm mb-4 font-semibold text-center tracking-widest">
+                <button type="button" onclick="verifyAdminOTP()" class="btn-liquid w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl shadow-md cursor-pointer mb-4">Verify & Unlock Panel</button>
+            </div>
+
+            <div id="auth-error-msg" class="text-red-500 text-xs font-bold hidden mb-4"></div>
+
+            <button onclick="window.location.href='index.html'" class="w-full py-3 rounded-xl border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-transparent text-[#7a6b85] dark:text-[#a69bb8] font-bold text-sm hover:bg-[#fce5e9] dark:hover:bg-[#281f47] transition cursor-pointer flex items-center justify-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Return to Website
+            </button>
+        </div>
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+    <div class="admin-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="adminSidebar">
+            <div class="mb-2">
+                <button onclick="exitAdminPanel()" class="inline-flex items-center gap-2 px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] bg-[#fce5e9] dark:bg-[#1c1635] rounded-xl text-xs font-bold text-[#403D88] dark:text-[#ff9ebb] hover:opacity-90 w-full justify-center shadow-xs transition cursor-pointer">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Main Website
+                </button>
+            </div>
+            <div class="sidebar-brand">
+                <div class="flex items-center gap-2.5">
+                    <span class="text-2xl filter drop-shadow-xs">🎓</span>
+                    <h2 class="bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] dark:from-white dark:via-[#F8B2B2] dark:to-[#ff9ebb] bg-clip-text text-transparent">Admin Panel</h2>
+                </div>
+                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px; font-weight: 500;">EduHostel Management System</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="menu-item active" id="btn-dash"><button onclick="switchAdminTab('dash', 'dashboard-tab-view')"><i class="fa-solid fa-table-cells-large"></i> Dashboard</button></li>
+                <li class="menu-item" id="btn-stud"><button onclick="switchAdminTab('stud', 'students-tab-view')"><i class="fa-solid fa-users"></i> Students</button></li>
+                <li class="menu-item" id="btn-enroll"><button onclick="switchAdminTab('enroll', 'enroll-course-tab-view')"><i class="fa-solid fa-book-open"></i> Enroll Courses</button></li>
+                <li class="menu-item" id="btn-hostel"><button onclick="switchAdminTab('hostel', 'hostel-tab-view')"><i class="fa-solid fa-building-user"></i> Hostel</button></li>
+                <li class="menu-item" id="btn-info"><button onclick="switchAdminTab('info', 'info-tab-view')"><i class="fa-solid fa-address-card"></i> Full Profile</button></li>
+            </ul>
+
+            <!-- DARK MODE & LOGOUT BUTTONS -->
+            <div class="mt-auto pt-4 border-t border-[#f3b6c2] dark:border-[#3b325c] space-y-3">
+                <button onclick="toggleTheme()" class="w-full flex items-center justify-between px-4 py-3 bg-[#fce5e9] dark:bg-[#281f47] rounded-xl text-[#403D88] dark:text-[#ff9ebb] font-bold text-sm hover:opacity-80 transition-all shadow-xs border border-[#f3b6c2] dark:border-[#3b325c] cursor-pointer">
+                    <span id="theme-text"><i class="fa-solid fa-sun mr-2"></i> Light Mode</span>
+                    <i class="fa-solid fa-toggle-off text-xl" id="theme-toggle-icon"></i>
+                </button>
+                <button onclick="adminLogout()" class="w-full flex items-center justify-center px-4 py-3 bg-rose-100 dark:bg-rose-950/40 rounded-xl text-rose-600 dark:text-rose-400 font-bold text-sm hover:bg-rose-200 dark:hover:bg-rose-900/60 transition-all shadow-xs border border-rose-200 dark:border-rose-800 cursor-pointer">
+                    <i class="fa-solid fa-right-from-bracket mr-2"></i> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard View Area -->
+        <main class="dashboard-content">
+            
+            <!-- Mobile Header for Hamburger Toggle -->
+            <div class="mobile-admin-header">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl filter drop-shadow-xs">🎓</span>
+                    <h2 class="font-bold text-[#403D88] dark:text-[#ff9ebb] tracking-tight">Admin Portal</h2>
+                </div>
+                <button onclick="toggleSidebar()" class="text-[#403D88] dark:text-[#ff9ebb] text-2xl focus:outline-none p-1 cursor-pointer">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- TAB 1: DASHBOARD OVERVIEW -->
+            <div id="dashboard-tab-view" class="tab-view active-view">
+                <div class="content-header flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Dashboard Overview</h1>
+                        <p class="text-[#7a6b85] dark:text-[#a69bb8] text-sm mt-1">Welcome back, Administrator! Real-time operations.</p>
+                    </div>
+                    <button onclick="openStudentModal()" class="btn-liquid bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] text-white font-bold py-2.5 px-5 rounded-xl shadow-md transition flex items-center cursor-pointer w-full md:w-auto justify-center">
+                        <i class="fa-solid fa-plus mr-2"></i> Quick Add Student
+                    </button>
+                </div>
+
+                <!-- Metrics Grid -->
+                <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+                    <div class="stat-card">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider">Total Students</span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#ff9ebb] radar-dot"></span>
+                        </div>
+                        <div class="flex items-baseline justify-between mt-2">
+                            <h3 class="text-4xl font-black text-[#2a2238] dark:text-white" id="dashboard-total-students">0</h3>
+                            <div class="w-10 h-10 rounded-xl bg-[#fce5e9] dark:bg-[#281f47] text-[#8B639B] dark:text-[#ff9ebb] flex items-center justify-center text-lg"><i class="fa-solid fa-users"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider">Total Courses</span>
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#fce5e9] dark:bg-[#281f47] text-[#8B639B] dark:text-[#ff9ebb]">ACTIVE</span>
+                        </div>
+                        <div class="flex items-baseline justify-between mt-2">
+                            <h3 class="text-4xl font-black text-[#2a2238] dark:text-white">12</h3>
+                            <div class="w-10 h-10 rounded-xl bg-[#fce5e9] dark:bg-[#281f47] text-[#8B639B] dark:text-[#ff9ebb] flex items-center justify-center text-lg"><i class="fa-solid fa-book-open"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider">Hostel Capacity</span>
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300">94% FULL</span>
+                        </div>
+                        <div class="flex items-baseline justify-between mt-2">
+                            <h3 class="text-4xl font-black text-[#2a2238] dark:text-white">850</h3>
+                            <div class="w-10 h-10 rounded-xl bg-[#fce5e9] dark:bg-[#281f47] text-[#8B639B] dark:text-[#ff9ebb] flex items-center justify-center text-lg"><i class="fa-solid fa-building-user"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider">Total Revenue</span>
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300">+18% YOY</span>
+                        </div>
+                        <div class="flex items-baseline justify-between mt-2">
+                            <h3 class="text-4xl font-black text-[#2a2238] dark:text-white">₹2.4M</h3>
+                            <div class="w-10 h-10 rounded-xl bg-[#fce5e9] dark:bg-[#281f47] text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] dark:from-[#110e24] dark:via-[#1c1638] dark:to-[#2b1f47] rounded-3xl p-6 md:p-8 text-white shadow-lg flex flex-col md:flex-row items-center justify-between border border-white/15 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:1.25rem_1.25rem] animate-grid-ambient"></div>
+                    <div class="relative z-10 space-y-2 text-center md:text-left">
+                        <span class="text-xs font-bold px-3 py-1 rounded-full bg-white/20 backdrop-blur-md uppercase tracking-wider inline-block mb-1">Command Central</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Ready to manage operations?</h2>
+                        <p class="text-[#fbe5e5] dark:text-[#dfd7ea] text-xs sm:text-sm max-w-lg leading-relaxed mx-auto md:mx-0">Check pending fee dues, allocate new double & quad hostel pods, or assign scholarship batches to students.</p>
+                    </div>
+                    <div class="text-6xl mt-6 md:mt-0 drop-shadow-md hidden md:block">🏛️</div>
+                </div>
+            </div>
+
+            <!-- TAB 2: STUDENTS MANAGEMENT -->
+            <div id="students-tab-view" class="tab-view">
+                <div class="content-header flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Students Management</h1>
+                        <p class="text-[#7a6b85] dark:text-[#a69bb8] text-sm">Manage student records and academic profiles.</p>
+                    </div>
+                    <button class="btn btn-primary-blue btn-liquid w-full sm:w-auto" onclick="openStudentModal()"><i class="fa-solid fa-plus mr-1.5"></i> Add New Student</button>
+                </div>
+                <div class="panel-block !p-4 md:!p-8">
+                    <div class="table-container rounded-2xl overflow-hidden border border-[#f3b6c2] dark:border-[#3b325c]">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile No</th>
+                                    <th>Course / ID</th>
+                                    <th>CGPA</th>
+                                    <th>Status</th>
+                                    <th style="text-align: right;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: ENROLL COURSES -->
+            <div id="enroll-course-tab-view" class="tab-view">
+                <div class="content-header mb-6">
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Student Enrollments & Fees</h1>
+                    <p class="text-[#7a6b85] dark:text-[#a69bb8] text-sm">Assign curriculum modules and track collections.</p>
+                </div>
+
+                <div class="panel-block !p-4 md:!p-8">
+                    <div class="flex flex-col md:flex-row gap-4 items-end mb-8 bg-[#fce5e9]/50 dark:bg-[#130f24] p-4 md:p-6 rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c]">
+                        <div class="flex-1 w-full">
+                            <label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-2 tracking-wider">Search Student ID</label>
+                            <input type="text" id="enroll-search-id" placeholder="e.g. STU001" class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] rounded-xl bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white font-bold">
+                        </div>
+                        <button onclick="searchStudentForEnroll()" class="btn-liquid bg-[#403D88] hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] text-white font-bold py-3.5 px-8 rounded-xl shadow-md w-full md:w-auto transition cursor-pointer">
+                            <i class="fa-solid fa-magnifying-glass mr-2"></i> Search Details
+                        </button>
+                    </div>
+
+                    <div id="enroll-not-found" class="hidden text-center p-8 text-rose-500 font-bold bg-rose-50 dark:bg-rose-950/30 rounded-2xl border border-rose-200 dark:border-rose-900/50">
+                        ❌ Student not found! Please check the ID.
+                    </div>
+
+                    <div id="enroll-details-section" class="hidden space-y-6">
+                        <h3 class="text-lg font-extrabold text-[#2a2238] dark:text-white border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3 flex items-center"><i class="fa-solid fa-id-card text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i> Personal Details</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-8">
+                            <div><label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-1">Student ID</label><input type="text" id="enr-id" class="w-full p-3 border-2 border-[#f3b6c2]/50 dark:border-[#3b325c] bg-[#fce5e9]/40 dark:bg-[#130f24] rounded-xl outline-none font-bold text-[#7a6b85] dark:text-[#a69bb8]" disabled></div>
+                            <div><label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-1">Full Name</label><input type="text" id="enr-name" class="pro-input w-full p-3 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl font-bold"></div>
+                            <div><label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-1">Mobile</label><input type="text" id="enr-phone" class="pro-input w-full p-3 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl font-bold"></div>
+                            <div><label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-1">Email</label><input type="email" id="enr-email" class="pro-input w-full p-3 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl font-bold"></div>
+                            <div><label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-1">Year</label><input type="text" id="enr-year" class="pro-input w-full p-3 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl font-bold"></div>
+                            <div><label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-1">CGPA</label><input type="text" id="enr-cgpa" class="pro-input w-full p-3 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl font-bold"></div>
+                        </div>
+
+                        <h3 class="text-lg font-extrabold text-[#2a2238] dark:text-white border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3 flex items-center"><i class="fa-solid fa-book-open text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i> Enroll Courses</h3>
+                        <div id="admin-courses-container"></div>
+
+                        <h3 class="text-lg font-extrabold text-[#2a2238] dark:text-white mt-10 border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3 flex items-center"><i class="fa-solid fa-indian-rupee-sign text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i> Fee Details</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+                            <div>
+                                <label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-1">Fee Status</label>
+                                <select id="enr-fee-status" class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl font-bold">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Half Paid">Half Paid</option>
+                                    <option value="Paid">Paid</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-1">Amount Paid (₹)</label>
+                                <input type="number" id="enr-fee-paid" oninput="calcCourseLiveFees()" class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl font-bold" value="0">
+                            </div>
+                        </div>
+
+                        <div class="bg-[#fce5e9] dark:bg-[#130f24] rounded-2xl p-4 md:p-6 border border-[#f3b6c2] dark:border-[#3b325c] flex flex-col md:flex-row justify-between items-center gap-5 shadow-sm">
+                            <div class="flex gap-4 md:gap-8 w-full md:w-auto justify-between md:justify-start">
+                                <div><p class="text-[10px] md:text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider">Total Fee</p><h3 class="text-2xl md:text-3xl font-black text-[#403D88] dark:text-[#ff9ebb] mt-1" id="enr-total-fee">₹0</h3></div>
+                                <div><p class="text-[10px] md:text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider">Pending</p><h3 class="text-2xl md:text-3xl font-black text-rose-600 mt-1" id="enr-pending-fee">₹0</h3></div>
+                            </div>
+                            <button onclick="saveAdminEnrollment()" class="btn-liquid w-full md:w-auto bg-[#403D88] hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] text-white font-bold py-3.5 px-6 rounded-xl shadow-lg transition cursor-pointer"><i class="fa-solid fa-floppy-disk mr-2"></i> Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: HOSTEL ALLOCATION -->
+            <div id="hostel-tab-view" class="tab-view">
+                <div class="content-header mb-6">
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Hostel Allocation & Fees</h1>
+                    <p class="text-[#7a6b85] dark:text-[#a69bb8] text-sm">Manage student accommodation and track ledger.</p>
+                </div>
+
+                <div class="panel-block !p-4 md:!p-8">
+                    <div class="flex flex-col md:flex-row gap-4 items-end mb-8 bg-[#fce5e9]/50 dark:bg-[#130f24] p-4 md:p-6 rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c]">
+                        <div class="flex-1 w-full">
+                            <label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-2 tracking-wider">Search Student ID</label>
+                            <input type="text" id="hostel-search-id" placeholder="e.g. STU001" class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl font-bold">
+                        </div>
+                        <button onclick="searchStudentForHostel()" class="btn-liquid bg-[#403D88] hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] text-white font-bold py-3.5 px-8 rounded-xl shadow-md w-full md:w-auto transition cursor-pointer">
+                            <i class="fa-solid fa-magnifying-glass mr-2"></i> Search Details
+                        </button>
+                    </div>
+
+                    <div id="hostel-not-found" class="hidden text-center p-8 text-rose-500 font-bold bg-rose-50 dark:bg-rose-950/30 rounded-2xl border border-rose-200 dark:border-rose-900/50">
+                        ❌ Student not found! Please check the ID.
+                    </div>
+
+                    <div id="hostel-details-section" class="hidden">
+                        <div class="bg-white dark:bg-[#1c1635] p-5 md:p-8 rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-[#fce5e9] dark:bg-[#281f47] px-3 py-1.5 rounded-bl-2xl font-extrabold text-[#403D88] dark:text-[#ff9ebb] text-[10px] md:text-xs shadow-xs border-l border-b border-[#f3b6c2] dark:border-[#3b325c]">Fee: ₹50k/yr</div>
+                            <h3 class="font-bold text-[#2a2238] dark:text-white mb-6 text-base md:text-lg border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3 flex flex-col md:flex-row md:items-center justify-between gap-2 mt-4 md:mt-0">
+                                <span><i class="fa-solid fa-bed text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i> Update Accommodation</span>
+                                <span id="hostel-student-name" class="text-xs text-[#7a6b85] dark:text-[#a69bb8] font-semibold"></span>
+                            </h3>
+
+                            <div class="space-y-5 max-w-3xl">
+                                <div>
+                                    <label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-2">Opt for Hostel?</label>
+                                    <select id="admin-sel-hostel-req" onchange="toggleAdminHostelForm()" class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] rounded-xl font-bold text-[#2a2238] dark:text-white transition cursor-pointer">
+                                        <option value="No">No, Hostel not required</option>
+                                        <option value="Yes">Yes, Allocate a room (₹50,000)</option>
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div>
+                                        <label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-2">Floor Preference</label>
+                                        <select id="admin-sel-floor" class="w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] rounded-xl outline-none font-bold text-[#2a2238] dark:text-white bg-white dark:bg-[#080611] transition" disabled>
+                                            <option value="">-- Choose Floor --</option>
+                                            <option value="Ground Floor">Ground Floor</option>
+                                            <option value="1st Floor">1st Floor</option>
+                                            <option value="2nd Floor">2nd Floor</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-2">Room Number</label>
+                                        <input type="text" id="admin-sel-room" placeholder="e.g. A-101" class="w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] rounded-xl outline-none font-bold text-[#2a2238] dark:text-white bg-white dark:bg-[#080611] transition" disabled>
+                                    </div>
+                                </div>
+                                <div class="pt-4 border-t border-[#f3b6c2]/60 dark:border-[#3b325c]">
+                                    <label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-2">Amount Paid (₹)</label>
+                                    <input type="number" id="admin-hostel-paid" oninput="calcHostelLiveFees()" class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] rounded-xl font-bold text-[#2a2238] dark:text-white bg-white dark:bg-[#080611]" value="0" disabled>
+                                </div>
+                                <div class="flex flex-col md:flex-row justify-between items-center mt-6 bg-[#fce5e9] dark:bg-[#130f24] p-4 md:p-6 rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] gap-4">
+                                    <div class="w-full md:w-auto flex justify-between md:flex-col items-center md:items-start">
+                                        <p class="text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase tracking-wider">Pending Dues</p>
+                                        <p class="text-2xl md:text-3xl font-black text-rose-600 mt-1" id="hostel-live-pending">₹0</p>
+                                    </div>
+                                    <button onclick="saveAdminHostel()" class="btn-liquid w-full md:w-auto bg-[#403D88] hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] text-white font-bold py-3.5 px-8 rounded-xl shadow-lg transition cursor-pointer">
+                                        <i class="fa-solid fa-floppy-disk mr-2"></i> Save Changes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: FULL PROFILE -->
+            <div id="info-tab-view" class="tab-view">
+                <div class="content-header mb-6">
+                    <h1 class="text-2xl md:text-3xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Student Full Profile</h1>
+                    <p class="text-[#7a6b85] dark:text-[#a69bb8] text-sm">Query any student to inspect academic credentials and unified balances.</p>
+                </div>
+
+                <div class="panel-block !p-4 md:!p-8">
+                    <div class="flex flex-col md:flex-row gap-4 items-end mb-8 bg-[#fce5e9]/50 dark:bg-[#130f24] p-4 md:p-6 rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c]">
+                        <div class="flex-1 w-full">
+                            <label class="block text-xs font-bold text-[#7a6b85] dark:text-[#a69bb8] uppercase mb-2 tracking-wider">Search Student ID</label>
+                            <input type="text" id="info-search-id" placeholder="e.g. STU001" class="pro-input w-full p-3.5 border-2 border-[#f3b6c2] dark:border-[#3b325c] bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white rounded-xl font-bold">
+                        </div>
+                        <button onclick="searchStudentForInfo()" class="btn-liquid bg-[#403D88] hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] text-white font-bold py-3.5 px-8 rounded-xl shadow-md w-full md:w-auto transition cursor-pointer">
+                            <i class="fa-solid fa-magnifying-glass mr-2"></i> View Profile
+                        </button>
+                    </div>
+
+                    <div id="info-not-found" class="hidden text-center p-8 text-rose-500 font-bold bg-rose-50 dark:bg-rose-950/30 rounded-2xl border border-rose-200 dark:border-rose-900/50">
+                        ❌ Student not found! Please check the ID.
+                    </div>
+
+                    <div id="info-details-section" class="hidden space-y-6">
+                        <!-- Profile Card 1 -->
+                        <div class="bg-white dark:bg-[#1c1635] p-5 md:p-6 rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs">
+                            <h3 class="font-bold text-[#2a2238] dark:text-white mb-4 text-base border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-2 flex items-center justify-between">
+                                <span><i class="fa-solid fa-user text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i>Personal Details</span>
+                                <img id="info-photo-img" src="" class="w-12 h-12 rounded-full border-2 border-[#f3b6c2] dark:border-[#3b325c] object-cover hidden shadow-xs">
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-4 text-sm">
+                                <div class="col-span-2 sm:col-span-1"><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Full Name</span><span id="info-name" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base">--</span></div>
+                                <div class="col-span-2 sm:col-span-1"><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Email</span><span id="info-email" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base break-all">--</span></div>
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Mobile</span><span id="info-phone" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base">--</span></div>
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Year</span><span id="info-year" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base">--</span></div>
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">CGPA</span><span id="info-cgpa" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base">--</span></div>
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Pass</span><span id="info-password" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base">--</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Card 2 -->
+                        <div class="bg-white dark:bg-[#1c1635] p-5 md:p-6 rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs">
+                            <h3 class="font-bold text-[#2a2238] dark:text-white mb-4 text-base border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-2 flex items-center"><i class="fa-solid fa-book-open text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i>Academic Fees</h3>
+                            <div class="mb-5"><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-2">Enrolled Courses</span><div id="info-courses" class="flex flex-wrap gap-2">--</div></div>
+                            <div class="grid grid-cols-3 gap-2 md:gap-6 text-center md:text-left text-sm bg-[#faf4f8] dark:bg-[#130f24] p-3 md:p-4 rounded-xl border border-[#f3b6c2]/60 dark:border-[#3b325c]">
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Status</span><span id="info-course-status" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base">--</span></div>
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Paid</span><span id="info-course-paid" class="font-black text-emerald-600 dark:text-emerald-400 text-sm md:text-base">--</span></div>
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Pending</span><span id="info-course-pending" class="font-black text-rose-600 text-sm md:text-base">--</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Profile Card 3 -->
+                        <div class="bg-white dark:bg-[#1c1635] p-5 md:p-6 rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs">
+                            <h3 class="font-bold text-[#2a2238] dark:text-white mb-4 text-base border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-2 flex items-center"><i class="fa-solid fa-building-user text-[#8B639B] dark:text-[#ff9ebb] mr-2"></i>Hostel Fees</h3>
+                            <div class="grid grid-cols-3 gap-2 md:gap-6 text-center md:text-left text-sm mb-5">
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Hostel?</span><span id="info-hostel-req" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base">--</span></div>
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Room</span><span id="info-room" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base">--</span></div>
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Floor</span><span id="info-floor" class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base">--</span></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-center md:text-left text-sm bg-[#faf4f8] dark:bg-[#130f24] p-3 md:p-4 rounded-xl border border-[#f3b6c2]/60 dark:border-[#3b325c]">
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Hostel Paid</span><span id="info-hostel-paid" class="font-black text-emerald-600 dark:text-emerald-400 text-sm md:text-base">--</span></div>
+                                <div><span class="text-[#7a6b85] dark:text-[#a69bb8] block text-[10px] uppercase font-bold mb-1">Hostel Pending</span><span id="info-hostel-pending" class="font-black text-rose-600 text-sm md:text-base">--</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Dues Banner -->
+                        <div class="bg-rose-50 dark:bg-rose-950/20 p-5 md:p-8 rounded-2xl border-2 border-rose-200 dark:border-rose-900/50 flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-2 shadow-xs">
+                            <span class="text-rose-900 dark:text-rose-300 font-extrabold text-xs md:text-base uppercase tracking-wide">Total Remaining Dues</span>
+                            <span id="info-total-dues" class="font-black text-3xl md:text-4xl text-rose-600">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Registration Dialog Modal -->
+    <dialog id="student-form-dialog" class="p-6 md:p-10 border border-[#f3b6c2] dark:border-[#3b325c] rounded-[24px] max-w-[600px] w-[90%] mx-auto bg-white dark:bg-[#1c1635] shadow-[0_25px_50px_-12px_rgba(64,61,136,0.35)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)]">
+        <form id="student-modal-form" onsubmit="saveModalStudent(event)">
+            <h3 id="student-modal-title" class="mt-0 text-[#1c1635] dark:text-white text-xl md:text-2xl font-extrabold border-b border-[#f3b6c2] dark:border-[#3b325c] pb-4 mb-6 tracking-tight">Register New Student</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2">
+                
+                <label class="font-semibold text-[13px] text-[#4a3e5c] dark:text-[#a69bb8] sm:col-span-2">Passport Photo (Max 500KB): 
+                    <input type="file" id="modal-stu-photo" accept="image/*" class="w-full p-2 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl mt-1.5 outline-none bg-[#faf4f8] dark:bg-[#080611] text-gray-700 dark:text-gray-300 cursor-pointer text-xs">
+                </label>
+
+                <label class="font-semibold text-[13px] text-[#4a3e5c] dark:text-[#a69bb8]">Student ID: <input type="text" id="modal-stu-id" placeholder="e.g. STU001" required class="pro-input w-full p-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl mt-1.5 outline-none bg-white dark:bg-[#080611] text-gray-900 dark:text-white"></label>
+                <label class="font-semibold text-[13px] text-[#4a3e5c] dark:text-[#a69bb8]">Password: <input type="text" id="modal-stu-pass" value="admin123" required class="pro-input w-full p-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl mt-1.5 outline-none bg-white dark:bg-[#080611] text-gray-900 dark:text-white"></label>
+                <label class="font-semibold text-[13px] text-[#4a3e5c] dark:text-[#a69bb8] sm:col-span-2">Full Name: <input type="text" id="modal-stu-name" placeholder="e.g. Rahul Sharma" required class="pro-input w-full p-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl mt-1.5 outline-none bg-white dark:bg-[#080611] text-gray-900 dark:text-white"></label>
+                <label class="font-semibold text-[13px] text-[#4a3e5c] dark:text-[#a69bb8]">Mobile Number: <input type="tel" id="modal-stu-phone" placeholder="e.g. 9876543210" class="pro-input w-full p-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl mt-1.5 outline-none bg-white dark:bg-[#080611] text-gray-900 dark:text-white"></label>
+                <label class="font-semibold text-[13px] text-[#4a3e5c] dark:text-[#a69bb8]">Email Address: <input type="email" id="modal-stu-email" placeholder="student@example.com" class="pro-input w-full p-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl mt-1.5 outline-none bg-white dark:bg-[#080611] text-gray-900 dark:text-white"></label>
+                <label class="font-semibold text-[13px] text-[#4a3e5c] dark:text-[#a69bb8]">Academic Year: <input type="text" id="modal-stu-year" value="2026-27" class="pro-input w-full p-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl mt-1.5 outline-none bg-white dark:bg-[#080611] text-gray-900 dark:text-white"></label>
+                <label class="font-semibold text-[13px] text-[#4a3e5c] dark:text-[#a69bb8]">CGPA / GPA: <input type="text" id="modal-stu-cgpa" placeholder="e.g. 3.8" class="pro-input w-full p-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl mt-1.5 outline-none bg-white dark:bg-[#080611] text-gray-900 dark:text-white"></label>
+                
+                <div class="sm:col-span-2 p-3 bg-[#fce5e9] dark:bg-[#281f47] border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs text-[#403D88] dark:text-[#ff9ebb] font-semibold text-center mt-2">
+                    <i class="fa-solid fa-circle-info mr-1"></i> Register candidate here, then use <b>Enroll Courses</b> & <b>Hostel</b> tabs.
+                </div>
+            </div>
+            <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 border-t border-[#f3b6c2] dark:border-[#3b325c] pt-6 mt-6">
+                <button type="button" class="btn btn-faint-blue w-full sm:w-auto text-sm" onclick="document.getElementById('student-form-dialog').close()">Cancel</button>
+                <button type="submit" class="btn btn-primary-blue w-full sm:w-auto text-sm"><i class="fa-solid fa-user-plus mr-1"></i> Add Student</button>
+            </div>
+        </form>
+    </dialog>
+
+    <footer class="admin-portal-footer">
+        <p>&copy; 2026 EduHostel Academy. All rights reserved.</p>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/919876543210?text=Hello%20Admin" target="_blank" class="fixed bottom-6 right-6 bg-[#25D366] text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:scale-110 hover:shadow-[#25D366]/50 transition-all duration-300 z-[100]" title="Chat on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Logic Controller Scripts -->
+    <script>
+        let currentEnrollStudent = null; 
+        let currentHostelStudent = null;
+        let uploadedPhotoBase64 = "";
+
+        // ==========================================
+        // ADMIN OTP AUTHENTICATION FUNCTIONS
+        // ==========================================
+        async function requestAdminOTP() {
+            const email = document.getElementById('admin-email-input').value.trim();
+            const errorMsg = document.getElementById('auth-error-msg');
+            errorMsg.classList.add('hidden');
+
+            if (!email) {
+                errorMsg.innerText = "Please enter your admin email.";
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/admin-send-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert("📩 OTP has been sent to your email!");
+                    document.getElementById('email-step').classList.add('hidden');
+                    document.getElementById('otp-step').classList.remove('hidden');
+                } else {
+                    errorMsg.innerText = data.message;
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (err) {
+                errorMsg.innerText = "Server connection failed!";
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        async function verifyAdminOTP() {
+            const email = document.getElementById('admin-email-input').value.trim();
+            const otp = document.getElementById('admin-otp-input').value.trim();
+            const errorMsg = document.getElementById('auth-error-msg');
+
+            if (otp.length !== 6) {
+                errorMsg.innerText = "Please enter a valid 6-digit OTP.";
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/admin-verify-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, otp })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    document.getElementById('admin-auth-overlay').style.display = 'none';
+                    sessionStorage.setItem('admin_authenticated', 'true');
+                    sessionStorage.setItem('admin_role', data.role);
+                    loadStudentsFromDB(); 
+                    renderAdminCourseOptions();
+                } else {
+                    errorMsg.innerText = data.message;
+                    errorMsg.classList.remove('hidden');
+                }
+            } catch (err) {
+                errorMsg.innerText = "Verification failed!";
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                document.getElementById('theme-text').innerHTML = '<i class="fa-solid fa-sun mr-2"></i> Light Mode';
+                document.getElementById('theme-toggle-icon').classList.replace('fa-toggle-on', 'fa-toggle-off');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('theme-text').innerHTML = '<i class="fa-solid fa-moon mr-2"></i> Dark Mode';
+                document.getElementById('theme-toggle-icon').classList.replace('fa-toggle-off', 'fa-toggle-on');
+            }
+        }
+
+        function adminLogout() {
+            sessionStorage.removeItem('admin_authenticated');
+            sessionStorage.removeItem('admin_role');
+            window.location.reload();
+        }
+
+        function exitAdminPanel() {
+            sessionStorage.removeItem('admin_authenticated');
+            sessionStorage.removeItem('admin_role');
+            window.location.href = 'index.html';
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.getElementById('theme-text').innerHTML = '<i class="fa-solid fa-moon mr-2"></i> Dark Mode';
+                if(document.getElementById('theme-toggle-icon')) document.getElementById('theme-toggle-icon').classList.replace('fa-toggle-off', 'fa-toggle-on');
+            } else {
+                document.getElementById('theme-text').innerHTML = '<i class="fa-solid fa-sun mr-2"></i> Light Mode';
+                if(document.getElementById('theme-toggle-icon')) document.getElementById('theme-toggle-icon').classList.replace('fa-toggle-on', 'fa-toggle-off');
+            }
+        });
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        const courseData = [
+            { cat: 'Primary Education', items: [{ name: 'Class 1', price: 5000 }, { name: 'Class 2', price: 6000 }, { name: 'Class 3', price: 8000 }, { name: 'Class 4', price: 9000 }, { name: 'Class 5', price: 10000 }] },
+            { cat: 'Secondary Education', items: [{ name: 'Class 6', price: 11000 }, { name: 'Class 7', price: 12000 }, { name: 'Class 8', price: 13000 }, { name: 'Class 9', price: 14000 }, { name: 'Class 10', price: 15000 }] },
+            { cat: 'Scholarship Batches', items: [{ name: 'Class 5 Scholarship (PUP)', price: 8500 }, { name: 'Class 8 NMMS', price: 9500 }] }
+        ];
+
+        function generateSubjectBadgesLarge(courseString) {
+            if (!courseString || courseString.trim() === '' || courseString === 'No Subjects Selected') return `<span class="text-sm text-slate-400 font-medium italic">No active courses.</span>`;
+            return courseString.split(',').map(s => `<span class="inline-flex items-center bg-[#fce5e9] dark:bg-[#281f47] text-[#403D88] dark:text-[#ff9ebb] px-3 py-1.5 rounded-xl text-xs font-bold border border-[#f3b6c2] dark:border-[#3b325c] shadow-xs m-1"><i class="fa-solid fa-circle-check text-[#8B639B] dark:text-[#ff9ebb] mr-1.5"></i>${s.trim()}</span>`).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const photoInput = document.getElementById('modal-stu-photo');
+            if(photoInput) {
+                photoInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        if (file.size > 500000) {
+                            alert("⚠️ Photo is too large! Please choose an image under 500KB to prevent database crashing.");
+                            this.value = ''; uploadedPhotoBase64 = ""; return;
+                        }
+                        const reader = new FileReader();
+                        reader.onload = function(ev) { uploadedPhotoBase64 = ev.target.result; };
+                        reader.readAsDataURL(file);
+                    } else { uploadedPhotoBase64 = ""; }
+                });
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('admin_authenticated') === 'true') {
+                document.getElementById('admin-auth-overlay').style.display = 'none';
+                loadStudentsFromDB(); renderAdminCourseOptions();
+            }
+        });
+
+        // 🔄 AUTO-REFRESH TABLE INTERVAL (Checks active status every 5 seconds)
+        setInterval(() => {
+            if (sessionStorage.getItem('admin_authenticated') === 'true') {
+                loadStudentsFromDB();
+            }
+        }, 5000);
+
+        function switchAdminTab(buttonIdKey, targetPanelId) {
+            document.querySelectorAll('.sidebar-menu .menu-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active-view'));
+            document.getElementById(`btn-${buttonIdKey}`).classList.add('active');
+            document.getElementById(targetPanelId).classList.add('active-view');
+            
+            if(window.innerWidth < 1024) { toggleSidebar(); }
+        }
+
+        // async function loadStudentsFromDB() {
+        //     try {
+        //         const res = await fetch('http://127.0.0.1:5000/api/students');
+        //         const data = await res.json();
+        //         if (data.success) {
+        //             document.getElementById('dashboard-total-students').innerText = data.students.length;
+        //             const tbody = document.getElementById('students-table-body');
+        //             tbody.innerHTML = '';
+        //             if (data.students.length === 0) {
+        //                 tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 30px; color: #7a6b85;">No students enrolled yet.</td></tr>`;
+        //                 return;
+        //             }
+        //             data.students.forEach(s => {
+        //                 let isActive = false;
+        //                 if (s.lastActive) {
+        //                     const lastActiveTime = new Date(s.lastActive).getTime();
+        //                     const now = new Date().getTime();
+        //                     if ((now - lastActiveTime) < 300000) {
+        //                         isActive = true;
+        //                     }
+        //                 }
+
+        //                 const statusBadge = isActive 
+        //                     ? `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400"><span class="w-2 h-2 rounded-full bg-emerald-500 radar-dot"></span> Active Now</span>`
+        //                     : `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400"><span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span> Offline</span>`;
+
+        //                 const row = document.createElement('tr');
+        //                 row.innerHTML = `
+        //                     <td><b class="text-[#403D88] dark:text-[#ff9ebb]">${s.studentId}</b></td>
+        //                     <td>${s.fullName}</td>
+        //                     <td>${s.email || 'N/A'}</td>
+        //                     <td>${s.phone || 'N/A'}</td>
+        //                     <td style="max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${s.classCourse || 'None'}</td>
+        //                     <td><span class="font-bold px-2 py-0.5 rounded-md bg-[#fce5e9] dark:bg-[#130f24] text-xs">${s.gpa || '0.0'}</span></td>
+        //                     <td>${statusBadge}</td>
+        //                     <td style="text-align: right; display: flex; gap: 6px; justify-content: flex-end;">
+        //                         <button class="btn btn-delete" onclick='deleteStudent("${s.studentId}")'><i class="fa-solid fa-trash"></i></button>
+        //                     </td>`;
+        //                 tbody.appendChild(row);
+        //             });
+        //         }
+        //     } catch (err) {}
+        // }
+
+        async function loadStudentsFromDB() {
+    try {
+        const res = await fetch('http://127.0.0.1:5000/api/students'); // Yeh URL hona chahiye
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('dashboard-total-students').innerText = data.students.length;
+            const tbody = document.getElementById('students-table-body');
+            tbody.innerHTML = '';
+            
+            if (data.students.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 30px; color: #7a6b85;">No students enrolled yet.</td></tr>`;
+                return;
+            }
+            
+            data.students.forEach(s => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><b class="text-[#403D88] dark:text-[#ff9ebb]">${s.studentId}</b></td>
+                    <td>${s.fullName}</td>
+                    <td>${s.email || 'N/A'}</td>
+                    <td>${s.phone || 'N/A'}</td>
+                    <td>${s.classCourse || 'None'}</td>
+                    <td><span class="font-bold px-2 py-0.5 rounded-md bg-[#fce5e9] dark:bg-[#130f24] text-xs">${s.gpa || '3.6'}</span></td>
+                    <td><span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">Active</span></td>
+                    <td style="text-align: right;"><button class="btn btn-delete" onclick='deleteStudent("${s.studentId}")'><i class="fa-solid fa-trash"></i></button></td>`;
+                tbody.appendChild(row);
+            });
+        }
+    } catch (err) {
+        console.error("Failed to load students:", err);
+    }
+}
+
+        async function deleteStudent(studentId) {
+            if (confirm(`Are you sure you want to completely delete student ID: ${studentId}?`)) {
+                try {
+                    const safeId = encodeURIComponent(studentId.trim());
+                    const res = await fetch(`http://127.0.0.1:5000/api/students/${safeId}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } });
+                    if ((await res.json()).success) { alert("🗑️ Student deleted successfully!"); loadStudentsFromDB(); }
+                } catch (err) { alert("❌ Connection Error!"); }
+            }
+        }
+
+        function openStudentModal() {
+            document.getElementById('student-modal-form').reset();
+            uploadedPhotoBase64 = "";
+            document.getElementById('modal-stu-pass').value = "admin123";
+            document.getElementById('modal-stu-year').value = "2026-27";
+            document.getElementById('modal-stu-id').disabled = false;
+            document.getElementById('student-form-dialog').showModal();
+        }
+
+        async function saveModalStudent(e) {
+            e.preventDefault();
+            const payload = {
+                studentId: document.getElementById('modal-stu-id').value.trim(),
+                password: document.getElementById('modal-stu-pass').value.trim(),
+                fullName: document.getElementById('modal-stu-name').value.trim(),
+                phone: document.getElementById('modal-stu-phone').value.trim(),
+                email: document.getElementById('modal-stu-email').value.trim(),
+                academicYear: document.getElementById('modal-stu-year').value.trim() || '2026-27',
+                gpa: document.getElementById('modal-stu-cgpa').value.trim() || '0.0',
+                classCourse: "No Subjects Selected",
+                profilePhoto: uploadedPhotoBase64
+            };
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/students/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if ((await res.json()).success) {
+                    alert(`🎉 Student Created!\nGo to "Enroll Courses" tab to add subjects for ${payload.studentId}`);
+                    document.getElementById('student-form-dialog').close();
+                    loadStudentsFromDB();
+                }
+            } catch (err) {}
+        }
+
+        function renderAdminCourseOptions() {
+            const container = document.getElementById('admin-courses-container');
+            let html = '';
+            courseData.forEach(section => {
+                html += `<div class="subject-category-title">${section.cat}</div><div class="subject-grid">`;
+                section.items.forEach(c => {
+                    html += `
+                        <label class="subject-card" onclick="toggleAdminSubject(this)">
+                            <input type="checkbox" class="subj-checkbox hidden-checkbox admin-course-chk" value="${c.price}" data-name="${c.name}">
+                            <h4 class="font-extrabold text-[#2a2238] dark:text-white text-sm md:text-base">${c.name}</h4>
+                            <p class="text-xs font-bold text-[#8B639B] dark:text-[#ff9ebb] mt-1 md:mt-2">₹${c.price}</p>
+                        </label>`;
+                });
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function toggleAdminSubject(cardElement) {
+            const checkbox = cardElement.querySelector('.admin-course-chk');
+            if(event.target !== checkbox) checkbox.checked = !checkbox.checked;
+            checkbox.checked ? cardElement.classList.add('selected') : cardElement.classList.remove('selected');
+            calcCourseLiveFees();
+        }
+
+        function calcCourseLiveFees() {
+            let total = 0;
+            document.querySelectorAll('.admin-course-chk:checked').forEach(cb => total += parseInt(cb.value));
+            document.getElementById('enr-total-fee').innerText = '₹' + total;
+            let paid = parseInt(document.getElementById('enr-fee-paid').value) || 0;
+            let pending = total - paid;
+            if(pending < 0) pending = 0;
+            document.getElementById('enr-pending-fee').innerText = '₹' + pending;
+        }
+
+        async function searchStudentForEnroll() {
+            const searchId = document.getElementById('enroll-search-id').value.trim();
+            if(!searchId) return alert("Please enter a Student ID");
+
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/students');
+                const student = (await res.json()).students.find(s => s.studentId === searchId);
+
+                if(student) {
+                    currentEnrollStudent = student; 
+                    document.getElementById('enroll-not-found').classList.add('hidden');
+                    document.getElementById('enroll-details-section').classList.remove('hidden');
+
+                    document.getElementById('enr-id').value = student.studentId;
+                    document.getElementById('enr-name').value = student.fullName || '';
+                    document.getElementById('enr-phone').value = student.phone || '';
+                    document.getElementById('enr-email').value = student.email || '';
+                    document.getElementById('enr-year').value = student.academicYear || '2026-27';
+                    document.getElementById('enr-cgpa').value = student.gpa || '0.0';
+                    document.getElementById('enr-fee-status').value = student.feesStatus || 'Pending';
+                    document.getElementById('enr-fee-paid').value = parseInt((student.paidAmount || "0").replace(/\D/g, '')) || 0;
+
+                    document.querySelectorAll('.admin-course-chk').forEach(cb => {
+                        if (student.classCourse && student.classCourse.includes(cb.getAttribute('data-name'))) {
+                            cb.checked = true; cb.closest('.subject-card').classList.add('selected');
+                        } else {
+                            cb.checked = false; cb.closest('.subject-card').classList.remove('selected');
+                        }
+                    });
+                    calcCourseLiveFees();
+                } else {
+                    document.getElementById('enroll-not-found').classList.add('hidden');
+                    document.getElementById('enroll-details-section').classList.add('hidden');
+                }
+            } catch(err) { alert("❌ Failed to fetch student data from server."); }
+        }
+
+        async function saveAdminEnrollment() {
+            if(!currentEnrollStudent) return;
+
+            let newCourseFeeTotal = 0;
+            const namesArr = [];
+            document.querySelectorAll('.admin-course-chk:checked').forEach(cb => {
+                newCourseFeeTotal += parseInt(cb.value);
+                namesArr.push(cb.getAttribute('data-name'));
+            });
+            const finalCourses = namesArr.length > 0 ? namesArr.join(', ') : 'No Subjects Selected';
+
+            let coursePaid = parseInt(document.getElementById('enr-fee-paid').value) || 0;
+            let feeStatus = document.getElementById('enr-fee-status').value;
+            let newCoursePending = newCourseFeeTotal - coursePaid;
+            if(newCoursePending < 0) newCoursePending = 0;
+
+            let hostelPending = parseInt((currentEnrollStudent.hostelPendingFees || "0").replace(/\D/g, '') || "0");
+            let finalRemaining = newCoursePending + hostelPending;
+
+            const payload = {
+                ...currentEnrollStudent, 
+                fullName: document.getElementById('enr-name').value.trim(),
+                email: document.getElementById('enr-email').value.trim(),
+                phone: document.getElementById('enr-phone').value.trim(),
+                academicYear: document.getElementById('enr-year').value.trim(),
+                gpa: document.getElementById('enr-cgpa').value.trim(),
+                classCourse: finalCourses,
+                feesStatus: feeStatus,
+                paidAmount: "₹" + coursePaid,
+                pendingFees: "₹" + newCoursePending,
+                totalRemainingAmount: "₹" + finalRemaining
+            };
+
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/students/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if ((await res.json()).success) {
+                    alert(`✅ Details and Courses updated successfully for ${payload.studentId}!`);
+                    loadStudentsFromDB(); 
+                    document.getElementById('enroll-search-id').value = '';
+                    document.getElementById('enroll-details-section').classList.add('hidden');
+                    currentEnrollStudent = null;
+                }
+            } catch (err) { alert("❌ Server Error!"); }
+        }
+
+        async function searchStudentForHostel() {
+            const searchId = document.getElementById('hostel-search-id').value.trim();
+            if(!searchId) return alert("Please enter a Student ID");
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/students');
+                const student = (await res.json()).students.find(s => s.studentId === searchId);
+
+                if(student) {
+                    currentHostelStudent = student; 
+                    document.getElementById('hostel-not-found').classList.add('hidden');
+                    document.getElementById('hostel-details-section').classList.remove('hidden');
+                    document.getElementById('hostel-student-name').innerText = `(${student.studentId})`;
+
+                    const hReq = document.getElementById('admin-sel-hostel-req');
+                    const fSel = document.getElementById('admin-sel-floor');
+                    const rSel = document.getElementById('admin-sel-room');
+                    const hPaid = document.getElementById('admin-hostel-paid');
+                    
+                    if (student.hostelRequired === 'Yes') {
+                        hReq.value = 'Yes';
+                        fSel.value = student.floorNo && student.floorNo !== "N/A" ? student.floorNo : "";
+                        rSel.value = student.hostelRoom && student.hostelRoom !== "No Hostel" ? student.hostelRoom : "";
+                    } else {
+                        hReq.value = 'No'; fSel.value = ''; rSel.value = '';
+                    }
+                    hPaid.value = parseInt((student.hostelPaidAmount || "0").replace(/\D/g, '')) || 0;
+                    toggleAdminHostelForm();
+                } else {
+                    document.getElementById('hostel-not-found').classList.remove('hidden');
+                    document.getElementById('hostel-details-section').classList.add('hidden');
+                }
+            } catch(err) { alert("❌ Failed to fetch student data from server."); }
+        }
+
+        function toggleAdminHostelForm() {
+            const isYes = document.getElementById('admin-sel-hostel-req').value === 'Yes';
+            const floor = document.getElementById('admin-sel-floor');
+            const room = document.getElementById('admin-sel-room');
+            const hPaid = document.getElementById('admin-hostel-paid');
+            
+            floor.disabled = !isYes; room.disabled = !isYes; hPaid.disabled = !isYes;
+            if(isYes) {
+                floor.classList.remove('bg-[#fce5e9]/40', 'dark:bg-[#130f24]', 'cursor-not-allowed');
+                room.classList.remove('bg-[#fce5e9]/40', 'dark:bg-[#130f24]', 'cursor-not-allowed');
+                hPaid.classList.remove('bg-[#fce5e9]/40', 'dark:bg-[#130f24]', 'cursor-not-allowed');
+            } else {
+                floor.classList.add('bg-[#fce5e9]/40', 'dark:bg-[#130f24]', 'cursor-not-allowed');
+                room.classList.add('bg-[#fce5e9]/40', 'dark:bg-[#130f24]', 'cursor-not-allowed');
+                hPaid.classList.add('bg-[#fce5e9]/40', 'dark:bg-[#130f24]', 'cursor-not-allowed');
+                floor.value = ''; room.value = ''; hPaid.value = '0';
+            }
+            calcHostelLiveFees();
+        }
+
+        function calcHostelLiveFees() {
+            const isYes = document.getElementById('admin-sel-hostel-req').value === 'Yes';
+            const total = isYes ? 50000 : 0;
+            let paid = parseInt(document.getElementById('admin-hostel-paid').value) || 0;
+            if(!isYes) paid = 0;
+            let pending = total - paid;
+            if(pending < 0) pending = 0;
+            document.getElementById('hostel-live-pending').innerText = '₹' + pending;
+        }
+
+        async function saveAdminHostel() {
+            if(!currentHostelStudent) return;
+            const isYes = document.getElementById('admin-sel-hostel-req').value === 'Yes';
+            const floor = document.getElementById('admin-sel-floor').value;
+            const room = document.getElementById('admin-sel-room').value.trim();
+            const hostelPaidVal = parseInt(document.getElementById('admin-hostel-paid').value) || 0;
+
+            if (isYes && (!floor || !room)) return alert("⚠️ Please enter both Floor Preference and Room Number.");
+
+            const hostelTotalFee = isYes ? 50000 : 0;
+            let newHostelPending = hostelTotalFee - hostelPaidVal;
+            if(newHostelPending < 0) newHostelPending = 0;
+
+            let coursePending = parseInt((currentHostelStudent.pendingFees || "0").replace(/\D/g, '') || "0");
+            let totalRemaining = coursePending + newHostelPending;
+
+            const payload = {
+                ...currentHostelStudent,
+                hostelRequired: isYes ? "Yes" : "No",
+                floorNo: isYes ? floor : "N/A",
+                hostelRoom: isYes ? room : "No Hostel",
+                hostelPaidAmount: "₹" + (isYes ? hostelPaidVal : 0),
+                hostelPendingFees: "₹" + newHostelPending,
+                totalRemainingAmount: "₹" + totalRemaining
+            };
+
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/students/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if ((await res.json()).success) {
+                    alert(`✅ Hostel details updated for ${payload.studentId}!`);
+                    loadStudentsFromDB(); 
+                    document.getElementById('hostel-search-id').value = '';
+                    document.getElementById('hostel-details-section').classList.add('hidden');
+                    currentHostelStudent = null;
+                }
+            } catch (err) { alert("❌ Server Error while saving!"); }
+        }
+
+        async function searchStudentForInfo() {
+            const searchId = document.getElementById('info-search-id').value.trim();
+            if(!searchId) return alert("Please enter a Student ID");
+
+            try {
+                const res = await fetch('http://127.0.0.1:5000/api/students');
+                const student = (await res.json()).students.find(s => s.studentId === searchId);
+
+                if(student) {
+                    document.getElementById('info-not-found').classList.add('hidden');
+                    document.getElementById('info-details-section').classList.remove('hidden');
+
+                    const imgElement = document.getElementById('info-photo-img');
+                    if(student.profilePhoto) {
+                        imgElement.src = student.profilePhoto;
+                        imgElement.classList.remove('hidden');
+                    } else {
+                        imgElement.classList.add('hidden');
+                    }
+
+                    document.getElementById('info-name').innerText = student.fullName || 'N/A';
+                    document.getElementById('info-email').innerText = student.email || 'N/A';
+                    document.getElementById('info-phone').innerText = student.phone || 'N/A';
+                    document.getElementById('info-year').innerText = student.academicYear || 'N/A';
+                    document.getElementById('info-cgpa').innerText = student.gpa || '0.0';
+                    document.getElementById('info-password').innerText = student.password || 'N/A'; 
+
+                    document.getElementById('info-courses').innerHTML = generateSubjectBadgesLarge(student.classCourse);
+                    document.getElementById('info-course-status').innerText = student.feesStatus || 'Pending';
+                    document.getElementById('info-course-paid').innerText = student.paidAmount || '₹0';
+                    document.getElementById('info-course-pending').innerText = student.pendingFees || '₹0';
+
+                    document.getElementById('info-hostel-req').innerText = student.hostelRequired || 'No';
+                    document.getElementById('info-room').innerText = student.hostelRoom && student.hostelRoom !== 'No Hostel' ? student.hostelRoom : 'N/A';
+                    document.getElementById('info-floor').innerText = student.floorNo && student.floorNo !== 'N/A' ? student.floorNo : 'N/A';
+                    document.getElementById('info-hostel-paid').innerText = student.hostelPaidAmount || '₹0';
+                    document.getElementById('info-hostel-pending').innerText = student.hostelPendingFees || '₹0';
+                    document.getElementById('info-total-dues').innerText = student.totalRemainingAmount || '₹0';
+                } else {
+                    document.getElementById('info-not-found').classList.add('hidden');
+                    document.getElementById('info-details-section').classList.add('hidden');
+                }
+            } catch(err) { alert("❌ Failed to fetch student data from server."); }
+        }
+
+
+
+        setInterval(() => {
+    if (sessionStorage.getItem('admin_authenticated') === 'true') {
+        loadStudentsFromDB();
+    }
+}, 5000);
+    </script>
+</body>
+</html>

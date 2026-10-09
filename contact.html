@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact EduHostel Academy - We're here to help. Get in touch with us today!">
+    <title>Contact Us | EduHostel Academy</title>
+    
+    <!-- Core Tailwind Framework Component Engine Layer -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+
+        /* 1. Fine Grid Background Motion */
+        @keyframes gridDrift {
+            0% { background-position: 0 0; }
+            100% { background-position: 1.25rem 1.25rem; }
+        }
+        .animate-grid-drift {
+            animation: gridDrift 20s linear infinite;
+        }
+
+        /* 2. Scroll Reveal Animations */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 100ms; }
+        .delay-2 { transition-delay: 200ms; }
+        .delay-3 { transition-delay: 300ms; }
+
+        /* 3. Card Hover Elevation */
+        .pro-card {
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+        .pro-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 32px -10px rgba(139, 99, 155, 0.25);
+        }
+
+        /* 4. Button Liquid Shimmer */
+        .liquid-btn {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.22s ease;
+        }
+        .liquid-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -110%;
+            width: 60%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: rotate(25deg);
+            transition: left 0.75s ease;
+        }
+        .liquid-btn:hover::after {
+            left: 140%;
+        }
+        .liquid-btn:hover {
+            transform: translateY(-2px);
+        }
+        .liquid-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 5. Animated Radar Dot */
+        @keyframes radarPing {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 158, 187, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(255, 158, 187, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 158, 187, 0); }
+        }
+        .radar-pulse {
+            animation: radarPing 2.2s infinite;
+        }
+
+        /* 6. Form Input Focus Glow */
+        .pro-input {
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+        }
+        .pro-input:focus {
+            outline: none;
+            border-color: #8B639B;
+            box-shadow: 0 0 0 3px rgba(139, 99, 155, 0.25);
+        }
+        .dark .pro-input:focus {
+            border-color: #ff9ebb;
+            box-shadow: 0 0 0 3px rgba(255, 158, 187, 0.25);
+        }
+    </style>
+</head>
+<body class="bg-white text-[#2a2238] antialiased font-sans transition-colors duration-300 dark:bg-[#080611] dark:text-[#ffffff] min-h-screen flex flex-col">
+
+    <!-- Reusable Central Header Injection Point -->
+    <header class="header"></header>
+
+    <main class="flex-grow">
+        <!-- HERO SEGMENT -->
+        <section class="bg-gradient-to-br from-[#403D88] via-[#8B639B] to-[#AF719D] dark:from-[#110e24] dark:via-[#1c1638] dark:to-[#2b1f47] text-white py-16 md:py-20 text-left px-4 sm:px-6 lg:px-8 transition-colors duration-300 relative overflow-hidden">
+            <!-- Fine Grid Background with subtle drift -->
+            <div class="absolute inset-0 opacity-15 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:1.25rem_1.25rem] animate-grid-drift"></div>
+            
+            <div class="max-w-7xl mx-auto space-y-3 relative z-10 reveal-on-scroll">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-xs font-medium text-white mb-1">
+                    <span class="w-2 h-2 rounded-full bg-[#ff9ebb] radar-pulse"></span> We're here to help • Quick Response Desk
+                </div>
+                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-white">Contact <span class="text-[#F8B2B2] dark:text-[#ff9ebb]">Us</span></h1>
+                <p class="text-[#fbe5e5] text-base md:text-lg max-w-2xl font-light dark:text-[#dfd7ea]">
+                    Have questions about courses, 5th & 8th scholarship batches, or hostel admissions? Get in touch today.
+                </p>
+            </div>
+        </section>
+
+        <!-- QUICK METRICS CONTACT CARDS MATRIX -->
+        <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#080611] transition-colors duration-300">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <!-- Card 1: Address -->
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] flex flex-col items-center text-center space-y-3 shadow-sm reveal-on-scroll">
+                    <div class="w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#ff9ebb] rounded-2xl flex items-center justify-center text-xl shadow-xs transition-transform duration-300 hover:scale-110 hover:rotate-6">📍</div>
+                    <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Campus Address</h4>
+                    <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Anna Chowk Andur, Tq. Tuljapur, Dist. Osmanabad 413603</p>
+                </div>
+                <!-- Card 2: Phone -->
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] flex flex-col items-center text-center space-y-3 shadow-sm reveal-on-scroll delay-1">
+                    <div class="w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#ff9ebb] rounded-2xl flex items-center justify-center text-xl shadow-xs transition-transform duration-300 hover:scale-110 hover:rotate-6">📞</div>
+                    <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Phone Support</h4>
+                    <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">+91 9511228821<br>+91 9359933642</p>
+                </div>
+                <!-- Card 3: Email -->
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] flex flex-col items-center text-center space-y-3 shadow-sm reveal-on-scroll delay-2">
+                    <div class="w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#ff9ebb] rounded-2xl flex items-center justify-center text-xl shadow-xs transition-transform duration-300 hover:scale-110 hover:rotate-6">✉️</div>
+                    <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Email Desk</h4>
+                    <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Shreeclassesandur@gmail.com</p>
+                </div>
+                <!-- Card 4: Office Hours -->
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] rounded-2xl border border-[#f3b6c2] dark:border-[#3b325c] flex flex-col items-center text-center space-y-3 shadow-sm reveal-on-scroll delay-3">
+                    <div class="w-12 h-12 bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#ff9ebb] rounded-2xl flex items-center justify-center text-xl shadow-xs transition-transform duration-300 hover:scale-110 hover:rotate-6">🕒</div>
+                    <h4 class="font-bold text-sm text-[#2a2238] dark:text-white">Office Hours</h4>
+                    <p class="text-xs text-[#5e516d] dark:text-[#dfd7ea] leading-relaxed">Mon - Sat: 8:30 AM - 7:00 PM<br>Sunday: 10:00 AM - 2:00 PM</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPLIT ROW: CONTACT FORM VS LOCATION/DEPARTMENTS -->
+        <section class="py-16 bg-[#faf4f8] dark:bg-[#0c0919] border-y border-[#f2e2ec] dark:border-[#1c1635] transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                    
+                    <!-- Left: Message Form Block -->
+                    <form id="contactUsForm" class="pro-card bg-[#fce5e9] dark:bg-[#1c1635] rounded-3xl border border-[#f3b6c2] dark:border-[#3b325c] p-6 sm:p-8 space-y-4 shadow-sm reveal-on-scroll">
+                        <div class="space-y-1 mb-2">
+                            <span class="text-[10px] font-bold tracking-wider uppercase text-[#8B639B] dark:text-[#ff9ebb]">Direct Inquiry</span>
+                            <h3 class="text-2xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Send us a Message</h3>
+                            <p class="text-xs text-[#7a6b85] dark:text-[#dfd7ea]">Fill in your details and our counselor will get back within 24 hours.</p>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Name *</label>
+                            <input type="text" id="custName" placeholder="Enter student / guardian name" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Email *</label>
+                                <input type="email" id="custEmail" placeholder="your.email@example.com" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Phone *</label>
+                                <input type="tel" id="custPhone" placeholder="+91 98765 43210" required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Subject / Purpose</label>
+                            <input type="text" id="custSubject" placeholder="e.g., 5th Scholarship Batch or Hostel Accommodation Inquiry" class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold text-[#4a3e5c] dark:text-[#dfd7ea]">Message *</label>
+                            <textarea id="custMessage" rows="4" placeholder="Write your questions here..." required class="pro-input w-full px-3.5 py-2.5 border border-[#f3b6c2] dark:border-[#3b325c] rounded-xl text-xs bg-white dark:bg-[#080611] text-[#2a2238] dark:text-white resize-none"></textarea>
+                        </div>
+                        <button type="submit" id="contactSubmitBtn" class="liquid-btn w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#403D88] hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] text-white font-bold rounded-xl text-xs shadow-md transition-colors mt-3 cursor-pointer">
+                            <span>🚀</span> Send Message
+                        </button>
+                    </form>
+
+                    <!-- Right: Map Location & Secondary Department Info Column -->
+                    <div class="space-y-6">
+                        
+                        <!-- Location Card Map wrapper (UPDATED WITH LIVE MAP) -->
+                        <div class="pro-card bg-[#fce5e9] dark:bg-[#1c1635] p-6 rounded-3xl border border-[#f3b6c2] dark:border-[#3b325c] space-y-4 shadow-sm reveal-on-scroll delay-1">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-bold text-[#2a2238] dark:text-white tracking-tight flex items-center gap-2">
+                                    <span>🗺️</span> Campus Location
+                                </h3>
+                                <span class="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-[#f7ccd5] dark:bg-[#281f47] text-[#823359] dark:text-[#ff9ebb]">Central Hub</span>
+                            </div>
+                            
+                            <!-- Live Google Map Iframe -->
+                            <div class="w-full h-56 rounded-2xl overflow-hidden relative border border-[#f3b6c2]/80 dark:border-[#3b325c] shadow-inner bg-slate-100">
+                                <iframe 
+                                    src="https://maps.google.com/maps?q=17.814391,76.241451&z=15&output=embed" 
+                                    width="100%" 
+                                    height="100%" 
+                                    style="border:0;" 
+                                    allowfullscreen="" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade" 
+                                    class="w-full h-full object-cover">
+                                </iframe>
+                            </div>
+
+                            <!-- Get Directions Button -->
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=17.814391,76.241451" target="_blank" class="liquid-btn w-full flex items-center justify-center gap-2 px-6 py-3 bg-white border border-[#f3b6c2] dark:border-[#3b325c] dark:bg-[#080611] text-[#403D88] dark:text-[#ff9ebb] font-bold rounded-xl text-xs shadow-sm hover:shadow-md transition-all cursor-pointer mt-2">
+                                <i class="fa-solid fa-diamond-turn-right text-[#8B639B] dark:text-[#ff9ebb] text-sm"></i> Check Distance & Get Directions
+                            </a>
+                        </div>
+
+                        <!-- Secondary Departments Contact Matrix -->
+                        <div class="pro-card bg-[#fce5e9] dark:bg-[#1c1635] p-6 rounded-3xl border border-[#f3b6c2] dark:border-[#3b325c] space-y-4 shadow-sm reveal-on-scroll delay-2">
+                            <h3 class="text-lg font-bold text-[#2a2238] dark:text-white tracking-tight flex items-center gap-2">
+                                <span>🏢</span> Direct Department Contacts
+                            </h3>
+                            
+                            <div class="space-y-3.5 text-xs">
+                                <div class="border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3 space-y-1">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="font-bold text-[#2a2238] dark:text-white">Admissions & Foundation Batches</h4>
+                                        <span class="text-[10px] text-[#8B639B] dark:text-[#ff9ebb] font-semibold">Desk 1</span>
+                                    </div>
+                                    <p class="text-[#5e516d] dark:text-[#dfd7ea]">✉️ admissions@eduhostel.edu</p>
+                                    <p class="text-[#5e516d] dark:text-[#dfd7ea] font-medium">📞 +91 93599 33642</p>
+                                </div>
+                                <div class="border-b border-[#f3b6c2]/60 dark:border-[#3b325c] pb-3 space-y-1">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="font-bold text-[#2a2238] dark:text-white">Hostel & Dining Mess Warden</h4>
+                                        <span class="text-[10px] text-[#8B639B] dark:text-[#ff9ebb] font-semibold">24/7 Helpline</span>
+                                    </div>
+                                    <p class="text-[#5e516d] dark:text-[#dfd7ea]">✉️ hostel.services@eduhostel.edu</p>
+                                    <p class="text-[#5e516d] dark:text-[#dfd7ea] font-medium">📞 +91 78220 48546</p>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="flex justify-between items-center">
+                                        <h4 class="font-bold text-[#2a2238] dark:text-white">Accounts & Tuition Billing</h4>
+                                        <span class="text-[10px] text-[#8B639B] dark:text-[#ff9ebb] font-semibold">Desk 2</span>
+                                    </div>
+                                    <p class="text-[#5e516d] dark:text-[#dfd7ea]">✉️ finance@eduhostel.edu</p>
+                                    <p class="text-[#5e516d] dark:text-[#dfd7ea] font-medium">📞 +91 98765 43210</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ACCORDION FAQ GRID LAYER -->
+        <section class="py-20 max-w-5xl mx-auto px-4 sm:px-6 bg-white dark:bg-[#080611] transition-colors duration-300">
+            <div class="text-center max-w-2xl mx-auto mb-14 space-y-2 reveal-on-scroll">
+                <h2 class="text-3xl font-extrabold text-[#2a2238] dark:text-white tracking-tight">Frequently Asked Questions</h2>
+                <p class="text-[#7a6b85] dark:text-[#dfd7ea] text-sm">Quick answers to common questions about admissions and hostel life</p>
+            </div>
+
+            <div class="space-y-4 max-w-4xl mx-auto">
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] border border-[#f3b6c2] dark:border-[#3b325c] rounded-2xl space-y-2 shadow-xs reveal-on-scroll">
+                    <h4 class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base flex items-center gap-2">
+                        <span>❓</span> What are the admission requirements?
+                    </h4>
+                    <p class="text-[#5e516d] dark:text-[#dfd7ea] text-xs leading-relaxed">
+                        We require previous academic report cards, student identification, passport-size photographs, and parent/guardian contact verification. Special scholarship test registrations are held separately.
+                    </p>
+                </div>
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] border border-[#f3b6c2] dark:border-[#3b325c] rounded-2xl space-y-2 shadow-xs reveal-on-scroll delay-1">
+                    <h4 class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base flex items-center gap-2">
+                        <span>❓</span> Are hostel facilities mandatory for enrolled students?
+                    </h4>
+                    <p class="text-[#5e516d] dark:text-[#dfd7ea] text-xs leading-relaxed">
+                        No, hostel accommodation is optional. Day scholar batches are also available. However, for outstation students, our campus hostel offers dedicated evening study sessions and zero daily commute.
+                    </p>
+                </div>
+                <div class="pro-card p-6 bg-[#fce5e9] dark:bg-[#1c1635] border border-[#f3b6c2] dark:border-[#3b325c] rounded-2xl space-y-2 shadow-xs reveal-on-scroll delay-2">
+                    <h4 class="font-bold text-[#2a2238] dark:text-white text-sm md:text-base flex items-center gap-2">
+                        <span>❓</span> What payment methods and installment options are available?
+                    </h4>
+                    <p class="text-[#5e516d] dark:text-[#dfd7ea] text-xs leading-relaxed">
+                        We accept bank wire transfers, UPI / QR payments, and debit/credit cards. Flexible installment-based structures are available through the finance desk upon request.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER MATRIX -->
+    <footer class="bg-[#181636] dark:bg-[#05040a] text-[#e5dcfa] pt-16 pb-8 text-xs transition-colors duration-300 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 border-b border-[#2d295e] dark:border-[#191533] pb-12">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 text-white">
+                    <div class="bg-[#8B639B] text-white p-1.5 rounded font-bold text-sm">🎓</div>
+                    <span class="font-bold text-base tracking-wide">EduHostel</span>
+                </div>
+                <p class="leading-relaxed text-[#c7bdd7] dark:text-[#c4b5e6]">Empowering students with quality education, comfortable living spaces, and healthy meals.</p>
+                <div class="socials flex gap-4 text-xl pt-2">
+                    <!-- WhatsApp Icon -->
+                    <a href="https://wa.me/919511228821" target="_blank" class="text-gray-400 hover:text-[#25D366] transition-colors duration-300" title="Chat on WhatsApp">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                    <!-- Instagram Icon -->
+                    <a href="https://instagram.com/shreeclassesandur" target="_blank" class="text-gray-400 hover:text-[#E1306C] transition-colors duration-300" title="Follow on Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <!-- Facebook Icon -->
+                    <a href="#" target="_blank" class="text-gray-400 hover:text-[#1877F2] transition-colors duration-300">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Quick Links</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Courses</a></li>
+                    <li><a href="hostel.html" class="hover:text-white transition-colors">Hostel Facilities</a></li>
+                    <li><a href="admission.html" class="hover:text-white transition-colors">Admissions</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Popular Courses</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 5 Scholarship Batch</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 8 Scholarship & NMMS</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 10</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Contact Us</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li class="dark:text-[#c4b5e6]">📍 Anna Chowk Andur, Tq. Tuljapur, Dist. Osmanabad 413603</li>
+                    <li class="dark:text-[#c4b5e6]">📞 +91 9511228821</li>
+                    <li class="dark:text-[#c4b5e6]">✉️ Shreeclassesandur@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center pt-6 text-[#c4b5e6] text-[11px]">© 2026 EduHostel Academy. All rights reserved.</div>
+    </footer>
+
+    <!-- Global shared template controller scripts mapping links -->
+    <script src="script.js"></script>
+
+    <!-- Scroll Reveal & Form Submission Handler -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. Scroll Reveal Intersection Observer
+        const revealItems = document.querySelectorAll('.reveal-on-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+        revealItems.forEach(item => observer.observe(item));
+
+        // 2. Contact Form Backend Submission Handler
+        const form = document.getElementById("contactUsForm");
+        
+        if (form) {
+            form.addEventListener("submit", async function(event) {
+                event.preventDefault(); 
+                
+                const btn = document.getElementById("contactSubmitBtn");
+                const originalText = btn.innerHTML;
+                btn.innerHTML = "<span>⏳</span> Sending Message...";
+                btn.disabled = true;
+
+                const formData = {
+                    name: document.getElementById("custName").value.trim(),
+                    email: document.getElementById("custEmail").value.trim(),
+                    phone: document.getElementById("custPhone").value.trim(),
+                    subject: document.getElementById("custSubject").value.trim(),
+                    message: document.getElementById("custMessage").value.trim()
+                };
+
+                try {
+                    const response = await fetch("http://localhost:5000/api/contact", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        alert("✅ Message Saved Successfully! Our team will contact you shortly.");
+                        form.reset();
+                    } else {
+                        alert("❌ Error: " + (data.message || "Failed to save message"));
+                    }
+                } catch (error) {
+                    console.error("Submission failed:", error);
+                    alert("❌ Server Error! Make sure your backend server is running.");
+                } finally {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            });
+        }
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduHostel Academy - Premium education combined with comfortable hostel and mess facilities.">
+    <title>EduHostel Academy | Shape Your Future</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 1. Micro Blueprint Checks */
+        .hero-micro-checks {
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+            background-size: 18px 18px;
+        }
+
+        /* 2. Soft Background Gradient Flow */
+        @keyframes heroGradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .hero-color-bg {
+            background: linear-gradient(125deg, #403D88 0%, #684a8c 35%, #8B639B 70%, #AF719D 100%);
+            background-size: 150% 150%;
+            animation: heroGradientFlow 14s ease infinite;
+        }
+        .dark .hero-color-bg {
+            background: linear-gradient(125deg, #110e24 0%, #1c1638 50%, #2b1f47 100%);
+        }
+
+        /* 3. Professional Micro-Sheen on Card Hover */
+        .card-pro {
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-pro::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.65s ease;
+            pointer-events: none;
+        }
+        .card-pro:hover::after {
+            left: 150%;
+        }
+        .card-pro:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 28px -6px rgba(64, 61, 136, 0.12);
+        }
+        .dark .card-pro:hover {
+            box-shadow: 0 16px 30px -6px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Icon Micro Lift */
+        .card-pro .icon-badge {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-pro:hover .icon-badge {
+            transform: scale(1.12) rotate(4deg);
+        }
+
+        /* 4. Button Micro Interactions */
+        .btn-shine {
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-shine:hover {
+            transform: translateY(-2px);
+        }
+        .btn-shine:active {
+            transform: translateY(0);
+        }
+
+        /* 5. Floating Badge Levitation */
+        @keyframes gentleLevitate {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-levitate {
+            animation: gentleLevitate 4.8s ease-in-out infinite;
+        }
+
+        /* 6. Smooth Scroll Reveal */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-1 { transition-delay: 80ms; }
+        .delay-2 { transition-delay: 160ms; }
+        .delay-3 { transition-delay: 240ms; }
+
+        /* Reading Progress Bar */
+        #scrollProgressBar {
+            transform-origin: left;
+            will-change: transform;
+        }
+
+        /* Back to Top Rocket Hop */
+        @keyframes hopUp {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        #backToTopBtn:hover svg {
+            animation: hopUp 0.6s ease infinite;
+        }
+    </style>
+</head>
+<body class="bg-white text-[#2a2238] antialiased font-sans transition-colors duration-300 dark:bg-[#0d0b1a] dark:text-[#ffffff] overflow-x-hidden">
+
+    <!-- Top Reading / Scroll Progress Bar -->
+    <div id="scrollProgressBar" class="fixed top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#F8B2B2] via-[#8B639B] to-[#403D88] z-[70] scale-x-0 transition-transform duration-75"></div>
+
+    <!-- Header Section -->
+    <header class="header sticky top-0 z-50 bg-white/90 dark:bg-[#0d0b1a]/90 backdrop-blur-md border-b border-[#f3b6c2]/40 dark:border-[#2d254c]/60 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">🎓</span>
+                <span class="font-bold text-lg text-[#2a2238] dark:text-white">EduHostel</span>
+            </div>
+
+            <!-- Dark / Light Toggle Button -->
+            <button id="themeToggle" type="button" aria-label="Toggle Theme" class="btn-shine px-3.5 py-1.5 rounded-lg border border-[#f3b6c2] dark:border-[#352b59] bg-[#fce5e9] dark:bg-[#1a172e] text-[#8B639B] dark:text-[#F8B2B2] text-xs font-semibold hover:border-[#8B639B] transition-all">
+                <span id="themeToggleText">🌙 Dark Mode</span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section with Your Colors & Exact 18px Micro Checks -->
+        <section class="hero-color-bg text-white py-16 md:py-24 transition-colors duration-300 overflow-hidden relative">
+            
+            <!-- 18px Micro Blueprint Checks Grid -->
+            <div class="absolute inset-0 hero-micro-checks pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    
+                    <div class="space-y-6 reveal-on-scroll">
+                        <!-- 5th & 8th Scholarship Live Pulse Pill Badge -->
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 dark:bg-black/25 backdrop-blur-sm border border-[#F8B2B2]/40 text-xs font-semibold tracking-wide">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F8B2B2] opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-[#F8B2B2]"></span>
+                            </span>
+                            <span class="text-[#F8B2B2] font-bold">5th &amp; 8th Scholarship</span>
+                            <span class="text-white/80 font-normal">| Special Batches Open 2026-27</span>
+                        </div>
+
+                        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                            Shree Coaching Classes And <br>
+                            <span class="text-[#F8B2B2]">Hostel Platform</span>
+                        </h1>
+                        <p class="text-base md:text-lg text-[#fbe5e5] dark:text-[#e5dcfa] max-w-xl leading-relaxed font-light">
+                            Premium education combined with comfortable hostel and hygienic dining facilities. Your complete destination for academic excellence.
+                        </p>
+                        <div class="flex flex-wrap gap-4 pt-2">
+                            <a href="admission.html" class="btn-shine px-6 py-3 bg-white text-[#403D88] dark:bg-[#F8B2B2] dark:text-[#0d0b1a] font-semibold rounded-lg shadow hover:bg-[#fae7e7] dark:hover:bg-[#f69e9e] transition-colors text-sm">Apply Now &rarr;</a>
+                            <a href="courses.html" class="btn-shine px-6 py-3 border border-white/40 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors text-sm">Explore Courses</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Image with Elevation & Floating Live Badges -->
+                    <div class="relative reveal-on-scroll delay-1" id="heroImageBox">
+                        <div class="relative overflow-hidden rounded-2xl shadow-2xl border border-white/20">
+                            <!-- Updated Real 1st-10th Standard School/Coaching Classroom Image -->
+                            <img src="https://t3.ftcdn.net/jpg/09/28/53/10/360_F_928531048_45ay4GSNYJuTLIHKtuR255O9ndjsHg5x.jpg" 
+                                 alt="School students studying with notebooks in coaching classroom" 
+                                 class="w-full h-[360px] sm:h-[420px] md:h-[460px] object-cover rounded-2xl relative" 
+                                 loading="lazy">
+                        </div>
+
+                        <!-- Top Floating Rating Badge -->
+                        <div class="animate-levitate absolute -top-4 -right-2 sm:-right-4 bg-white/95 dark:bg-[#1a172e]/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-lg border border-[#F8B2B2]/60 flex items-center gap-2">
+                            <span class="text-amber-500 text-xs">★</span>
+                            <span class="text-xs font-bold text-[#403D88] dark:text-[#F8B2B2]">4.9 / 5 (300+ Reviews)</span>
+                        </div>
+
+                        <!-- Bottom Facility Badge -->
+                        <div class="animate-levitate absolute -bottom-4 -left-2 sm:-left-4 bg-white/95 dark:bg-[#1a172e]/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-lg border border-[#8B639B]/50 flex items-center gap-2" style="animation-delay: 1.2s;">
+                            <span class="text-emerald-500 text-xs">✓</span>
+                            <span class="text-xs font-bold text-gray-800 dark:text-white">Clean Hostel &amp; Mess</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Counter Section -->
+        <section id="statsSection" class="bg-white dark:bg-[#0d0b1a] border-b border-[#f2e2ec] dark:border-[#1e1938] py-12 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+                    <div class="space-y-1 reveal-on-scroll">
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-[#403D88] dark:text-[#F8B2B2]">
+                            <span class="counter-number" data-target="300">0</span>+
+                        </h3>
+                        <p class="text-xs font-semibold text-[#8b7d99] dark:text-[#c4b5e6] uppercase tracking-wider">Students Enrolled</p>
+                    </div>
+                    <div class="space-y-1 reveal-on-scroll delay-1">
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-[#403D88] dark:text-[#F8B2B2]">
+                            <span class="counter-number" data-target="10">0</span>+
+                        </h3>
+                        <p class="text-xs font-semibold text-[#8b7d99] dark:text-[#c4b5e6] uppercase tracking-wider">Expert Faculty</p>
+                    </div>
+                    <div class="space-y-1 reveal-on-scroll delay-2">
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-[#403D88] dark:text-[#F8B2B2]">
+                            <span class="counter-number" data-target="120">0</span>+
+                        </h3>
+                        <p class="text-xs font-semibold text-[#8b7d99] dark:text-[#c4b5e6] uppercase tracking-wider">Hostel Residents</p>
+                    </div>
+                    <div class="space-y-1 reveal-on-scroll delay-3">
+                        <h3 class="text-3xl md:text-4xl font-extrabold text-[#403D88] dark:text-[#F8B2B2]">
+                            <span class="counter-number" data-target="12">0</span>+
+                        </h3>
+                        <p class="text-xs font-semibold text-[#8b7d99] dark:text-[#c4b5e6] uppercase tracking-wider">Years Experience</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section with Your Colors & Soft Cards -->
+        <section class="py-20 bg-[#faf4f8] dark:bg-[#080712] transition-colors duration-300" id="about">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-3 reveal-on-scroll">
+                    <h2 class="text-3xl font-extrabold tracking-tight text-[#2a2238] dark:text-[#ffffff]">Why Choose <span class="text-[#8B639B] dark:text-[#F8B2B2]">Hostel With Academy?</span></h2>
+                    <p class="text-[#7a6b85] dark:text-[#c4b5e6] text-sm">We provide an integrated campus ecosystem with academic rigor, secure accommodation, and healthy dining.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <div class="card-pro p-8 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] space-y-4 shadow-sm reveal-on-scroll">
+                        <div class="icon-badge w-12 h-12 text-2xl flex items-center justify-center bg-[#f7ccd5] dark:bg-[#281f47] rounded-xl shadow-sm">📚</div>
+                        <h3 class="text-lg font-bold text-[#2a2238] dark:text-[#ffffff]">Quality Courses</h3>
+                        <p class="text-xs text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed">Industry-aligned curriculums designed by professionals to prepare you for global markets.</p>
+                    </div>
+
+                    <div class="card-pro p-8 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] space-y-4 shadow-sm reveal-on-scroll delay-1">
+                        <div class="icon-badge w-12 h-12 text-2xl flex items-center justify-center bg-[#f7ccd5] dark:bg-[#281f47] rounded-xl shadow-sm">🏠</div>
+                        <h3 class="text-lg font-bold text-[#2a2238] dark:text-[#ffffff]">Comfortable Hostel</h3>
+                        <p class="text-xs text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed">Modern, clean, air-cooled, and safe residential spaces offering complete boarding utilities.</p>
+                    </div>
+
+                    <div class="card-pro p-8 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] space-y-4 shadow-sm reveal-on-scroll delay-2">
+                        <div class="icon-badge w-12 h-12 text-2xl flex items-center justify-center bg-[#f7ccd5] dark:bg-[#281f47] rounded-xl shadow-sm">🍱</div>
+                        <h3 class="text-lg font-bold text-[#2a2238] dark:text-[#ffffff]">Hygienic Mess</h3>
+                        <p class="text-xs text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed">Nutritious 4-meal daily menu prepared in ISO-certified kitchens with purified drinking water.</p>
+                    </div>
+
+                    <div class="card-pro p-8 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] space-y-4 shadow-sm reveal-on-scroll delay-3">
+                        <div class="icon-badge w-12 h-12 text-2xl flex items-center justify-center bg-[#f7ccd5] dark:bg-[#281f47] rounded-xl shadow-sm">👥</div>
+                        <h3 class="text-lg font-bold text-[#2a2238] dark:text-[#ffffff]">Expert Faculty</h3>
+                        <p class="text-xs text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed">Learn directly from seasoned mentors with daily personal doubt-clearing sessions.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Facility Overview Section -->
+        <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#0d0b1a] transition-colors duration-300" id="hostel">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="relative rounded-2xl overflow-hidden shadow-xl reveal-on-scroll">
+                    <img src="https://www.nomadicmick.com/wp-content/uploads/2024/04/Jardins-Village-Hostel-Unidade-Brigadeiro-Dorm-Room.webp" alt="Premium modern hostel rooms" class="w-full h-auto object-cover hover:scale-103 transition-transform duration-500" loading="lazy">
+                </div>
+                <div class="space-y-6 reveal-on-scroll delay-1">
+                    <h2 class="text-3xl font-extrabold text-[#2a2238] dark:text-[#ffffff] tracking-tight">Premium Hostel &amp; Mess Living</h2>
+                    <p class="text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed text-sm">
+                        Experience exceptional student living with structured premium amenities designed to offer the comforts of home while promoting focused academic routines.
+                    </p>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none p-0">
+                        <li class="flex items-center gap-2 text-sm text-[#3b2f4c] dark:text-[#ffffff] font-medium p-1.5 rounded-lg hover:bg-[#faf4f8] dark:hover:bg-[#1a172e] transition-colors">
+                            <span class="text-[#8B639B] bg-[#fce5e9] dark:bg-[#1a172e] dark:text-[#F8B2B2] p-1.5 rounded-lg">📶</span> High-Speed WiFi Network
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-[#3b2f4c] dark:text-[#ffffff] font-medium p-1.5 rounded-lg hover:bg-[#faf4f8] dark:hover:bg-[#1a172e] transition-colors">
+                            <span class="text-[#8B639B] bg-[#fce5e9] dark:bg-[#1a172e] dark:text-[#F8B2B2] p-1.5 rounded-lg">🛡️</span> 24/7 CCTV &amp; Security Guard
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-[#3b2f4c] dark:text-[#ffffff] font-medium p-1.5 rounded-lg hover:bg-[#faf4f8] dark:hover:bg-[#1a172e] transition-colors">
+                            <span class="text-[#8B639B] bg-[#fce5e9] dark:bg-[#1a172e] dark:text-[#F8B2B2] p-1.5 rounded-lg">🍱</span> 4-Time Balanced Diet Mess
+                        </li>
+                        <li class="flex items-center gap-2 text-sm text-[#3b2f4c] dark:text-[#ffffff] font-medium p-1.5 rounded-lg hover:bg-[#faf4f8] dark:hover:bg-[#1a172e] transition-colors">
+                            <span class="text-[#8B639B] bg-[#fce5e9] dark:bg-[#1a172e] dark:text-[#F8B2B2] p-1.5 rounded-lg">💡</span> 100% Power Generator Backup
+                        </li>
+                    </ul>
+                    <div class="pt-2">
+                        <a href="hostel.html" class="btn-shine inline-flex items-center gap-2 px-5 py-2.5 bg-[#403D88] text-white text-xs font-semibold rounded-lg hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] shadow transition-colors">Hostel Details &amp; Pricing</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Simple FAQ Quick Search Bar Section -->
+        <section class="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10 space-y-3 reveal-on-scroll">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fce5e9] dark:bg-[#1a172e] border border-[#f3b6c2] dark:border-[#352b59] text-xs font-semibold text-[#8B639B] dark:text-[#F8B2B2]">
+                    <span>❓</span> Got Questions?
+                </div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-[#2a2238] dark:text-white">Frequently Asked <span class="text-[#8B639B] dark:text-[#F8B2B2]">Questions</span></h2>
+                <p class="text-xs text-[#7a6b85] dark:text-[#c4b5e6]">Quickly search and find answers regarding admissions, hostel timings, and mess facilities.</p>
+                
+                <!-- Live Search Bar -->
+                <div class="max-w-md mx-auto pt-2 relative">
+                    <span class="absolute left-3.5 top-5 text-gray-400 text-xs">🔍</span>
+                    <input type="text" id="faqSearchInput" placeholder="Search keywords like 'hostel', 'timing', 'fees'..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#f3b6c2] dark:border-[#352b59] bg-[#fce5e9]/50 dark:bg-[#1a172e] text-xs text-[#2a2238] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#8B639B]">
+                </div>
+            </div>
+
+            <!-- FAQ Items Container -->
+            <div class="space-y-3" id="faqAccordionContainer">
+                <!-- FAQ 1 -->
+                <details class="faq-item group p-4 rounded-xl border border-[#f3b6c2] dark:border-[#352b59] bg-[#fce5e9]/60 dark:bg-[#1a172e] cursor-pointer reveal-on-scroll" data-keywords="hostel timing gate open close safety">
+                    <summary class="flex items-center justify-between font-bold text-xs text-[#2a2238] dark:text-white">
+                        <span>What are the hostel gate timings for students?</span>
+                        <span class="transition group-open:rotate-180 text-sm">▼</span>
+                    </summary>
+                    <p class="mt-3 text-xs text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed border-t border-[#f3b6c2]/60 dark:border-[#352b59] pt-3">
+                        The main hostel gate opens at 06:00 AM and closes strictly at 09:30 PM everyday for student safety and discipline.
+                    </p>
+                </details>
+
+                <!-- FAQ 2 -->
+                <details class="faq-item group p-4 rounded-xl border border-[#f3b6c2] dark:border-[#352b59] bg-[#fce5e9]/60 dark:bg-[#1a172e] cursor-pointer reveal-on-scroll delay-1" data-keywords="guardian parent visiting hours days">
+                    <summary class="flex items-center justify-between font-bold text-xs text-[#2a2238] dark:text-white">
+                        <span>Are parents allowed to visit students on weekdays?</span>
+                        <span class="transition group-open:rotate-180 text-sm">▼</span>
+                    </summary>
+                    <p class="mt-3 text-xs text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed border-t border-[#f3b6c2]/60 dark:border-[#352b59] pt-3">
+                        Yes, guardian visiting hours are Monday to Saturday from 04:30 PM to 07:00 PM, and Sundays from 09:00 AM to 06:00 PM.
+                    </p>
+                </details>
+
+                <!-- FAQ 3 -->
+                <details class="faq-item group p-4 rounded-xl border border-[#f3b6c2] dark:border-[#352b59] bg-[#fce5e9]/60 dark:bg-[#1a172e] cursor-pointer reveal-on-scroll delay-2" data-keywords="mess food menu diet veg">
+                    <summary class="flex items-center justify-between font-bold text-xs text-[#2a2238] dark:text-white">
+                        <span>How can I check the weekly mess food menu?</span>
+                        <span class="transition group-open:rotate-180 text-sm">▼</span>
+                    </summary>
+                    <p class="mt-3 text-xs text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed border-t border-[#f3b6c2]/60 dark:border-[#352b59] pt-3">
+                        You can view the day-wise 4-meal diet schedule directly on our Hostel & Mess page using the interactive Mon-Sun tabs.
+                    </p>
+                </details>
+
+                <!-- FAQ 4 -->
+                <details class="faq-item group p-4 rounded-xl border border-[#f3b6c2] dark:border-[#352b59] bg-[#fce5e9]/60 dark:bg-[#1a172e] cursor-pointer reveal-on-scroll" data-keywords="admission fee scholarship batch classes">
+                    <summary class="flex items-center justify-between font-bold text-xs text-[#2a2238] dark:text-white">
+                        <span>How do I register my child for 5th or 8th Scholarship batches?</span>
+                        <span class="transition group-open:rotate-180 text-sm">▼</span>
+                    </summary>
+                    <p class="mt-3 text-xs text-[#5e516d] dark:text-[#e5dcfa] leading-relaxed border-t border-[#f3b6c2]/60 dark:border-[#352b59] pt-3">
+                        You can visit our Courses page to review batch details and click 'Apply Registration' to pre-fill the admission form instantly.
+                    </p>
+                </details>
+            </div>
+        </section>
+
+        <!-- Student Reviews Section -->
+        <section class="py-20 bg-[#faf4f8] dark:bg-[#080712] transition-colors duration-300" id="reviews">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16 space-y-2 reveal-on-scroll">
+                    <h2 class="text-3xl font-extrabold text-[#2a2238] dark:text-[#ffffff] tracking-tight">Verified <span class="text-[#8B639B] dark:text-[#F8B2B2]">Student Reviews</span></h2>
+                    <p class="text-[#7a6b85] dark:text-[#c4b5e6] text-sm">Honest feedback from students on coaching, hostel amenities, and mess food.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                    
+                    <div class="card-pro p-8 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col justify-between space-y-6 shadow-sm reveal-on-scroll">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2.5 py-1 text-[11px] font-semibold bg-[#f7ccd5] text-[#823359] dark:bg-[#281f47] dark:text-[#F8B2B2] rounded-full">Hostel Living</span>
+                                <div class="text-amber-500 text-sm">★★★★★</div>
+                            </div>
+                            <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed italic">
+                                "The hostel rooms are super clean and the quiet study environment helps a lot during exams. Power backup and Wi-Fi speeds never let me down."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-2">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80" alt="Ananya Sharma profile" class="w-10 h-10 object-cover rounded-full border-2 border-white dark:border-[#352b59] shadow-sm">
+                            <div>
+                                <h4 class="font-bold text-[#2a2238] dark:text-[#ffffff] text-xs">Ananya Sharma</h4>
+                                <p class="text-[#8b7d99] dark:text-[#c4b5e6] text-[11px]">Resident • Scholarship Batch</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-pro p-8 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col justify-between space-y-6 shadow-sm reveal-on-scroll delay-1">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2.5 py-1 text-[11px] font-semibold bg-[#f7ccd5] text-[#823359] dark:bg-[#281f47] dark:text-[#F8B2B2] rounded-full">Mess &amp; Food Quality</span>
+                                <div class="text-amber-500 text-sm">★★★★★</div>
+                            </div>
+                            <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed italic">
+                                "I was worried about hostel food, but the mess provides home-like, hygienic meals. The Sunday specials and fresh fruit breakfast are huge plus points!"
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-2">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80" alt="Rohan Deshmukh profile" class="w-10 h-10 object-cover rounded-full border-2 border-white dark:border-[#352b59] shadow-sm">
+                            <div>
+                                <h4 class="font-bold text-[#2a2238] dark:text-[#ffffff] text-xs">Rohan Deshmukh</h4>
+                                <p class="text-[#8b7d99] dark:text-[#c4b5e6] text-[11px]">Resident • Class 10</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-pro p-8 bg-[#fce5e9] dark:bg-[#1a172e] rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] flex flex-col justify-between space-y-6 shadow-sm reveal-on-scroll delay-2">
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2.5 py-1 text-[11px] font-semibold bg-[#f7ccd5] text-[#823359] dark:bg-[#281f47] dark:text-[#F8B2B2] rounded-full">Coaching &amp; Faculty</span>
+                                <div class="text-amber-500 text-sm">★★★★★</div>
+                            </div>
+                            <p class="text-[#5e516d] dark:text-[#e5dcfa] text-xs leading-relaxed italic">
+                                "The teachers at Shree Coaching break down concepts with clarity. Having hostel accommodation within campus saved me two hours of daily travel."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-2">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=120&q=80" alt="Rahul Verma profile" class="w-10 h-10 object-cover rounded-full border-2 border-white dark:border-[#352b59] shadow-sm">
+                            <div>
+                                <h4 class="font-bold text-[#2a2238] dark:text-[#ffffff] text-xs">Rahul Verma</h4>
+                                <p class="text-[#8b7d99] dark:text-[#c4b5e6] text-[11px]">Alumni Student</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section with Fine 18px Checks -->
+        <section class="py-16 hero-color-bg text-white text-center px-4 transition-colors duration-300 relative overflow-hidden" id="admission">
+            <div class="absolute inset-0 hero-micro-checks pointer-events-none opacity-30"></div>
+            <div class="max-w-4xl mx-auto space-y-6 relative z-10 reveal-on-scroll">
+                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Ready to Start Your Journey?</h2>
+                <p class="text-[#fbe5e5] dark:text-[#e5dcfa] text-sm md:text-base max-w-xl mx-auto font-light">
+                    Admissions for the 2026 academic calendar batch are open. Reserve your classroom and hostel boarding spaces today.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center pt-2">
+                    <a href="admission.html" class="btn-shine px-6 py-3 bg-white text-[#403D88] dark:bg-[#F8B2B2] dark:text-[#0d0b1a] font-semibold rounded-lg shadow hover:bg-[#fae7e7] dark:hover:bg-[#f69e9e] transition-colors text-sm">Apply for Admission &rarr;</a>
+                    <a href="contact.html" class="btn-shine px-6 py-3 border border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors text-sm">Contact Us</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#181636] dark:bg-[#05040a] text-[#e5dcfa] pt-16 pb-8 text-xs transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 border-b border-[#2d295e] dark:border-[#191533] pb-12">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 text-white">
+                    <div class="bg-[#8B639B] text-white p-1.5 rounded font-bold text-sm">🎓</div>
+                    <span class="font-bold text-base tracking-wide">EduHostel</span>
+                </div>
+                <p class="leading-relaxed text-[#c7bdd7] dark:text-[#c4b5e6]">Empowering students with quality education, comfortable living spaces, and healthy meals.</p>
+             <!-- DIRECT CHAT & PROFILE LOGOS ONLY (No Text, No Right-Corner Floating Buttons) -->
+                <div class="socials flex items-center gap-3 pt-1">
+                    <!-- WhatsApp Direct Chat Logo -->
+                    <a href="https://wa.me/919511228821?text=Hello%20EduHostel%20Academy..." target="_blank" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="social-round-btn w-10 h-10 rounded-full flex items-center justify-center bg-white/10 dark:bg-white/5 hover:bg-[#25D366] border border-white/20 hover:border-[#25D366] p-2.5 transition-all duration-300 shadow-sm" 
+                       title="Chat directly on WhatsApp">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" 
+                             alt="WhatsApp" 
+                             class="w-full h-full object-contain">
+                    </a>
+
+                    <!-- Instagram Direct Profile Logo -->
+                    <a href="https://www.instagram.com/shree_classes_andur?stkn=MXBrb2N1aXEwMDNiYw==" 
+                       target="_blank" 
+                       rel="noopener noreferrer" 
+                       class="social-round-btn w-10 h-10 rounded-full flex items-center justify-center bg-white/10 dark:bg-white/5 hover:bg-gradient-to-tr hover:from-[#fd1d1d] hover:to-[#833ab4] border border-white/20 hover:border-transparent p-2.5 transition-all duration-300 shadow-sm" 
+                       title="Open Instagram Profile">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" 
+                             alt="Instagram" 
+                             class="w-full h-full object-contain">
+                    </a>
+
+                   <a href="tel:+91 9511228821" 
+   class="social-round-btn w-10 h-10 rounded-full flex items-center justify-center bg-white/10 dark:bg-white/5 hover:bg-gradient-to-tr hover:from-[#25D366] hover:to-[#128C7E] border border-white/20 hover:border-transparent p-2.5 transition-all duration-300 shadow-sm" 
+   title="Call Us Now">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/phone.png" 
+         alt="Call" 
+         class="w-full h-full object-contain">
+</a>
+                </div>
+            </div>
+            
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Quick Links</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="hostel.html" class="hover:text-white transition-colors">Hostel &amp; Mess</a></li>
+                    <li><a href="admission.html" class="hover:text-white transition-colors">Admissions</a></li>
+                </ul>
+            </div>
+
+           
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Popular Courses</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 5 Scholarship Batch</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 8 Scholarship &amp; NMMS</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 10 Board Batch</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Contact Us</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li class="dark:text-[#c4b5e6]">📍 Anna Chowk, Andur Tq:Tuljapur, Dist: Osmanabad 413603</li>
+                    <li class="dark:text-[#c4b5e6]">📞 +91 9511228821</li>
+                    <li class="dark:text-[#c4b5e6]">✉️ Shreeclassesandur@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center pt-6 text-[#c4b5e6] text-[11px]">&copy; 2026 EduHostel Academy. All rights reserved.</div>
+    </footer>
+
+    <!-- Smooth Back-to-Top Floating Button -->
+    <button id="backToTopBtn" type="button" aria-label="Back to Top" class="fixed bottom-6 right-6 z-50 p-3 rounded-full bg-[#403D88] dark:bg-[#8B639B] text-white shadow-xl opacity-0 translate-y-4 pointer-events-none transition-all duration-300 hover:scale-110 active:scale-95 hover:bg-[#34316f]">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- Interactive Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Scroll Reveal Intersection Observer
+            const revealItems = document.querySelectorAll('.reveal-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -30px 0px'
+            });
+            revealItems.forEach(item => observer.observe(item));
+
+            // 2. Stats Number Count-Up Animation
+            const counters = document.querySelectorAll('.counter-number');
+            let hasCounted = false;
+            const statsSection = document.getElementById('statsSection');
+
+            const countObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !hasCounted) {
+                        hasCounted = true;
+                        counters.forEach(counter => {
+                            const target = parseInt(counter.getAttribute('data-target'), 10);
+                            const duration = 1500;
+                            const startTime = performance.now();
+
+                            function step(now) {
+                                const progress = Math.min((now - startTime) / duration, 1);
+                                const easeOut = 1 - Math.pow(1 - progress, 3);
+                                counter.textContent = Math.floor(easeOut * target);
+                                if (progress < 1) {
+                                    requestAnimationFrame(step);
+                                } else {
+                                    counter.textContent = target;
+                                }
+                            }
+                            requestAnimationFrame(step);
+                        });
+                    }
+                });
+            }, { threshold: 0.25 });
+
+            if (statsSection) countObserver.observe(statsSection);
+
+            // 3. Theme Toggle Switcher with LocalStorage Memory
+            const themeBtn = document.getElementById('themeToggle');
+            const themeBtnText = document.getElementById('themeToggleText');
+
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                if (themeBtnText) themeBtnText.textContent = '☀️ Light Mode';
+            }
+
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    if (themeBtnText) {
+                        themeBtnText.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+                    }
+                });
+            }
+
+            // 4. Reading Scroll Progress Bar & Back-to-Top Button
+            const progressBar = document.getElementById('scrollProgressBar');
+            const backToTopBtn = document.getElementById('backToTopBtn');
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+                
+                if (progressBar) {
+                    progressBar.style.transform = `scaleX(${scrollPercentage})`;
+                }
+
+                if (backToTopBtn) {
+                    if (scrollTop > 350) {
+                        backToTopBtn.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+                        backToTopBtn.classList.add('opacity-100', 'translate-y-0');
+                    } else {
+                        backToTopBtn.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+                        backToTopBtn.classList.remove('opacity-100', 'translate-y-0');
+                    }
+                }
+            }, { passive: true });
+
+            if (backToTopBtn) {
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // 5. Simple FAQ Quick Search Bar Filtering Logic
+            const faqSearchInput = document.getElementById('faqSearchInput');
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            if (faqSearchInput) {
+                faqSearchInput.addEventListener('input', (e) => {
+                    const query = e.target.value.toLowerCase().trim();
+                    faqItems.forEach(item => {
+                        const textContent = item.textContent.toLowerCase();
+                        const keywords = item.getAttribute('data-keywords') || '';
+                        
+                        if (textContent.includes(query) || keywords.includes(query)) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

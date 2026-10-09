@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EduHostel Academy - About Us, Campus Life, Gallery, Faculty, and Vacation Batches.">
+    <title>About Us & Campus Life | EduHostel Academy</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    
+    <!-- Inter Font & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="about.css">
+
+    <!-- Offline In-Browser QR Code Generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+
+        .hero-micro-checks {
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+            background-size: 18px 18px;
+        }
+
+        @keyframes heroGradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .hero-color-bg {
+            background: linear-gradient(125deg, #403D88 0%, #684a8c 35%, #8B639B 70%, #AF719D 100%);
+            background-size: 150% 150%;
+            animation: heroGradientFlow 14s ease infinite;
+        }
+        .dark .hero-color-bg {
+            background: linear-gradient(125deg, #110e24 0%, #1c1638 50%, #2b1f47 100%);
+        }
+
+        .card-pro {
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-pro:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 28px -6px rgba(64, 61, 136, 0.12);
+        }
+        .dark .card-pro:hover { box-shadow: 0 16px 30px -6px rgba(0, 0, 0, 0.5); }
+
+        .btn-shine { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+        .btn-shine:hover { transform: translateY(-2px); }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-on-scroll.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes modalBounce {
+            0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+            70% { transform: scale(1.02) translateY(-2px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-modal-bounce { animation: modalBounce 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    </style>
+</head>
+<body class="bg-white text-[#2a2238] antialiased font-sans transition-colors duration-300 dark:bg-[#0d0b1a] dark:text-[#ffffff] overflow-x-hidden">
+
+    <!-- Top Scroll Progress Bar -->
+    <div id="scrollProgressBar" class="fixed top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#F8B2B2] via-[#8B639B] to-[#403D88] z-[70] scale-x-0 transition-transform duration-75"></div>
+
+    <!-- Header with Professional Mega Dropdown Menu -->
+    <header class="header sticky top-0 z-50 bg-[#403D88] dark:bg-[#0d0b1a] text-white shadow-md border-b border-[#f3b6c2]/30 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-xl">🎓</span>
+                <span class="font-bold text-lg text-white">EduHostel Academy</span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-6 text-xs font-semibold">
+                <a href="index.html" class="hover:text-[#F8B2B2] transition-colors">HOME</a>
+                
+                <!-- MEGA DROPDOWN FOR "ABOUT US" -->
+                <div class="relative group">
+                    <button class="flex items-center gap-1 hover:text-[#F8B2B2] focus:outline-none py-5">
+                        <span>ABOUT US</span> <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                    </button>
+                    
+                    <div class="absolute left-1/2 -translate-x-1/2 top-full w-[680px] bg-[#fffbf7] dark:bg-[#1a172e] text-[#2a2238] dark:text-white rounded-2xl shadow-2xl border border-[#f3b6c2] dark:border-[#352b59] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 p-6 grid grid-cols-3 gap-6">
+                        
+                        <!-- Col 1: Overview -->
+                        <div class="space-y-3">
+                            <h4 class="font-black text-xs uppercase text-[#403D88] dark:text-[#F8B2B2] border-b border-[#f3b6c2] pb-1.5">About Academy</h4>
+                            <ul class="space-y-2 text-xs font-medium">
+                                <li><a href="#storySection" class="block hover:text-[#8B639B] transition-colors">Our Story</a></li>
+                                <li><a href="#principalSection" class="block hover:text-[#8B639B] transition-colors">Principal's Message</a></li>
+                                <li><a href="#facultySection" class="block hover:text-[#8B639B] transition-colors">Team & Faculty</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Col 2: Campus & Life -->
+                        <div class="space-y-3">
+                            <h4 class="font-black text-xs uppercase text-[#403D88] dark:text-[#F8B2B2] border-b border-[#f3b6c2] pb-1.5">Campus Life</h4>
+                            <ul class="space-y-2 text-xs font-medium">
+                                <li><a href="#gallerySection" class="block hover:text-[#8B639B] transition-colors">Photo Gallery</a></li>
+                                <li><a href="#videoSection" class="block hover:text-[#8B639B] transition-colors">Virtual Video Tour</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Col 3: Special Batches -->
+                        <div class="space-y-3">
+                            <h4 class="font-black text-xs uppercase text-[#403D88] dark:text-[#F8B2B2] border-b border-[#f3b6c2] pb-1.5">Special Programs</h4>
+                            <ul class="space-y-2 text-xs font-medium">
+                                <li><a href="#vacationSection" class="block hover:text-[#8B639B] transition-colors">Vacation Batches &amp; Apply</a></li>
+                                <li><a href="hostel.html" class="block hover:text-[#8B639B] transition-colors">Hostel &amp; Mess Rooms</a></li>
+                                <li><a href="admission.html" class="block hover:text-[#8B639B] transition-colors">Main Admissions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="courses.html" class="hover:text-[#F8B2B2] transition-colors">COURSES</a>
+                <a href="hostel.html" class="hover:text-[#F8B2B2] transition-colors">HOSTEL</a>
+                <a href="admission.html" class="hover:text-[#F8B2B2] transition-colors">ADMISSION</a>
+                <a href="contact.html" class="hover:text-[#F8B2B2] transition-colors">CONTACT</a>
+            </nav>
+
+            <!-- Dark / Light toggle button -->
+            <button id="themeToggle" type="button" aria-label="Toggle Theme" class="btn-shine px-3.5 py-1.5 rounded-lg border border-[#f3b6c2] dark:border-[#352b59] bg-white/10 text-white text-xs font-semibold hover:bg-white/20 transition-all">
+                <span id="themeToggleText">🌙 Dark Mode</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="space-y-16 pb-16">
+        <!-- Top Hero Section -->
+        <section class="hero-color-bg text-white py-16 md:py-20 text-center px-4 transition-colors duration-300 relative overflow-hidden">
+            <div class="absolute inset-0 hero-micro-checks pointer-events-none opacity-35"></div>
+            <div class="max-w-4xl mx-auto space-y-4 relative z-10 reveal-on-scroll">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 dark:bg-black/25 backdrop-blur-sm border border-[#F8B2B2]/40 text-xs font-semibold tracking-wide text-white mb-2">
+                    <span>🏛️</span> Established 1999 • Excellence in Academics &amp; Living
+                </div>
+                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">
+                    About <span class="text-[#F8B2B2]">EduHostel Academy</span>
+                </h1>
+                <p class="text-[#fbe5e5] text-sm md:text-base max-w-2xl mx-auto font-light dark:text-[#e5dcfa] leading-relaxed">
+                    Empowering students since 1999 with quality education, cultural events, dedicated mentorship, and world-class living facilities.
+                </p>
+            </div>
+        </section>
+
+        <!-- 1. COMPACT VIDEO TOUR SECTION -->
+        <section id="videoSection" class="max-w-4xl mx-auto px-4 sm:px-6 reveal-on-scroll">
+            <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-6 sm:p-8 rounded-3xl border border-[#f3b6c2] dark:border-[#352b59] shadow-sm text-center space-y-4">
+                <div class="space-y-1">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#F8B2B2]">Campus Walkthrough</span>
+                    <h2 class="text-2xl font-extrabold text-[#2a2238] dark:text-white">Virtual Video Tour</h2>
+                    <p class="text-xs text-[#7a6b85] dark:text-[#c4b5e6]">Watch a quick overview of our classrooms, hostel residency, and facilities</p>
+                </div>
+                <div class="max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-md border-2 border-[#f3b6c2] dark:border-[#352b59] aspect-video bg-black/20 relative flex items-center justify-center">
+                    <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/40 text-white space-y-2 p-4 text-center cursor-pointer">
+                        <i class="fa-solid fa-circle-play text-5xl text-[#F8B2B2] animate-pulse"></i>
+                        <p class="text-xs font-bold">EduHostel Academy Campus Video Tour</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. OUR STORY SECTION -->
+        <section id="storySection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-[#fce5e9] dark:bg-[#1a172e] rounded-3xl transform translate-x-3 translate-y-3 -z-10 border border-[#f3b6c2]/50 dark:border-[#352b59]"></div>
+                    <div class="overflow-hidden rounded-3xl shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Students working together" class="w-full h-[300px] md:h-[380px] object-cover hover:scale-103 transition-transform duration-500" loading="lazy">
+                    </div>
+                </div>
+                
+                <div class="space-y-5 text-[#5e516d] dark:text-[#e5dcfa]">
+                    <h2 class="text-3xl font-extrabold text-[#2a2238] dark:text-[#ffffff] tracking-tight">Our Story</h2>
+                    <p class="text-xs sm:text-sm leading-relaxed">Founded in 1999, EduHostel Academy has been at the forefront of providing exceptional education combined with comfortable residential living facilities.</p>
+                    <p class="text-xs sm:text-sm leading-relaxed">Over the past 25 years, we celebrate major cultural & national festivals like Ganpati Aagman & Visarjan with Lezim-Dhol, Shivjayanti, Gurupurnima, Rakshabandhan, Holi, Makar Sankranti, and host regular sports, weekly tests, and Sarav Pariksha.</p>
+                    <div class="pt-2">
+                        <a href="courses.html" class="btn-shine inline-flex items-center gap-2 px-6 py-2.5 bg-[#403D88] text-white text-xs font-semibold rounded-lg hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] shadow transition-all">Explore Academic Programs &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. TABBED PHOTO GALLERY SECTION (18 PHOTOS) -->
+        <section id="gallerySection" class="max-w-4xl mx-auto px-4 sm:px-6 reveal-on-scroll">
+            <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-6 sm:p-8 rounded-3xl border border-[#f3b6c2] dark:border-[#352b59] shadow-sm text-center space-y-5">
+                <div class="space-y-1">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-[#8B639B] dark:text-[#F8B2B2]">Campus Memories</span>
+                    <h2 class="text-2xl font-extrabold text-[#2a2238] dark:text-white">Photo Gallery</h2>
+                    <p class="text-xs text-[#7a6b85] dark:text-[#c4b5e6]">Explore events, news clippings, and toppers student achievements</p>
+                </div>
+
+                <!-- Filter / Category Tabs -->
+                <div class="flex flex-wrap justify-center gap-2 pt-1">
+                    <button type="button" onclick="filterGallery('all')" id="btn-all" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-[#403D88] text-white shadow-sm">All Photos (18)</button>
+                    <button type="button" onclick="filterGallery('events')" id="btn-events" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-white dark:bg-[#0d0b1a] text-[#403D88] dark:text-[#F8B2B2] border border-[#f3b6c2] dark:border-[#352b59]">Campus Events</button>
+                    <button type="button" onclick="filterGallery('news')" id="btn-news" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-white dark:bg-[#0d0b1a] text-[#403D88] dark:text-[#F8B2B2] border border-[#f3b6c2] dark:border-[#352b59]">News &amp; Press</button>
+                    <button type="button" onclick="filterGallery('toppers')" id="btn-toppers" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-white dark:bg-[#0d0b1a] text-[#403D88] dark:text-[#F8B2B2] border border-[#f3b6c2] dark:border-[#352b59]">Toppers &amp; Achievers</button>
+                </div>
+
+                <!-- Slider Box with Auto-Fitting Image Container -->
+                <div class="relative max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-lg border-2 border-[#f3b6c2] dark:border-[#352b59] bg-white dark:bg-[#0d0b1a]">
+                    <div id="sliderImageContainer" class="min-h-[320px] max-h-[500px] w-full flex items-center justify-center bg-[#faf4f8] dark:bg-black/40 p-3 overflow-hidden relative">
+                        <!-- Image or placeholder will render here matching its natural aspect ratio -->
+                    </div>
+
+                    <!-- Slide Counter Badge -->
+                    <div id="sliderCounter" class="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-black/60 backdrop-blur-sm text-white text-[11px] font-semibold rounded-full pointer-events-none z-10">
+                        1 / 18
+                    </div>
+
+                    <!-- Navigation Arrows -->
+                    <button type="button" onclick="prevSlide()" class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/75 transition-colors cursor-pointer text-sm shadow-md z-20">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button type="button" onclick="nextSlide()" class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/75 transition-colors cursor-pointer text-sm shadow-md z-20">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. PRINCIPAL'S MESSAGE SECTION -->
+        <section id="principalSection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal-on-scroll">
+            <div class="text-center mb-10 space-y-2">
+                <span class="px-3 py-1 rounded-full bg-[#fce5e9] dark:bg-[#1a172e] border border-[#f3b6c2] dark:border-[#352b59] text-xs font-bold text-[#8B639B] dark:text-[#F8B2B2]">Leadership Desk</span>
+                <h2 class="text-3xl font-extrabold text-[#2a2238] dark:text-[#ffffff] tracking-tight">Principal's Message</h2>
+            </div>
+
+            <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-8 md:p-12 rounded-3xl border border-[#f3b6c2] dark:border-[#352b59] shadow-md grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                <div class="flex flex-col items-center text-center space-y-3 lg:border-r border-[#f3b6c2]/60 dark:border-[#352b59] lg:pr-8">
+                    <div class="w-40 h-52 rounded-2xl overflow-hidden shadow-lg border-2 border-[#8B639B] dark:border-[#F8B2B2] bg-[#faf4f8] dark:bg-[#0d0b1a] flex items-center justify-center">
+                        <img src="images/principal.jpg" alt="Mr. Basweshwar S. Nisargunde" class="w-full h-full object-contain object-center">
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-[#2a2238] dark:text-white">Mr. Basweshwar S. Nisargunde</h3>
+                        <p class="text-xs font-semibold text-[#8B639B] dark:text-[#F8B2B2] mt-0.5">Principal &amp; Founder</p>
+                        <span class="inline-block mt-1 text-[11px] px-2.5 py-0.5 rounded bg-[#fce5e9] dark:bg-[#281f47] text-[#823359] dark:text-[#F8B2B2] font-medium">M.Sc. (Math), B.Ed</span>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-2 space-y-4 text-[#5e516d] dark:text-[#e5dcfa] text-xs md:text-sm leading-relaxed">
+                    <p class="italic text-base font-medium text-[#2a2238] dark:text-white">"Education is not merely the loading of youth minds with knowledge, it is about igniting their inner potential to build a brighter future."</p>
+                    <p>Welcome to EduHostel Academy. Since our inception in 1999, our core objective has been to blend rigorous scholastic training with a secure, disciplined, and nurturing residential environment.</p>
+                    <p>We believe every student possesses unique capabilities. Through our specialized scholarship batches, personal mentorship, and structured daily routines, we ensure that students develop both academic brilliance and high moral character.</p>
+                    <p class="font-bold text-[#403D88] dark:text-[#F8B2B2] pt-2">— Mr. Basweshwar S. Nisargunde</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. VACATION BATCHES SECTION WITH "APPLY NOW" BUTTON -->
+        <section class="max-w-4xl mx-auto px-4 sm:px-6 reveal-on-scroll" id="vacationSection">
+            <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-8 rounded-3xl border border-[#f3b6c2] dark:border-[#352b59] shadow-sm text-center space-y-5">
+                <div class="space-y-2">
+                    <span class="px-3 py-1 rounded-full bg-white dark:bg-[#0d0b1a] border border-[#f3b6c2] dark:border-[#352b59] text-xs font-bold text-[#8B639B] dark:text-[#F8B2B2]">Holiday Camps</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#2a2238] dark:text-white">Vacation Batches & Activities</h2>
+                    <p class="text-xs sm:text-sm text-[#7a6b85] dark:text-[#c4b5e6] max-w-xl mx-auto">Enroll your child for specialized vacation learning sessions including Drawing & Handwriting mastery, Yoga, Meditation, Cricket games, and God Darshan trips.</p>
+                </div>
+                
+                    <div class="pt-2">
+                        <a href="courses.html" class="btn-shine inline-flex items-center gap-2 px-6 py-2.5 bg-[#403D88] text-white text-xs font-semibold rounded-lg hover:bg-[#34316f] dark:bg-[#8B639B] dark:hover:bg-[#785486] shadow transition-all">Explore vacation Programs &rarr;</a>
+                    </div>
+            
+            </div>
+        </section>
+
+        <!-- 6. MEET OUR TEAM & FACULTY SECTION -->
+        <section id="facultySection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal-on-scroll">
+            <div class="mb-12 space-y-2">
+                <h2 class="text-3xl font-extrabold text-[#2a2238] dark:text-[#ffffff] tracking-tight">Meet Our Team &amp; Faculty</h2>
+                <p class="text-[#7a6b85] dark:text-[#c4b5e6] text-sm">Dedicated leadership, management, and experienced educators</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-5 rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] shadow-sm flex flex-col justify-between">
+                    <div class="w-full h-48 rounded-xl overflow-hidden bg-[#faf4f8] dark:bg-[#0d0b1a] border border-[#f3b6c2]/60 dark:border-[#352b59] mb-4 flex items-center justify-center">
+                        <img src="images/principal.jpg" alt="Mr. Basweshwar S. Nisargunde" class="w-full h-full object-contain object-center p-1">
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-[#2a2238] dark:text-[#ffffff] text-sm leading-snug">Mr. Basweshwar S. Nisargunde</h4>
+                        <p class="text-[#8B639B] dark:text-[#F8B2B2] text-xs font-semibold">Principal, Founder</p>
+                    </div>
+                    <div class="w-full bg-white dark:bg-[#0d0b1a] py-1.5 px-3 rounded-lg border border-[#f3b6c2]/60 dark:border-[#352b59] mt-3">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-[11px] font-medium">M.Sc. (Math), B.Ed</p>
+                    </div>
+                </div>
+
+                <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-5 rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] shadow-sm flex flex-col justify-between">
+                    <div class="w-full h-48 rounded-xl overflow-hidden bg-[#faf4f8] dark:bg-[#0d0b1a] border border-[#f3b6c2]/60 dark:border-[#352b59] mb-4 flex items-center justify-center">
+                        <img src="images/kadarge.jpg" alt="Mrs. Jayshree S. Kadarge" class="w-full h-full object-contain object-center p-1">
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-[#2a2238] dark:text-[#ffffff] text-sm leading-snug">Mrs. Jayshree S. Kadarge</h4>
+                        <p class="text-[#8B639B] dark:text-[#F8B2B2] text-xs font-semibold">Teaching Faculty</p>
+                    </div>
+                    <div class="w-full bg-white dark:bg-[#0d0b1a] py-1.5 px-3 rounded-lg border border-[#f3b6c2]/60 dark:border-[#352b59] mt-3">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-[11px] font-medium">HSC, D.Ed</p>
+                    </div>
+                </div>
+
+                <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-5 rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] shadow-sm flex flex-col justify-between">
+                    <div class="w-full h-48 rounded-xl overflow-hidden bg-[#faf4f8] dark:bg-[#0d0b1a] border border-[#f3b6c2]/60 dark:border-[#352b59] mb-4 flex items-center justify-center">
+                        <img src="images/mokashe.jpg" alt="Mrs. Pooja M. Mokashe" class="w-full h-full object-contain object-center p-1">
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-[#2a2238] dark:text-[#ffffff] text-sm leading-snug">Mrs. Pooja M. Mokashe</h4>
+                        <p class="text-[#8B639B] dark:text-[#F8B2B2] text-xs font-semibold">Teaching Faculty</p>
+                    </div>
+                    <div class="w-full bg-white dark:bg-[#0d0b1a] py-1.5 px-3 rounded-lg border border-[#f3b6c2]/60 dark:border-[#352b59] mt-3">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-[11px] font-medium">M.Sc.</p>
+                    </div>
+                </div>
+
+                <div class="card-pro bg-[#fce5e9] dark:bg-[#1a172e] p-5 rounded-2xl border border-[#f3b6c2] dark:border-[#352b59] shadow-sm flex flex-col justify-between">
+                    <div class="w-full h-48 rounded-xl overflow-hidden bg-[#faf4f8] dark:bg-[#0d0b1a] border border-[#f3b6c2]/60 dark:border-[#352b59] mb-4 flex items-center justify-center">
+                        <img src="images/deepali.jpg" alt="Mrs. Deepali B. Nisargunde" class="w-full h-full object-contain object-center p-1">
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-[#2a2238] dark:text-[#ffffff] text-sm leading-snug">Mrs. Deepali B. Nisargunde</h4>
+                        <p class="text-[#8B639B] dark:text-[#F8B2B2] text-xs font-semibold">Manager</p>
+                    </div>
+                    <div class="w-full bg-white dark:bg-[#0d0b1a] py-1.5 px-3 rounded-lg border border-[#f3b6c2]/60 dark:border-[#352b59] mt-3">
+                        <p class="text-[#5e516d] dark:text-[#e5dcfa] text-[11px] font-medium">M.A. (English), B.Ed</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- VACATION APPLICATION POP-UP MODAL FORM -->
+    
+    <!-- Footer -->
+    <footer class="bg-[#181636] dark:bg-[#05040a] text-[#e5dcfa] pt-16 pb-8 text-xs transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 border-b border-[#2d295e] dark:border-[#191533] pb-12">
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 text-white">
+                    <div class="bg-[#8B639B] text-white p-1.5 rounded font-bold text-sm">🎓</div>
+                    <span class="font-bold text-base tracking-wide">EduHostel</span>
+                </div>
+                <p class="leading-relaxed text-[#c7bdd7] dark:text-[#c4b5e6]">Empowering students with quality education, comfortable living spaces, and healthy meals.</p>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Quick Links</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="hostel.html" class="hover:text-white transition-colors">Hostel &amp; Mess</a></li>
+                    <li><a href="admission.html" class="hover:text-white transition-colors">Admissions</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Popular Courses</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 5 Scholarship Batch</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 8 Scholarship &amp; NMMS</a></li>
+                    <li><a href="courses.html" class="hover:text-white transition-colors">Class 10 Board Batch</a></li>
+                </ul>
+            </div>
+            <div class="space-y-3">
+                <h4 class="text-sm font-semibold text-white tracking-wider">Contact Us</h4>
+                <ul class="space-y-2 text-[#c7bdd7] list-none p-0">
+                    <li class="dark:text-[#c4b5e6]">📍 Anna Chowk Andur Tq Tuljapur Dist Osmanabad 413603</li>
+                    <li class="dark:text-[#c4b5e6]">📞 +91 9511228821</li>
+                    <li class="dark:text-[#c4b5e6]">✉️ Shreeclassesandur@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center pt-6 text-[#c4b5e6] text-[11px]">© 2026 EduHostel Academy. All rights reserved.</div>
+    </footer>
+
+    <!-- Interactive Scripts for Tabbed Gallery Slider (Total 18 Photos) -->
+    <script>
+        // Total 18 photos split into categories:
+        // 1 to 6 = Campus Events
+        // 7 to 12 = News & Press
+        // 13 to 18 = Toppers & Achievers
+        const eventsList = Array.from({ length: 6 }, (_, i) => `images/photo${i + 1}.jpg`);
+        const newsList = Array.from({ length: 6 }, (_, i) => `images/photo${i + 7}.jpg`);
+        const toppersList = Array.from({ length: 6 }, (_, i) => `images/photo${i + 13}.jpg`);
+
+        const galleryData = {
+            all: [...eventsList, ...newsList, ...toppersList],
+            events: eventsList,
+            news: newsList,
+            toppers: toppersList
+        };
+
+        let currentCategory = 'all';
+        let currentIndex = 0;
+
+        function filterGallery(category) {
+            currentCategory = category;
+            currentIndex = 0;
+
+            ['all', 'events', 'news', 'toppers'].forEach(cat => {
+                const btn = document.getElementById(`btn-${cat}`);
+                if (btn) {
+                    if (cat === category) {
+                        btn.className = "px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-[#403D88] text-white shadow-sm";
+                    } else {
+                        btn.className = "px-4 py-1.5 rounded-full text-xs font-bold transition-all bg-white dark:bg-[#0d0b1a] text-[#403D88] dark:text-[#F8B2B2] border border-[#f3b6c2] dark:border-[#352b59]";
+                    }
+                }
+            });
+
+            updateSliderView();
+        }
+
+        function nextSlide() {
+            const list = galleryData[currentCategory];
+            if (!list || list.length === 0) return;
+            currentIndex = (currentIndex + 1) % list.length;
+            updateSliderView();
+        }
+
+        function prevSlide() {
+            const list = galleryData[currentCategory];
+            if (!list || list.length === 0) return;
+            currentIndex = (currentIndex - 1 + list.length) % list.length;
+            updateSliderView();
+        }
+
+        function updateSliderView() {
+            const list = galleryData[currentCategory];
+            const container = document.getElementById('sliderImageContainer');
+            const counter = document.getElementById('sliderCounter');
+            const allBtn = document.getElementById('btn-all');
+            
+            if (allBtn) {
+                allBtn.innerText = `All Photos (${galleryData.all.length})`;
+            }
+
+            if (!list || list.length === 0) {
+                if (container) {
+                    container.innerHTML = `<span class="text-xs text-gray-500">No photos available in this category.</span>`;
+                }
+                return;
+            }
+
+            const imageSrc = list[currentIndex];
+            if (counter) {
+                counter.innerText = `${currentIndex + 1} / ${list.length}`;
+            }
+
+            if (container) {
+                container.innerHTML = `
+                    <img src="${imageSrc}" 
+                         alt="Gallery Photo" 
+                         class="max-h-[460px] w-auto h-auto object-contain mx-auto rounded-lg shadow-sm" 
+                         onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'flex flex-col items-center justify-center p-8 text-center space-y-2 text-[#403D88] dark:text-[#F8B2B2]\\'><i class=\\'fa-solid fa-images text-4xl mb-1\\'></i><span class=\\'font-bold\\'>Photo not found</span><span class=\\'text-xs text-gray-400 font-mono\\'>${imageSrc}</span></div>';" />
+                `;
+            }
+        }
+
+        function openVacationModal() {
+            const modal = document.getElementById('vacationModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeVacationModal() {
+            const modal = document.getElementById('vacationModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function closePaymentModal() {
+            const modal = document.getElementById('paymentModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        let cachedVacationData = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSliderView();
+
+            const revealItems = document.querySelectorAll('.reveal-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+            revealItems.forEach(item => observer.observe(item));
+
+            const themeBtn = document.getElementById('themeToggle');
+            const themeBtnText = document.getElementById('themeToggleText');
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+                if (themeBtnText) themeBtnText.textContent = '☀️ Light Mode';
+            }
+            if (themeBtn) {
+                themeBtn.addEventListener('click', () => {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                    if (themeBtnText) themeBtnText.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+                });
+            }
+
+            const progressBar = document.getElementById('scrollProgressBar');
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = scrollHeight > 0 ? (scrollTop / scrollHeight) : 0;
+                if (progressBar) progressBar.style.transform = `scaleX(${scrollPercentage})`;
+            }, { passive: true });
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
