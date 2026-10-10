@@ -1,3 +1,6 @@
+.nl-wrap {
+    display: none !important;
+}
 /* Active Page Highlight Pill */
 .nav-item {
     font-size: 11px;
