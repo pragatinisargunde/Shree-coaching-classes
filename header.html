@@ -171,7 +171,7 @@
     padding-bottom: 0;
   }
   #mobile-menu.menu-open {
-    max-height: 480px;
+    max-height: 560px;
     opacity: 1;
     transform: translateY(0);
   }
@@ -214,7 +214,18 @@
       <button class="theme-toggle-switch focus:outline-none" id="theme-toggle" title="Toggle Light / Dark Mode" aria-label="Toggle Light / Dark Mode">
         <div class="toggle-thumb"></div>
         <!-- Clean Sun SVG -->
-     <!-- Clean Moon SVG -->
+        <svg class="toggle-icon sun-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Clean Moon SVG -->
         <svg class="toggle-icon moon-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
@@ -229,18 +240,7 @@
       <a href="admin.html" class="liquid-btn px-4 py-2 bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] dark:from-[#8B639B] dark:to-[#AF719D] text-white text-xs font-bold rounded-xl shadow-md hover:shadow-lg transition-all">
         Admin
       </a>
-    </div>      <svg class="toggle-icon sun-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-     
+    </div>
   </div>
 
   <!-- MOBILE SLIDE-DOWN DRAWER MENU -->
@@ -257,43 +257,33 @@
       <a href="studentlogin.html" class="liquid-btn block w-full py-2.5 text-center text-xs font-bold rounded-xl border border-[#8B639B] dark:border-[#ff9ebb] text-[#403D88] dark:text-[#ff9ebb] bg-white dark:bg-[#1c1635]">
         Student Login
       </a>
+      
+      <!-- Mobile Theme Toggle Switch Added Here -->
+      <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-[#fce5e9] dark:bg-[#1c1635] border border-[#f3b6c2] dark:border-[#3b325c]">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#403D88] dark:text-[#ff9ebb]">Appearance</span>
+        <button class="theme-toggle-switch focus:outline-none" id="mobile-theme-toggle" title="Toggle Light / Dark Mode" aria-label="Toggle Light / Dark Mode">
+          <div class="toggle-thumb"></div>
+          <svg class="toggle-icon sun-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="toggle-icon moon-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+
       <a href="admin.html" class="liquid-btn block w-full py-2.5 text-center text-xs font-bold rounded-xl text-white bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] shadow-md">
         Admin Login
       </a>
     </div>
-     <div class="hidden md:flex items-center gap-3">
-      <!-- Modern Dual-Icon Slider Toggle Switch -->
-      <button class="theme-toggle-switch focus:outline-none" id="theme-toggle" title="Toggle Light / Dark Mode" aria-label="Toggle Light / Dark Mode">
-        <div class="toggle-thumb"></div>
-        <!-- Clean Sun SVG -->
-     <!-- Clean Moon SVG -->
-        <svg class="toggle-icon moon-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </button>
-
-      <!-- Student Login Button -->
-      <a href="studentlogin.html" class="liquid-btn px-4 py-2 border border-[#8B639B] dark:border-[#ff9ebb] text-[#403D88] dark:text-[#ff9ebb] text-xs font-bold rounded-xl bg-white/70 dark:bg-[#080611]/80 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#ff9ebb] dark:hover:text-[#080611] transition-colors shadow-xs">
-        Student Login
-      </a>
-
-      <!-- Admin Login Button -->
-      <a href="admin.html" class="liquid-btn px-4 py-2 bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] dark:from-[#8B639B] dark:to-[#AF719D] text-white text-xs font-bold rounded-xl shadow-md hover:shadow-lg transition-all">
-        Admin
-      </a>
-    </div>      <svg class="toggle-icon sun-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-     
-  </div>
   </div>
 </header>
 
@@ -342,19 +332,26 @@
       });
     }
 
-    // 4. Dual-Icon Theme Toggle with LocalStorage
-    const themeBtn = document.getElementById('theme-toggle');
+    // 4. Dual-Icon Theme Toggle with LocalStorage (Desktop & Mobile)
     if (document.documentElement.classList.contains('dark') || localStorage.getItem('theme') === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
 
+    const handleThemeToggle = () => {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    };
+
+    const themeBtn = document.getElementById('theme-toggle');
     if (themeBtn) {
-      themeBtn.addEventListener('click', () => {
-        const isDark = document.documentElement.classList.toggle('dark');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      });
+      themeBtn.addEventListener('click', handleThemeToggle);
+    }
+
+    const mobileThemeBtn = document.getElementById('mobile-theme-toggle');
+    if (mobileThemeBtn) {
+      mobileThemeBtn.addEventListener('click', handleThemeToggle);
     }
   })();
 </script>
