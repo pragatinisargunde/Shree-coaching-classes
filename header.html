@@ -1,357 +1,349 @@
-<!-- HEADER STYLES & ANIMATIONS -->
+<!-- EduHostel Responsive Header: paste this header into each page before <main> or page content.
+     This version uses regular CSS/JavaScript and does not require Tailwind for the header. -->
+
 <style>
-  /* 1. Header Top Glass & Scroll Progress Bar */
-  .header-glass {
+  :root {
+    --eh-bg: rgba(255,255,255,.94);
+    --eh-text: #2a2238;
+    --eh-primary: #403d88;
+    --eh-purple: #8b639b;
+    --eh-pink: #ff9ebb;
+    --eh-border: #f3b6c2;
+    --eh-menu: #fdf2f4;
+    --eh-shadow: 0 8px 28px rgba(64,61,136,.12);
+  }
+
+  html.dark {
+    --eh-bg: rgba(8,6,17,.95);
+    --eh-text: #dfd7ea;
+    --eh-border: #3b325c;
+    --eh-menu: #100c20;
+    color-scheme: dark;
+  }
+
+  .eh-header, .eh-header * { box-sizing: border-box; }
+  .eh-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    color: var(--eh-text);
+    background: var(--eh-bg);
+    border-bottom: 1px solid color-mix(in srgb, var(--eh-border) 70%, transparent);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 3px 16px rgba(40,25,60,.04);
+    font-family: Arial, Helvetica, sans-serif;
   }
-  #scrollProgressBar {
+
+  .eh-progress {
     position: absolute;
     bottom: 0;
     left: 0;
-    height: 2.5px;
-    width: 0%;
-    background: linear-gradient(90deg, #403D88, #8B639B, #AF719D, #ff9ebb);
-    box-shadow: 0 0 10px rgba(255, 158, 187, 0.6);
-    transition: width 0.1s linear;
-    z-index: 60;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #403d88, #8b639b, #af719d, #ff9ebb);
   }
 
-  /* 2. Nav Pill Track & Active Highlight */
-  .nav-pill-track {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: rgba(252, 229, 233, 0.45);
-    border: 1px solid rgba(243, 182, 194, 0.55);
-    border-radius: 9999px;
-    padding: 3px 5px;
-  }
-  .dark .nav-pill-track {
-    background: rgba(28, 22, 53, 0.6);
-    border-color: rgba(59, 50, 92, 0.7);
-  }
-
-  .nav-link-item {
-    position: relative;
-    z-index: 2;
-    padding: 6px 14px;
-    border-radius: 9999px;
-    transition: all 0.25s ease;
-  }
-  .nav-link-item:hover {
-    color: #8B639B;
-    transform: translateY(-1px);
-  }
-  .dark .nav-link-item:hover {
-    color: #ff9ebb;
-  }
-
-  /* Active Page Highlight Pill */
-  .nav-link-item.active {
-    background: #ffffff;
-    color: #403D88 !important;
-    font-weight: 800;
-    box-shadow: 0 3px 10px rgba(139, 99, 155, 0.18);
-  }
-  .dark .nav-link-item.active {
-    background: linear-gradient(135deg, #2b1f47, #1c1635);
-    color: #ff9ebb !important;
-    border: 1px solid rgba(255, 158, 187, 0.35);
-    box-shadow: 0 0 12px rgba(255, 158, 187, 0.25);
-  }
-
-  /* 3. Logo 3D Micro-Wobble */
-  .logo-cap {
-    display: inline-block;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
-  }
-  .logo-wrap:hover .logo-cap {
-    transform: rotate(-14deg) scale(1.22);
-    filter: drop-shadow(0 0 8px rgba(255, 158, 187, 0.8));
-  }
-
-  /* 4. Sleek Dual-Icon Theme Toggle */
-  .theme-toggle-switch {
-    width: 62px;
-    height: 32px;
-    background: #fce5e9;
-    border: 1.5px solid #f3b6c2;
-    border-radius: 9999px;
-    position: relative;
+  .eh-header-inner {
+    max-width: 1320px;
+    min-height: 72px;
+    margin: 0 auto;
+    padding: 10px 22px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
+  }
+
+  .eh-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--eh-primary);
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  html.dark .eh-brand { color: var(--eh-pink); }
+  .eh-brand-icon { font-size: 27px; transition: transform .3s ease; }
+  .eh-brand:hover .eh-brand-icon { transform: rotate(-12deg) scale(1.1); }
+
+  .eh-desktop-nav { flex: 1; display: flex; justify-content: center; min-width: 0; }
+  .eh-nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin: 0;
+    padding: 5px;
+    border: 1px solid var(--eh-border);
+    border-radius: 999px;
+    background: rgba(252,229,233,.35);
+  }
+  html.dark .eh-nav-list { background: rgba(28,22,53,.65); }
+
+  .eh-nav-link {
+    display: inline-block;
+    padding: 10px 11px;
+    border-radius: 999px;
+    color: var(--eh-text);
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .35px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+  }
+  .eh-nav-link:hover { color: var(--eh-purple); transform: translateY(-1px); }
+  .eh-nav-link.active {
+    background: #fff;
+    color: var(--eh-primary);
+    box-shadow: 0 3px 10px rgba(139,99,155,.18);
+  }
+  html.dark .eh-nav-link.active { background: #2b1f47; color: var(--eh-pink); }
+
+  .eh-actions { display: flex; align-items: center; gap: 8px; }
+  .eh-login {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 38px;
+    padding: 9px 12px;
+    border: 1px solid var(--eh-purple);
+    border-radius: 11px;
+    color: var(--eh-primary);
+    background: transparent;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+    transition: transform .2s ease, background .2s ease, color .2s ease;
+  }
+  html.dark .eh-login { color: var(--eh-pink); border-color: var(--eh-pink); }
+  .eh-login:hover { transform: translateY(-1px); background: var(--eh-purple); color: #fff; }
+  .eh-login-admin {
+    border-color: transparent;
+    background: linear-gradient(110deg, #403d88, #8b639b, #af719d);
+    color: #fff;
+  }
+  .eh-login-admin:hover { color: #fff; filter: brightness(1.08); }
+
+  .eh-theme-toggle {
+    width: 60px;
+    height: 32px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 0 7px;
+    border: 1.5px solid var(--eh-border);
+    border-radius: 999px;
+    background: #fce5e9;
     cursor: pointer;
-    transition: all 0.3s ease;
+    flex-shrink: 0;
   }
-  .dark .theme-toggle-switch {
-    background: #1c1635;
-    border-color: #4b3d75;
-    box-shadow: 0 0 12px rgba(255, 158, 187, 0.15);
-  }
-  .toggle-thumb {
+  html.dark .eh-theme-toggle { background: #1c1635; border-color: #4b3d75; }
+  .eh-theme-toggle .eh-sun, .eh-theme-toggle .eh-moon { font-size: 14px; position: relative; z-index: 1; }
+  .eh-toggle-thumb {
     position: absolute;
-    left: 4px;
     top: 3px;
+    left: 3px;
     width: 24px;
     height: 24px;
-    background: #ffffff;
     border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(64, 61, 136, 0.25);
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
-    z-index: 2;
+    background: white;
+    box-shadow: 0 2px 6px rgba(64,61,136,.25);
+    transition: transform .25s ease, background .25s ease;
   }
-  .dark .toggle-thumb {
-    transform: translateX(30px);
-    background: #ff9ebb;
-    box-shadow: 0 0 10px rgba(255, 158, 187, 0.6);
+  html.dark .eh-toggle-thumb { transform: translateX(28px); background: var(--eh-pink); }
+
+  .eh-menu-button {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    border: 1px solid var(--eh-border);
+    border-radius: 12px;
+    color: var(--eh-primary);
+    background: #fce5e9;
+    font-size: 25px;
+    cursor: pointer;
   }
-  .toggle-icon {
-    width: 14px;
-    height: 14px;
-    z-index: 1;
-    transition: opacity 0.25s ease, color 0.25s ease;
+  html.dark .eh-menu-button { color: var(--eh-pink); background: #1c1635; }
+
+  .eh-mobile-menu {
+    display: none;
+    padding: 0 18px 18px;
+    background: var(--eh-menu);
+    border-top: 1px solid var(--eh-border);
+    box-shadow: var(--eh-shadow);
   }
-  .sun-icon {
-    color: #c2547b;
-    opacity: 1;
+  .eh-mobile-menu.is-open { display: block; }
+  .eh-mobile-nav-link {
+    display: block;
+    padding: 12px 13px;
+    margin-top: 5px;
+    border-radius: 10px;
+    color: var(--eh-text);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 800;
   }
-  .dark .sun-icon {
-    color: #8b7d99;
-    opacity: 0.45;
+  .eh-mobile-nav-link:hover, .eh-mobile-nav-link.active { background: rgba(243,182,194,.35); color: var(--eh-purple); }
+  html.dark .eh-mobile-nav-link:hover, html.dark .eh-mobile-nav-link.active { background: #1c1635; color: var(--eh-pink); }
+  .eh-mobile-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 13px;
+    padding-top: 13px;
+    border-top: 1px solid var(--eh-border);
   }
-  .moon-icon {
-    color: #8b7d99;
-    opacity: 0.45;
-  }
-  .dark .moon-icon {
-    color: #080611;
-    opacity: 1;
+  .eh-mobile-actions .eh-login { width: 100%; min-height: 42px; font-size: 12px; }
+  .eh-mobile-theme-row {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid var(--eh-border);
+    border-radius: 11px;
+    font-size: 12px;
+    font-weight: 800;
   }
 
-  /* 5. Liquid Light Shimmer on Buttons */
-  .liquid-btn {
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  @media (max-width: 1100px) {
+    .eh-header-inner { gap: 10px; padding-left: 15px; padding-right: 15px; }
+    .eh-nav-link { padding: 9px 7px; font-size: 10px; }
+    .eh-actions { gap: 6px; }
+    .eh-login { padding: 8px 9px; }
   }
-  .liquid-btn::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -100%;
-    width: 60%;
-    height: 200%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-    transform: rotate(25deg);
-    transition: left 0.75s ease;
-  }
-  .liquid-btn:hover::after {
-    left: 140%;
-  }
-  .liquid-btn:hover {
-    transform: translateY(-2px);
-  }
-  .liquid-btn:active {
-    transform: translateY(0);
-  }
-
-  /* 6. Mobile Drawer Slide & Fade */
-  #mobile-menu {
-    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, transform 0.35s ease;
-  }
-  #mobile-menu.menu-closed {
-    max-height: 0;
-    opacity: 0;
-    transform: translateY(-8px);
-    overflow: hidden;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  #mobile-menu.menu-open {
-    max-height: 560px;
-    opacity: 1;
-    transform: translateY(0);
+  @media (max-width: 900px) {
+    .eh-header-inner { min-height: 66px; }
+    .eh-desktop-nav, .eh-actions { display: none; }
+    .eh-menu-button { display: inline-flex; }
+    .eh-brand { font-size: 21px; }
   }
 </style>
 
-<!-- MAIN HEADER CONTAINER -->
-<header class="header-glass sticky top-0 z-50 bg-white/85 dark:bg-[#080611]/85 border-b border-[#f3b6c2]/40 dark:border-[#1c1635] transition-colors duration-300">
-  <!-- Scroll Progress Indicator -->
-  <div id="scrollProgressBar"></div>
+<header class="eh-header" id="eduHostelHeader">
+  <div class="eh-progress" id="ehScrollProgress"></div>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-    <!-- Brand Logo -->
-    <a href="index.html" class="logo-wrap flex items-center gap-2.5 group">
-      <span class="logo-cap text-2xl filter drop-shadow-sm">🎓</span> 
-      <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] dark:from-white dark:via-[#F8B2B2] dark:to-[#ff9ebb] bg-clip-text text-transparent">EduHostel</span>
+  <div class="eh-header-inner">
+    <a class="eh-brand" href="index.html" aria-label="EduHostel home">
+      <span class="eh-brand-icon">🎓</span>
+      <span>EduHostel</span>
     </a>
-    
-    <!-- Mobile Hamburger Toggle Button -->
-    <button class="md:hidden p-2 rounded-xl text-[#8B639B] dark:text-[#ff9ebb] bg-[#fce5e9] dark:bg-[#1c1635] border border-[#f3b6c2] dark:border-[#3b325c] focus:outline-none transition-transform active:scale-90" id="nav-toggle" aria-label="Toggle Navigation">
-      <svg class="w-5 h-5 transition-transform duration-300" id="hamburgerIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-      </svg>
-    </button>
-    
-    <!-- Desktop Navigation Track -->
-    <nav class="hidden md:flex items-center" id="nav">
-      <ul class="nav-pill-track list-none m-0">
-        <li><a href="index.html" data-page="home" class="nav-link-item text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea]">Home</a></li>
-        <li><a href="about.html" data-page="about" class="nav-link-item text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea]">About</a></li>
-        <li><a href="courses.html" data-page="courses" class="nav-link-item text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea]">Courses</a></li>
-        <li><a href="hostel.html" data-page="hostel" class="nav-link-item text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea]">Hostel</a></li>
-        <li><a href="admission.html" data-page="admission" class="nav-link-item text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea]">Admission</a></li>
-        <li><a href="contact.html" data-page="contact" class="nav-link-item text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea]">Contact</a></li>
+
+    <nav class="eh-desktop-nav" aria-label="Main navigation">
+      <ul class="eh-nav-list">
+        <li><a class="eh-nav-link" href="index.html">Home</a></li>
+        <li><a class="eh-nav-link" href="about.html">About</a></li>
+        <li><a class="eh-nav-link" href="courses.html">Courses</a></li>
+        <li><a class="eh-nav-link" href="hostel.html">Hostel</a></li>
+        <li><a class="eh-nav-link" href="admission.html">Admission</a></li>
+        <li><a class="eh-nav-link" href="contact.html">Contact</a></li>
       </ul>
     </nav>
-    
-    <!-- Right Action Controls -->
-    <div class="hidden md:flex items-center gap-3">
-      <!-- Modern Dual-Icon Slider Toggle Switch -->
-      <button class="theme-toggle-switch focus:outline-none" id="theme-toggle" title="Toggle Light / Dark Mode" aria-label="Toggle Light / Dark Mode">
-        <div class="toggle-thumb"></div>
-        <!-- Clean Sun SVG -->
-        <svg class="toggle-icon sun-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="5"></circle>
-          <line x1="12" y1="1" x2="12" y2="3"></line>
-          <line x1="12" y1="21" x2="12" y2="23"></line>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-          <line x1="1" y1="12" x2="3" y2="12"></line>
-          <line x1="21" y1="12" x2="23" y2="12"></line>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-        </svg>
-        <!-- Clean Moon SVG -->
-        <svg class="toggle-icon moon-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
+
+    <div class="eh-actions">
+      <button class="eh-theme-toggle" type="button" data-theme-toggle aria-label="Toggle light and dark mode" title="Toggle theme">
+        <span class="eh-sun">☀</span><span class="eh-moon">☾</span><span class="eh-toggle-thumb"></span>
       </button>
-
-      <!-- Student Login Button -->
-      <a href="studentlogin.html" class="liquid-btn px-4 py-2 border border-[#8B639B] dark:border-[#ff9ebb] text-[#403D88] dark:text-[#ff9ebb] text-xs font-bold rounded-xl bg-white/70 dark:bg-[#080611]/80 hover:bg-[#8B639B] hover:text-white dark:hover:bg-[#ff9ebb] dark:hover:text-[#080611] transition-colors shadow-xs">
-        Student Login
-      </a>
-
-      <!-- Admin Login Button -->
-      <a href="admin.html" class="liquid-btn px-4 py-2 bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] dark:from-[#8B639B] dark:to-[#AF719D] text-white text-xs font-bold rounded-xl shadow-md hover:shadow-lg transition-all">
-        Admin
-      </a>
+      <a class="eh-login" href="studentlogin.html">Student Login</a>
+      <a class="eh-login eh-login-admin" href="admin.html">Admin Login</a>
     </div>
+
+    <button class="eh-menu-button" id="ehMenuButton" type="button"
+            aria-label="Open navigation menu" aria-controls="ehMobileMenu" aria-expanded="false">☰</button>
   </div>
 
-  <!-- MOBILE SLIDE-DOWN DRAWER MENU -->
-  <div id="mobile-menu" class="menu-closed bg-[#fdf2f4] dark:bg-[#080611] border-b border-[#f3b6c2] dark:border-[#3b325c] px-6 space-y-2 md:hidden shadow-2xl">
-    <a href="index.html" data-page="home" class="mobile-nav-link block py-2 text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea] rounded-lg px-2 transition-colors">Home</a>
-    <a href="about.html" data-page="about" class="mobile-nav-link block py-2 text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea] rounded-lg px-2 transition-colors">About</a>
-    <a href="courses.html" data-page="courses" class="mobile-nav-link block py-2 text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea] rounded-lg px-2 transition-colors">Courses</a>
-    <a href="hostel.html" data-page="hostel" class="mobile-nav-link block py-2 text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea] rounded-lg px-2 transition-colors">Hostel</a>
-    <a href="admission.html" data-page="admission" class="mobile-nav-link block py-2 text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea] rounded-lg px-2 transition-colors">Admission</a>
-    <a href="contact.html" data-page="contact" class="mobile-nav-link block py-2 text-xs font-bold uppercase tracking-wider text-[#2a2238] dark:text-[#dfd7ea] rounded-lg px-2 transition-colors">Contact</a>
-    
-    <!-- Mobile Bottom CTA Group -->
-    <div class="pt-3 pb-5 border-t border-[#f3b6c2]/70 dark:border-[#3b325c] flex flex-col gap-2.5">
-      <a href="studentlogin.html" class="liquid-btn block w-full py-2.5 text-center text-xs font-bold rounded-xl border border-[#8B639B] dark:border-[#ff9ebb] text-[#403D88] dark:text-[#ff9ebb] bg-white dark:bg-[#1c1635]">
-        Student Login
-      </a>
-      
-      <!-- Mobile Theme Toggle Switch Added Here -->
-      <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-[#fce5e9] dark:bg-[#1c1635] border border-[#f3b6c2] dark:border-[#3b325c]">
-        <span class="text-xs font-bold uppercase tracking-wider text-[#403D88] dark:text-[#ff9ebb]">Appearance</span>
-        <button class="theme-toggle-switch focus:outline-none" id="mobile-theme-toggle" title="Toggle Light / Dark Mode" aria-label="Toggle Light / Dark Mode">
-          <div class="toggle-thumb"></div>
-          <svg class="toggle-icon sun-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg class="toggle-icon moon-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
+  <div class="eh-mobile-menu" id="ehMobileMenu">
+    <nav aria-label="Mobile navigation">
+      <a class="eh-mobile-nav-link" href="index.html">Home</a>
+      <a class="eh-mobile-nav-link" href="about.html">About</a>
+      <a class="eh-mobile-nav-link" href="courses.html">Courses</a>
+      <a class="eh-mobile-nav-link" href="hostel.html">Hostel</a>
+      <a class="eh-mobile-nav-link" href="admission.html">Admission</a>
+      <a class="eh-mobile-nav-link" href="contact.html">Contact</a>
+    </nav>
+    <div class="eh-mobile-actions">
+      <a class="eh-login" href="studentlogin.html">Student Login</a>
+      <a class="eh-login eh-login-admin" href="admin.html">Admin Login</a>
+      <div class="eh-mobile-theme-row">
+        <span>Appearance</span>
+        <button class="eh-theme-toggle" type="button" data-theme-toggle aria-label="Toggle light and dark mode" title="Toggle theme">
+          <span class="eh-sun">☀</span><span class="eh-moon">☾</span><span class="eh-toggle-thumb"></span>
         </button>
       </div>
-
-      <a href="admin.html" class="liquid-btn block w-full py-2.5 text-center text-xs font-bold rounded-xl text-white bg-gradient-to-r from-[#403D88] via-[#8B639B] to-[#AF719D] shadow-md">
-        Admin Login
-      </a>
     </div>
   </div>
 </header>
 
-<!-- JAVASCRIPT: ACTIVE PAGE HIGHLIGHT & THEME TOGGLE -->
 <script>
-  (function() {
-    // 1. Reading Scroll Progress Indicator
-    const progressBar = document.getElementById('scrollProgressBar');
-    window.addEventListener('scroll', () => {
-      const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-      if (progressBar) progressBar.style.width = scrolled + '%';
+(function () {
+  const root = document.documentElement;
+  const menuButton = document.getElementById('ehMenuButton');
+  const mobileMenu = document.getElementById('ehMobileMenu');
+  const progress = document.getElementById('ehScrollProgress');
+
+  // Restore the user's saved theme, if any.
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
+  if (savedTheme === 'dark') root.classList.add('dark');
+  else if (savedTheme === 'light') root.classList.remove('dark');
+
+  // Both desktop and mobile theme buttons use the same handler.
+  document.querySelectorAll('[data-theme-toggle]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      const darkNow = root.classList.toggle('dark');
+      try { localStorage.setItem('theme', darkNow ? 'dark' : 'light'); } catch (e) {}
+    });
+  });
+
+  // Mobile menu opens/closes on phone and closes after choosing a page.
+  if (menuButton && mobileMenu) {
+    menuButton.addEventListener('click', function () {
+      const open = mobileMenu.classList.toggle('is-open');
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+      menuButton.textContent = open ? '✕' : '☰';
     });
 
-    // 2. Active Page Name Highlight Logic
-    const currentPath = window.location.pathname.split('/').pop().toLowerCase();
-    const navLinks = document.querySelectorAll('.nav-link-item, .mobile-nav-link');
-
-    navLinks.forEach(link => {
-      const href = link.getAttribute('href');
-      // Agar currentPath match kare ya root/empty ho toh index.html active hoga
-      if (href === currentPath || ((currentPath === '' || currentPath === 'index.html') && href === 'index.html')) {
-        link.classList.add('active');
-        if (link.classList.contains('mobile-nav-link')) {
-          link.classList.add('bg-[#fce5e9]', 'dark:bg-[#1c1635]', 'text-[#8B639B]', 'dark:text-[#ff9ebb]');
-        }
-      } else {
-        link.classList.remove('active');
-      }
-    });
-
-    // 3. Mobile Menu Smooth Toggle
-    const navToggle = document.getElementById('nav-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (navToggle && mobileMenu) {
-      navToggle.addEventListener('click', () => {
-        const isOpen = mobileMenu.classList.contains('menu-open');
-        if (isOpen) {
-          mobileMenu.classList.remove('menu-open');
-          mobileMenu.classList.add('menu-closed');
-        } else {
-          mobileMenu.classList.remove('menu-closed');
-          mobileMenu.classList.add('menu-open');
-        }
+    mobileMenu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        mobileMenu.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Open navigation menu');
+        menuButton.textContent = '☰';
       });
-    }
+    });
+  }
 
-    // 4. Dual-Icon Theme Toggle with LocalStorage (Desktop & Mobile)
-    if (document.documentElement.classList.contains('dark') || localStorage.getItem('theme') === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+  // Highlight the current page in desktop and mobile navigation.
+  const currentFile = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  document.querySelectorAll('.eh-nav-link, .eh-mobile-nav-link').forEach(function (link) {
+    const target = (link.getAttribute('href') || '').toLowerCase();
+    if (target === currentFile || (currentFile === '' && target === 'index.html')) {
+      link.classList.add('active');
+      link.setAttribute('aria-current', 'page');
     }
+  });
 
-    const handleThemeToggle = () => {
-      const isDark = document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    };
-
-    const themeBtn = document.getElementById('theme-toggle');
-    if (themeBtn) {
-      themeBtn.addEventListener('click', handleThemeToggle);
-    }
-
-    const mobileThemeBtn = document.getElementById('mobile-theme-toggle');
-    if (mobileThemeBtn) {
-      mobileThemeBtn.addEventListener('click', handleThemeToggle);
-    }
-  })();
+  // Scroll progress indicator.
+  function updateProgress() {
+    if (!progress) return;
+    const doc = document.documentElement;
+    const scrollable = doc.scrollHeight - doc.clientHeight;
+    progress.style.width = (scrollable > 0 ? (doc.scrollTop / scrollable) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+})();
 </script>
